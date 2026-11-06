@@ -151,7 +151,8 @@
   }
   .ahh.bad{background:#ffe1dc;}
   @keyframes ahh{0%{opacity:0; transform:translate(-50%,-100%) scale(.3) rotate(-8deg);} 15%{opacity:1; transform:translate(-50%,-100%) scale(1.1) rotate(3deg);} 25%{transform:translate(-50%,-100%) scale(1) rotate(-2deg);} 80%{opacity:1;} 100%{opacity:0; transform:translate(-50%,-130%) scale(1);}}
-  .banner.huge{top:22%; white-space:normal; text-align:center; width:86%; line-height:1.05; font-size:clamp(26px,7.4vw,46px); padding:14px 16px 16px; animation-duration:3.4s;}
+  .banner.long{font-size:clamp(19px,5.6vw,34px);}
+  .banner.huge{top:20%; width:86%; font-size:clamp(24px,7vw,44px); padding:14px 16px 16px; animation-duration:3.4s;}
   #bar{flex:1; height:16px; background:#fff; border-radius:999px; box-shadow:inset 0 1px 3px rgba(0,0,0,.12); overflow:hidden; position:relative;}
   #barFill{height:100%; width:0%; background:linear-gradient(90deg,#8ad46a,#4fae57); border-radius:999px; transition:width .5s ease, background .3s;}
   #barFill.down{background:linear-gradient(90deg,#ff9a8a,#e2483a);}
@@ -168,7 +169,8 @@
   @keyframes flashGood{0%{opacity:0;} 15%{opacity:1; background:radial-gradient(circle at 80% 70%, rgba(255,230,120,.7), rgba(255,230,120,0) 60%);} 100%{opacity:0;}}
   .banner{
     position:absolute; left:50%; top:16%; transform:translate(-50%,0) scale(.4); z-index:5; pointer-events:none;
-    font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(26px,8vw,44px); white-space:nowrap;
+    font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(24px,7.5vw,42px); white-space:normal; text-align:center;
+    width:max-content; max-width:90%; line-height:1.08;
     color:#fff; padding:6px 20px 8px; border-radius:18px; opacity:0;
     animation:pop 1.9s cubic-bezier(.2,1.4,.4,1) forwards;
   }
@@ -1461,7 +1463,7 @@ function clean(g, id){
     const nowMs = performance.now(), at = Math.max(nowMs, bannerFree), wait = at - nowMs;
     bannerFree = at + 1300;
     setTimeout(() => {
-      const b = document.createElement('div'); b.className = 'banner ' + cls; b.textContent = text;
+      const b = document.createElement('div'); b.className = 'banner ' + cls + (text.length > 13 && !/huge/.test(cls) ? ' long' : ''); b.textContent = text;
       $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 2000);
     }, wait);
   }
@@ -1484,9 +1486,15 @@ function clean(g, id){
   const pick = a => a[Math.floor(Math.random()*a.length)];
   // comic burst over her head when she's done
   function ahh(text, x, bad){
+    const wrap = $('sceneWrap'), W = wrap.clientWidth;
     const b = document.createElement('div'); b.className = 'ahh' + (bad ? ' bad' : ''); b.textContent = text;
-    b.style.left = clamp(x/800*100, 14, 86) + '%'; b.style.top = ((GY - 128)/420*100) + '%';
-    $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 1600);
+    b.style.top = ((GY - 128)/420*100) + '%'; b.style.left = '50%'; b.style.visibility = 'hidden';
+    wrap.appendChild(b);
+    // measure at full size (the animation starts scaled down), then keep it inside the picture
+    const w = b.scrollWidth + 6;
+    const px = clamp(x/800*W, w/2 + 6, W - w/2 - 6);
+    b.style.left = px + 'px'; b.style.visibility = '';
+    setTimeout(() => b.remove(), 1600);
   }
 
   function handleEvents(){
@@ -1793,6 +1801,7 @@ function clean(g, id){
   });
   document.addEventListener('visibilitychange', () => { last = 0; });
   window.__pp = () => g; // for testing
+  window.__ui = {banner, ahh};
   window.__audio = () => ac ? ac.state : 'none';
 })();
 </script>
