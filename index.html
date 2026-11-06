@@ -570,11 +570,11 @@ function produce(g){
   const self = g.selfFlag; g.selfFlag = false;
   const px = inCrate ? g.x : clamp(g.x - g.dir*34, 20, 780);
   // each accident is bigger than the last, and bad habits from earlier days make them bigger still
-  const big = z.potty ? 0.85 : Math.min(2.3, 0.85 + 0.22*g.stats.acc + 0.3*g.habit);
+  const big = z.potty ? 0.5 : Math.min(2.8, 1.4 + 0.3*g.stats.acc + 0.35*g.habit);
   const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big};
   const badSpot = !z.potty && !inCrate && (L.bad || []).find(b => Math.abs(b.x - px) < 45);
   if (z.potty){
-    pile.fadeAt = g.now + 3.6; g.piles.push(pile);
+    pile.fadeAt = g.now + 2.2; g.piles.push(pile);
     g.stats.ok++; if (self) g.stats.self++; g.wasted = 0; g.phantoms = [];
     if (!g.distOn && g.stats.ok >= 2){ g.distOn = true; g.nextDistAt = g.now + 8; }
     g.window = {start: g.now, kind, self, demo: g.learned};
@@ -1235,7 +1235,7 @@ function clean(g, id){
     el.style.setProperty('--t', tr);
     el.setAttribute('class', 'pile');
     let inner = '';
-    if (p.potty && !p.small){
+    if (false){
       inner += `<g class="rays" style="transform-origin:0px -40px"><g fill="#ffd43b" opacity=".55">${[0,45,90,135,180,225,270,315].map(a => `<path d="M0 -40 L -10 -130 L 10 -130 Z" transform="rotate(${a} 0 -40)"/>`).join('')}</g></g>`;
     }
     const n = p.stack || 1;
@@ -1259,6 +1259,7 @@ function clean(g, id){
         <g transform="translate(-6,${top + 34 - k*20})"><g class="fly f2"><g transform="translate(30,0)"><ellipse rx="3.5" ry="2.6" fill="#222"/><ellipse cx="-2" cy="-4" rx="3.5" ry="2.2" fill="#cfe9ff" opacity=".8"/></g></g></g>`;
       inner += `<rect x="-70" y="${top - 50}" width="140" height="${-top + 60}" fill="transparent"/>`;
     }
+    if (p.potty && !p.small) inner += `<g font-size="30" text-anchor="middle"><text x="-46" y="-30">✨</text><text x="48" y="-44">✨</text></g>`;
     el.innerHTML = inner;
     if (!p.potty){
       el.addEventListener('pointerdown', e => {
