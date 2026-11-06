@@ -134,6 +134,7 @@
   @keyframes pawpop{0%{transform:scale(.3);} 60%{transform:scale(1.35);} 100%{transform:scale(1);}}
   @keyframes pawlost{0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px); background:#ffb3a8;} 75%{transform:translateX(6px);}}
   #fastTag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; color:var(--accent);}
+  #shyTag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; color:#fff; background:#c8312a; padding:4px 10px; border-radius:999px; white-space:nowrap; animation:throb .6s ease-in-out infinite alternate;}
   .ahh{
     position:absolute; z-index:6; pointer-events:none; transform:translate(-50%,-100%) scale(.3); opacity:0;
     font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(18px,5.4vw,28px); color:#3f3a4a;
@@ -366,6 +367,7 @@
     <span class="lab">Lessons</span>
     <div id="paws"></div>
     <span id="fastTag" style="display:none">⏩ watch her!</span>
+    <span id="shyTag" style="display:none">😟 scared: she'll hide</span>
   </div>
   <div id="sceneWrap">
     <svg id="scene" viewBox="0 0 800 420" aria-label="Poppy's world"></svg>
@@ -922,6 +924,7 @@ function clean(g, id){
     hiss(){ noise(.45, 0, .3, 5000, 3000, .6); },
     whine(){ tone(900,.5,'sine',0,.12,1300); tone(1300,.4,'sine',.5,.1,800); },
     yawn(){ tone(500,.6,'triangle',0,.12,220); },
+    yelp(){ tone(1400,.18,'triangle',0,.2,700); tone(1100,.25,'triangle',.2,.16,500); },
     ding(){ [0, .32].forEach(w => { tone(1760,.5,'sine',w,.16); tone(2637,.35,'sine',w,.07); }); },
     whoosh(){ noise(.25, 0, .2, 600, 2400, .8); },
     meh(){ tone(330,.18,'square',0,.07,300); },
@@ -1164,6 +1167,7 @@ function clean(g, id){
         <path d="M-8 9 L0 22 L8 9 Z" fill="#fff"/>
         <text id="pbText" x="0" y="0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#3f3a4a"></text>
       </g>
+      <text id="scared" x="0" y="0" text-anchor="middle" font-size="46" style="display:none">😟</text>
       <g id="zzz" style="display:none" font-family="Fredoka, sans-serif" font-weight="700" fill="#7d6fb5">
         <text class="zzz" x="0" y="0" font-size="18">z</text><text class="zzz" x="10" y="-8" font-size="22">Z</text><text class="zzz" x="20" y="-18" font-size="26">z</text>
       </g>`;
@@ -1173,7 +1177,7 @@ function clean(g, id){
       eye: $('ppEye'), eyeShut: $('ppEyeShut'), hit: $('ppHit'),
       piles: $('piles'), fx: $('fx'), pb: $('pbubble'), pbText: $('pbText'), pbRect: $('pbRect'), zzz: $('zzz'),
       door: $('door'), bell: $('bell'), crateFront: $('crateFront'), marker: $('marker'), hint: $('hint'),
-      dist: $('dist'), distCat: $('distCat'), distFly: $('distFly'), catTail: $('catTail'), wingL: $('wingL'), wingR: $('wingR')
+      scared: $('scared'), dist: $('dist'), distCat: $('distCat'), distFly: $('distFly'), catTail: $('catTail'), wingL: $('wingL'), wingR: $('wingR')
     };
     pileEls = new Map();
     P.dist.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); if (g) shoo(g); });
@@ -1312,9 +1316,11 @@ function clean(g, id){
     if (m === 'stay' && g.distraction && zoneAt(L, g.x).potty){ headRot = -22 + Math.sin(tt*12)*5; tailRot = Math.sin(tt*25)*25; lift = -Math.abs(Math.sin(tt*8))*8; }
     if (m === 'happy'){ tailRot = Math.sin(tt*34)*32; lift = -Math.abs(Math.sin(tt*9))*12; }
     if (m === 'oops'){ tailRot = 30; headRot = 14; }
+    if (tt < cowerUntil){ headRot = 30; tailRot = 55; lift = 10; bodyRot = 6; legA = 0; dir = g.dir; }
     if (m === 'atDoor' || (m === 'crate' && need(g) >= 100)){ headRot = -14 + Math.sin(tt*6)*4; tailRot = Math.sin(tt*8)*8; }
     if (m === 'zoom') tailRot = Math.sin(tt*30)*24;
-    P.pp.setAttribute('transform', `translate(${g.x.toFixed(1)},${GY}) scale(${dir*S},${S})`);
+    const shiver = tt < cowerUntil ? Math.sin(tt*60)*2.5 : 0;
+    P.pp.setAttribute('transform', `translate(${(g.x + shiver).toFixed(1)},${GY}) scale(${dir*S},${S})`);
     P.lift.setAttribute('transform', `translate(0,${lift.toFixed(1)}) rotate(${bodyRot} 34 -30)`);
     P.head.setAttribute('transform', `rotate(${headRot.toFixed(1)} 40 -70)`);
     P.tail.setAttribute('transform', `rotate(${tailRot.toFixed(1)} -46 -62)`);
@@ -1347,6 +1353,9 @@ function clean(g, id){
       P.pb.setAttribute('transform', `translate(${bx.toFixed(1)},${by.toFixed(1)})`);
       P.pb.style.display = '';
     } else P.pb.style.display = 'none';
+    if (g.shy > 0 && m !== 'sleep' && P.pb.style.display === 'none'){
+      P.scared.style.display = ''; P.scared.setAttribute('transform', `translate(${(g.x + dir*30).toFixed(1)},${(GY - 150 + lift + Math.sin(tt*4)*3).toFixed(1)})`);
+    } else P.scared.style.display = 'none';
     if (m === 'sleep'){ P.zzz.style.display = ''; P.zzz.setAttribute('transform', `translate(${g.x + 60},${GY - 70})`); }
     else P.zzz.style.display = 'none';
     // cat on the fence / butterfly near her spot
@@ -1413,6 +1422,7 @@ function clean(g, id){
       if (!on && paws[i].classList.contains('on')){ paws[i].classList.remove('on'); paws[i].classList.add('lost'); setTimeout(((p) => () => p.classList.remove('lost'))(paws[i]), 700); }
     }
     $('fastTag').style.display = g.fast ? '' : 'none';
+    $('shyTag').style.display = g.shy > 0 ? '' : 'none';
     const tb = $('treatBtn');
     if (g.window){
       const left = Math.max(0, 1 - (g.now - g.window.start)/g.L.window);
@@ -1440,9 +1450,19 @@ function clean(g, id){
   // ---------- messages & effects ----------
   function say(html){ sayEl.innerHTML = html; }
   function tip(key, text, max){ tipCount[key] = (tipCount[key] || 0) + 1; return tipCount[key] <= (max || 2) ? ` <i>${text}</i>` : ''; }
+  let bannerFree = 0;
   function banner(text, cls){
-    const b = document.createElement('div'); b.className = 'banner ' + cls; b.textContent = text;
-    $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 2000);
+    const nowMs = performance.now(), at = Math.max(nowMs, bannerFree), wait = at - nowMs;
+    bannerFree = at + 1300;
+    setTimeout(() => {
+      const b = document.createElement('div'); b.className = 'banner ' + cls; b.textContent = text;
+      $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 2000);
+    }, wait);
+  }
+  // Poppy's fright: a red comic burst, a yelp, and she cowers
+  let cowerUntil = 0;
+  function fright(text){
+    ahh(text, g.x, true); SFX.yelp(); cowerUntil = tt + 2.6; flash('bad');
   }
   function flash(cls){ const f = $('flash'); f.className = ''; void f.offsetWidth; f.className = cls; }
   function shake(){ const w = $('sceneWrap'); w.classList.remove('shake'); void w.offsetWidth; w.classList.add('shake'); }
@@ -1512,7 +1532,7 @@ function clean(g, id){
           if (e.n < e.of){ setTimeout(SFX.lesson, 700); sayEl.innerHTML += ` <b>Lesson ${e.n} of ${e.of}!</b>`; }
           break;
         case 'lostLesson':
-          SFX.lostLesson();
+          SFX.lostLesson(); banner('LESSON LOST!', 'bad');
           sayEl.innerHTML += ' <b>She forgot a lesson.</b> ' + ({
             scold: '<i>(Scolding teaches fear, not where to go.)</i>',
             repeat: '<i>(That spot smells like a toilet to her now. Clean it!)</i>',
@@ -1533,7 +1553,7 @@ function clean(g, id){
           ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!']) : 'Aaah!', g.x, true);
           SFX.squelch(); SFX.bad();
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
-          if (e.hidden){ say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
+          if (e.hidden){ shake(); flash('bad'); banner('SHE HID IT!', 'bad'); say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
           banner(e.bad ? e.bad : e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? (e.big ? 'OH NO! A MONSTER!' : 'OH NO!') : 'OOPS!', 'bad');
           const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one' : e.big >= 2 ? 'An absolute monster' : e.big ? 'A giant one' : 'A massive one') : (e.stack > 1 ? 'Another puddle' : e.big ? 'A lake' : 'A puddle');
@@ -1541,13 +1561,13 @@ function clean(g, id){
           say(`<b>${what} on ${e.place}.</b>${e.repeat ? ' Right where it smelled like toilet.' : ''}` + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
           break;
         }
-        case 'scoldAfter': say('Poppy cowers. She hasn\'t learned "not here". She\'s learned "<b>not in front of you</b>".'); break;
-        case 'scoldDuring': say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
-        case 'scoldRandom': say('Poppy flinches. She has no idea why you\'re cross.'); break;
-        case 'confused': SFX.meh(); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
+        case 'scoldAfter': fright(pick(['Eek!','Yikes!'])); banner('SHE\'S SCARED OF YOU NOW', 'bad'); say('Poppy cowers. She hasn\'t learned "not here". She\'s learned "<b>not in front of you</b>".'); break;
+        case 'scoldDuring': fright('Eek!'); banner('SHE\'LL HIDE IT NEXT TIME', 'bad'); say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
+        case 'scoldRandom': fright('What did I do?'); banner('SHE DOESN\'T KNOW WHY', 'bad'); say('Poppy flinches. She has no idea why you\'re cross.'); break;
+        case 'confused': SFX.meh(); ahh('??', g.x, true); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
         case 'watch': say('Let her do it <b>by herself</b>. Just watch!'); break;
         case 'wait': say('<b>Wait!</b> She\'s not done yet. <i>Treat when she says "Ahhh!".</i>'); break;
-        case 'early': SFX.meh(); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
+        case 'early': SFX.meh(); banner('TOO EARLY!', 'bad'); ahh('Huh?', g.x, true); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
         case 'dist':
           if (e.kind === 'cat') SFX.woof();
           say(e.kind === 'cat' ? 'A <b>cat</b> on the fence! Poppy won\'t be able to think of anything else. <i>Tap the cat to shoo it.</i>'
