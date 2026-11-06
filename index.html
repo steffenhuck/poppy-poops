@@ -71,6 +71,7 @@
   .lvl .badge{width:54px; height:54px; border-radius:16px; flex:0 0 54px; display:flex; align-items:center; justify-content:center; font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; color:#fff;}
   .lvl.garden .badge{background:linear-gradient(135deg,#8ad46a,#4fae57);}
   .lvl.house .badge{background:linear-gradient(135deg,#ffc24f,#ff8f3b);}
+  .lvl.friend .badge{background:linear-gradient(135deg,#ff6f6f,#c23a6a);}
   .lvl .name{font-family:'Fredoka',sans-serif; font-size:20px; font-weight:600; display:block; line-height:1.1;}
   .lvl .what{font-size:13.5px; color:var(--muted); display:block; margin-top:3px; line-height:1.35;}
   .dedication{font-family:'Fredoka',sans-serif; font-weight:500; font-size:19px; margin:20px 0 0;}
@@ -251,11 +252,15 @@
     <div class="levels">
       <button class="lvl garden" data-level="garden">
         <span class="badge">1</span>
-        <span><span class="name">In the Garden</span><span class="what">Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.</span></span>
+        <span><span class="name">Poppy in your garden</span><span class="what">Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.</span></span>
       </button>
       <button class="lvl house" data-level="house">
         <span class="badge">2</span>
-        <span><span class="name">In the House</span><span class="what">The garden is through the door. She gives fewer signs, and the door is far. She has a crate.</span></span>
+        <span><span class="name">Poppy in your house</span><span class="what">The garden is through the door. She gives fewer signs, and the door is far. She has a crate.</span></span>
+      </button>
+      <button class="lvl friend" data-level="friend">
+        <span class="badge">3</span>
+        <span><span class="name">Poppy in your friend's house</span><span class="what">A strange house, the door on the other side, no crate, and a cream carpet. She's excited, so she needs to go more often.</span></span>
       </button>
     </div>
     <button class="btn secondary small" id="helpBtn1">How puppies learn</button>
@@ -298,7 +303,7 @@
       <button class="btn" id="againBtn">Play again</button>
       <button class="btn secondary" id="otherBtn">In the House</button>
     </div>
-    <div><button class="btn secondary small" id="menuBtn">Both levels</button></div>
+    <div><button class="btn secondary small" id="menuBtn">All levels</button></div>
   </div>
 </div>
 
@@ -344,7 +349,7 @@ const NAPS  = [[9*60+15, 10*60+30], [13*60+15, 14*60+30], [15*60+50, 16*60+40]];
 const ZOOMS = [8*60+30, 11*60+30, 18*60+10];
 const LEVELS = {
   garden: {
-    key:'garden', name:'In the Garden', rate:60/14, dayStart:7*60, dayEnd:19*60,
+    key:'garden', name:'Poppy in your garden', rate:60/14, dayStart:7*60, dayEnd:19*60,
     sniff:60, circle:85, run:300, stay:4.5, silent:0.1, learn:1.15,
     crate:false, door:null, range:[30,600],
     potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142,
@@ -357,7 +362,7 @@ const LEVELS = {
     ]
   },
   house: {
-    key:'house', name:'In the House', rate:60/14, dayStart:7*60, dayEnd:19*60,
+    key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:60/14, dayStart:7*60, dayEnd:19*60,
     sniff:75, circle:92, run:230, stay:4.5, silent:0.35, learn:1.0,
     crate:true, crateX:292, door:612, range:[100,585],
     potty:[655,800], pottyX:728, outside:[672,785], hide:44, bed:205, bowl:452,
@@ -371,6 +376,20 @@ const LEVELS = {
     ]
   }
 };
+LEVELS.friend = {
+  key:'friend', name:"Poppy in your friend's house", rate:60/14, dayStart:7*60, dayEnd:19*60,
+  sniff:80, circle:93, run:230, stay:4.5, silent:0.4, learn:1.0, fill:1.15, carpetLoss:1.8,
+  crate:false, door:178, doorLeft:true, inX:250, range:[215,680],
+  potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612,
+  zones:[
+    {x0:-99, x1:150, name:'her spot in the garden', potty:true},
+    {x0:150, x1:208, name:'the doormat'},
+    {x0:208, x1:565, name:"your friend's cream carpet", carpet:true},
+    {x0:565, x1:700, name:'the parquet'},
+    {x0:700, x1:999, name:'behind the sofa', hidden:true}
+  ]
+};
+function isOutside(L, x){ return L.door != null && (L.doorLeft ? x < L.door + 10 : x > L.door - 10); }
 const GAIN = {poop:{perfect:18, good:14, late:2}, pee:{perfect:11, good:9, late:1}};
 const LOSS = {poop:10, pee:6};
 
@@ -431,7 +450,7 @@ function chooseIntent(g){
     goTo(g, clamp(p.x + g.rnd()*20 - 10, -40, 840), 'pile'); return;
   }
   if (g.rnd() < 0.95 * g.H / 100){
-    if (L.door) goTo(g, L.door - 14, 'door');
+    if (L.door) goTo(g, L.door + (L.doorLeft ? 14 : -14), 'door');
     else goTo(g, L.pottyX + g.rnd()*40 - 20, 'potty');
   }
   // otherwise: she keeps wandering, nose down
@@ -440,7 +459,7 @@ function spawnDistraction(g){
   const L = g.L, kind = g.rnd() < 0.5 ? 'cat' : 'butterfly';
   const side = g.rnd() < 0.5 ? -1 : 1;
   // the cat sits on the fence (garden) or on her sign (house); the butterfly flutters over her spot
-  const x0 = kind === 'cat' ? (L.door ? 772 : 590 + g.rnd()*30) : L.pottyX + side*20;
+  const x0 = kind === 'cat' ? (L.door ? (L.doorLeft ? 30 : 772) : 590 + g.rnd()*30) : L.pottyX + side*20;
   g.distraction = {kind, x0, x: x0, t: 0, until: g.now + 14};
   g.distraction.x = g.distraction.x0;
   g.nextDistAt = g.now + 20 + g.rnd()*25;
@@ -475,8 +494,8 @@ function produce(g){
     g.scoldUntil = g.now + 3;
     g.inCrate = false; g.mode = 'oops'; g.timer = 1.2;
     g.tx = inCrate ? g.x + 90 : clamp(px + (px > 400 ? -150 : 150), 20, 780);
-    emit(g, 'accident', {kind, place: z.name, hidden: !!z.hidden, repeat, crate: inCrate});
-    addH(g, -(LOSS[kind] + (repeat ? 3 : 0)));
+    emit(g, 'accident', {kind, place: z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet});
+    addH(g, -(LOSS[kind] + (repeat ? 3 : 0)) * (z.carpet ? (L.carpetLoss || 1) : 1));
   }
 }
 function applyReward(g, q){
@@ -496,7 +515,7 @@ function step(g, dt){
   g.t += dm;
   const asleep = g.mode === 'sleep';
   if (asleep) g.bladder = Math.min(92, g.bladder + 0.22*dm);
-  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * dm;
+  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * dm * (L.fill || 1);
   if (g.t >= g.bowelDueAt) g.bowel = asleep ? Math.min(85, g.bowel + 0.4*dm) : g.bowel + 1.6*dm;
   if (g.window && g.now - g.window.start > 3) applyReward(g, 'late');
   if (g.distraction){
@@ -594,7 +613,7 @@ function step(g, dt){
     case 'walkTo':
       if (moveTo(g, g.tx, 110, dt)){
         if (g.goal === 'potty'){ g.selfFlag = true; g.mode = 'stay'; g.timer = L.stay; g.sniffT = 0; g.spotChecked = false; emit(g, 'selfSpot'); }
-        else if (g.goal === 'door'){ g.selfFlag = true; g.mode = 'atDoor'; g.dir = 1; emit(g, 'door'); }
+        else if (g.goal === 'door'){ g.selfFlag = true; g.mode = 'atDoor'; g.dir = L.doorLeft ? -1 : 1; emit(g, 'door'); }
         else if (g.goal === 'in'){ g.mode = 'wander'; g.tx = null; }
         else { g.mode = 'linger'; g.holdForHide = false; }
       }
@@ -620,7 +639,7 @@ function step(g, dt){
           // a wasted trip: she played at her spot, and it feels a little less like a toilet
           g.selfFlag = false; emit(g, 'notyet', {distracted: !!distracted}); addH(g, -1.5);
         }
-        if (L.door && g.x > L.door - 10) goTo(g, 560, 'in');
+        if (isOutside(L, g.x)) goTo(g, L.inX, 'in');
         else { g.mode = 'wander'; g.tx = null; g.timer = 0.2; }
       }
       break;
@@ -637,7 +656,7 @@ function step(g, dt){
       g.timer -= dt;
       if (g.tx != null && moveTo(g, g.tx, 140, dt)) g.tx = null;
       if (g.timer <= 0){
-        if (L.door && g.x > L.door - 10) goTo(g, 560, 'in');
+        if (isOutside(L, g.x)) goTo(g, L.inX, 'in');
         else { g.mode = 'wander'; g.tx = null; }
       }
       break;
@@ -702,7 +721,7 @@ function toggleCrate(g){
   if (g.over || !g.L.crate) return;
   if (g.mode === 'crate'){ g.inCrate = false; g.mode = 'wander'; g.tx = null; g.timer = 0.3; emit(g, 'crateOut'); return; }
   if (g.mode === 'sleep' && g.inCrate){ emit(g, 'asleep'); return; }
-  if (['wander','zoom','linger','atDoor','walkTo','stay','led'].includes(g.mode) && !(g.L.door && g.x > g.L.door)){
+  if (['wander','zoom','linger','atDoor','walkTo','stay','led'].includes(g.mode) && !isOutside(g.L, g.x)){
     g.inCrate = true; g.mode = 'crate'; g.x = g.L.crateX; g.intent = false; g.holdForHide = false; g.selfFlag = false;
     emit(g, 'crateIn');
   } else emit(g, 'crateNo');
@@ -722,7 +741,7 @@ function clean(g, id){
   const GY = 352, S = 1.08;
   const landing = $('landing'), ending = $('ending'), helpPanel = $('helpPanel'), gameEl = $('game');
   const scene = $('scene'), sayEl = $('say');
-  let g = null, levelKey = 'garden', raf = 0, last = 0, tt = 0, walkPhase = 0;
+  let nextKey = null, g = null, levelKey = 'garden', raf = 0, last = 0, tt = 0, walkPhase = 0;
   let pileEls = new Map(), tipCount = {}, P = {};
   let sound = true;
   try { sound = localStorage.getItem('pp-sound') !== 'off'; } catch(e){}
@@ -890,18 +909,70 @@ function clean(g, id){
     </g>`;
   }
 
+  function friendBG(){
+    let s = `
+    <defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe6ff"/><stop offset="1" stop-color="#e9f7ff"/></linearGradient></defs>
+    <rect width="800" height="420" fill="#e6efe4"/>
+    <rect x="150" y="236" width="650" height="90" fill="#d7e4d3"/>
+    <line x1="150" y1="236" x2="800" y2="236" stroke="#fff" stroke-width="6"/>
+    <rect x="150" y="322" width="650" height="98" fill="#c49a6c"/>`;
+    for (let x = 150; x < 800; x += 36) for (let y = 322; y < 420; y += 18){
+      const o = ((y - 322)/18) % 2 ? 18 : 0;
+      s += `<rect x="${x + o}" y="${y}" width="36" height="18" fill="none" stroke="#b08657" stroke-width="1.5"/>`;
+    }
+    // tall window, painting, bookshelf, lamp
+    s += `<rect x="250" y="40" width="110" height="170" rx="55" fill="#bfe6ff" stroke="#fff" stroke-width="9"/>
+    <line x1="305" y1="40" x2="305" y2="210" stroke="#fff" stroke-width="5"/>
+    <rect x="410" y="80" width="120" height="86" fill="#f4d58d" stroke="#c9a46a" stroke-width="7"/>
+    <circle cx="450" cy="118" r="18" fill="#ff7a59"/><rect x="470" y="104" width="40" height="40" fill="#4dabf7" opacity=".8"/>
+    <rect x="590" y="60" width="96" height="262" fill="#a5713f"/>
+    ${[90,150,210,270].map(y => `<rect x="596" y="${y}" width="84" height="6" fill="#7d5229"/>`).join('')}
+    ${[[600,68],[612,62],[626,70],[640,64],[600,128],[618,122],[636,130],[656,124],[604,188],[624,182],[644,190],[600,248],[616,242],[640,250],[660,244]].map(([x,y],i) => `<rect x="${x}" y="${y}" width="${11 + (i%3)*2}" height="${22 - (i%2)*4}" fill="${['#ff7a59','#4dabf7','#69db7c','#ffd43b','#da77f2'][i%5]}"/>`).join('')}
+    <line x1="716" y1="140" x2="716" y2="322" stroke="#5a3b1e" stroke-width="4"/><path d="M696 140 h40 l-10 -36 h-20 z" fill="#ffe8a8"/>`;
+    // cream carpet with fringe, blanket, bowl
+    s += `<rect x="212" y="340" width="350" height="64" rx="8" fill="#f8f1e1" stroke="#e7dcc4" stroke-width="3"/>
+    <rect x="226" y="350" width="322" height="44" rx="6" fill="none" stroke="#eadfc6" stroke-width="3" stroke-dasharray="12 8"/>
+    ${Array.from({length: 18}, (_, i) => `<line x1="${222 + i*19}" y1="404" x2="${222 + i*19}" y2="412" stroke="#e7dcc4" stroke-width="3"/>`).join('')}
+    <rect x="378" y="346" width="86" height="14" rx="5" fill="#7da7d9"/><path d="M378 353 h86 M400 346 v14 M430 346 v14" stroke="#5c88bf" stroke-width="3"/>
+    <path d="M598 352 h30 l-4 10 h-22 z" fill="#4dabf7"/><ellipse cx="613" cy="352" rx="15" ry="3.5" fill="#2f86cf"/>`;
+    // outside on the left
+    s += `<rect x="0" y="0" width="150" height="420" fill="url(#sky3)"/>
+    <path d="M0 286 Q 40 266 80 280 Q 120 264 150 278 L150 330 L0 330 Z" fill="#5fae4a"/>
+    <rect x="0" y="320" width="150" height="100" fill="#86cf63"/>
+    <path d="M0 338 Q 30 326 80 326 Q 130 326 140 338 L140 420 L0 420 Z" fill="#ecd7a5"/>
+    <g fill="#d6bd85"><circle cx="30" cy="380" r="4"/><circle cx="96" cy="400" r="5"/><circle cx="118" cy="356" r="3"/></g>
+    <rect x="26" y="262" width="7" height="68" fill="#a77b4c"/>
+    <rect x="2" y="248" width="60" height="30" rx="6" fill="#fff6e0" stroke="#a77b4c" stroke-width="4"/>
+    <text x="32" y="269" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="14" fill="#8b5a2b">POPPY</text>
+    <circle cx="70" cy="60" r="24" fill="#ffe27a"/>
+    <rect x="142" y="0" width="16" height="330" fill="#cfdccb"/>
+    <rect x="150" y="150" width="56" height="178" fill="#bfe6ff"/>
+    <g id="door"><rect x="152" y="152" width="52" height="176" rx="3" fill="#f4f1ea" stroke="#c8c1b2" stroke-width="3"/><rect x="162" y="168" width="32" height="56" rx="2" fill="none" stroke="#d8d1c2" stroke-width="3"/><rect x="162" y="240" width="32" height="70" rx="2" fill="none" stroke="#d8d1c2" stroke-width="3"/><circle cx="162" cy="248" r="4" fill="#c9a24a"/></g>
+    <rect x="146" y="144" width="64" height="10" rx="3" fill="#cfdccb"/>
+    <rect x="150" y="344" width="56" height="12" rx="3" fill="#8b6b4a"/>`;
+    return s;
+  }
+  function friendFG(){
+    return `<g>
+      <rect x="686" y="250" width="130" height="66" rx="20" fill="#d9a53a"/>
+      <rect x="670" y="292" width="146" height="54" rx="16" fill="#c99428"/>
+      <rect x="664" y="268" width="34" height="80" rx="15" fill="#d9a53a"/>
+      <rect x="680" y="340" width="10" height="16" fill="#5a3b1e"/><rect x="790" y="340" width="10" height="16" fill="#5a3b1e"/>
+      <rect x="706" y="264" width="52" height="34" rx="10" fill="#7da7d9"/>
+    </g>`;
+  }
   // ---------- scene building ----------
   function buildScene(){
-    const house = g.L.door != null;
+    const house = g.L.key === 'house', friendL = g.L.key === 'friend';
     scene.innerHTML = `
-      <g id="bg">${house ? houseBG() : gardenBG()}</g>
+      <g id="bg">${friendL ? friendBG() : house ? houseBG() : gardenBG()}</g>
       <g id="piles"></g>
       ${poppySVG()}
       ${house ? `<g id="crateFront" stroke="#8a8298" stroke-width="5" fill="none">
         <rect x="226" y="232" width="148" height="122" rx="8"/>
         ${[250,274,298,322,346].map(x => `<line x1="${x}" y1="234" x2="${x}" y2="352"/>`).join('')}
         <line x1="226" y1="292" x2="374" y2="292"/></g>` : ''}
-      <g id="fg">${house ? houseFG() : gardenFG()}</g>
+      <g id="fg">${friendL ? friendFG() : house ? houseFG() : gardenFG()}</g>
       <g id="fx"></g>
       <g id="dist" style="display:none; cursor:pointer">
         <g id="distCat" style="display:none">
@@ -1143,8 +1214,9 @@ function clean(g, id){
     }
     // door
     if (P.door){
-      const open = g.x > 570 && g.x < 690;
-      P.door.setAttribute('transform', open ? 'translate(600,0) scale(.18,1) translate(-600,0)' : '');
+      const open = Math.abs(g.x - L.door) < 75;
+      const hinge = L.doorLeft ? 204 : 600;
+      P.door.setAttribute('transform', open ? `translate(${hinge},0) scale(.18,1) translate(${-hinge},0)` : '');
     }
   }
 
@@ -1246,7 +1318,7 @@ function clean(g, id){
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
           if (e.hidden){ say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
-          banner(e.kind === 'poop' ? 'OH NO!' : 'OOPS!', 'bad');
+          banner(e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? 'OH NO!' : 'OOPS!', 'bad');
           const what = e.kind === 'poop' ? 'A massive one' : 'A puddle';
           say(`<b>${what} on ${e.place}.</b>${e.repeat ? ' Right where it smelled like toilet.' : ''}` + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
           break;
@@ -1297,7 +1369,8 @@ function clean(g, id){
     buildScene(); buildTimeline();
     say(key === 'garden'
       ? 'Poppy is still asleep in her basket. When she wakes up, <b>tap her spot</b> (the sandy corner) and she\'ll run there.'
-      : 'Poppy is asleep on the rug. Her spot is outside, through the door on the right. <b>Tap anywhere</b> to send her somewhere.');
+      : key === 'house' ? 'Poppy is asleep on the rug. Her spot is outside, through the door on the right. <b>Tap anywhere</b> to send her somewhere.'
+      : 'Poppy is asleep on a borrowed blanket at your friend\'s. Her spot is outside, through the door on the <b>left</b>. Mind the cream carpet.');
     last = 0;
     if (!raf) raf = requestAnimationFrame(frame);
   }
@@ -1307,7 +1380,8 @@ function clean(g, id){
     if (g.won) stars = s.acc <= 1 ? 3 : s.acc <= 3 ? 2 : 1;
     if (g.won){
       $('endTitle').textContent = 'Poppy is house\u2011trained!';
-      $('endText').innerHTML = `By <b>${fmt(g.t)}</b> she knew where to go${g.key === 'house' ? ', even indoors' : ''}.`;
+      $('endText').innerHTML = `By <b>${fmt(g.t)}</b> she knew where to go${g.key === 'house' ? ', even indoors' : g.key === 'friend' ? ', even at your friend\'s' : ''}.`
+        + (g.key === 'friend' && g.stats.acc === 0 ? ' And the carpet is spotless.' : '');
       SFX.win(); confetti(90);
     } else {
       $('endTitle').textContent = 'Bedtime. Zzz…';
@@ -1315,7 +1389,10 @@ function clean(g, id){
     }
     $('endStars').innerHTML = g.won ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
     $('endStats').innerHTML = `<span>Right spot <b>${s.ok}</b></span><span>Accidents <b>${s.acc}</b></span><span>Perfect treats <b>${s.perfect}</b></span>${s.early ? `<span>Too-early treats <b>${s.early}</b></span>` : ''}`;
-    $('otherBtn').textContent = g.key === 'garden' ? 'In the House' : 'In the Garden';
+    const order = ['garden','house','friend'], i = order.indexOf(g.key);
+    nextKey = g.won && i < 2 ? order[i+1] : null;
+    $('otherBtn').textContent = 'Next level';
+    $('otherBtn').style.display = nextKey ? '' : 'none';
     ending.style.display = 'flex';
   }
 
@@ -1325,7 +1402,7 @@ function clean(g, id){
   $('noBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) scold(g); });
   $('crateBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) toggleCrate(g); });
   $('againBtn').addEventListener('click', () => start(levelKey));
-  $('otherBtn').addEventListener('click', () => start(levelKey === 'garden' ? 'house' : 'garden'));
+  $('otherBtn').addEventListener('click', () => { if (nextKey) start(nextKey); });
   $('menuBtn').addEventListener('click', () => { ending.style.display = 'none'; gameEl.style.display = 'none'; landing.style.display = 'flex'; });
   $('quitBtn').addEventListener('click', () => { gameEl.style.display = 'none'; landing.style.display = 'flex'; g = null; });
   $('restartBtn').addEventListener('click', () => start(levelKey));
