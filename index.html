@@ -92,7 +92,28 @@
   #top .title small{display:block; font-family:'Nunito',sans-serif; font-weight:600; font-size:11px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-top:3px;}
   .chip{background:#fff; border-radius:999px; padding:5px 12px; font-size:16px; font-weight:600; box-shadow:0 3px 10px rgba(100,80,60,.12); display:flex; align-items:center; gap:6px; white-space:nowrap;}
   #progressWrap{width:100%; display:flex; align-items:center; gap:8px; padding:0 4px 8px;}
-  #progressWrap .lab{font-family:'Fredoka',sans-serif; font-size:13px; font-weight:600; white-space:nowrap;}
+  #progressWrap .lab{font-family:'Fredoka',sans-serif; font-size:14px; font-weight:600; white-space:nowrap;}
+  #paws{display:flex; gap:6px; flex:1;}
+  .paw{width:32px; height:32px; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 2px #eadfcf; display:flex; align-items:center; justify-content:center; transition:background .3s;}
+  .paw svg{width:20px; height:20px; fill:#e4d9c8;}
+  .paw.on{background:linear-gradient(135deg,#ffcf3f,#ff8a2e); box-shadow:0 3px 8px rgba(255,140,40,.4);}
+  .paw.on svg{fill:#fff;}
+  .paw.pop{animation:pawpop .6s cubic-bezier(.2,1.6,.4,1);}
+  .paw.lost{animation:pawlost .6s ease;}
+  @keyframes pawpop{0%{transform:scale(.3);} 60%{transform:scale(1.35);} 100%{transform:scale(1);}}
+  @keyframes pawlost{0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px); background:#ffb3a8;} 75%{transform:translateX(6px);}}
+  #fastTag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; color:var(--accent);}
+  .ahh{
+    position:absolute; z-index:6; pointer-events:none; transform:translate(-50%,-100%) scale(.3); opacity:0;
+    font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(18px,5.4vw,28px); color:#3f3a4a;
+    background:#fff; padding:14px 22px; white-space:nowrap;
+    clip-path:polygon(50% 0%,61% 12%,78% 4%,80% 22%,98% 22%,90% 40%,100% 55%,86% 64%,92% 84%,72% 80%,64% 100%,50% 86%,36% 100%,28% 80%,8% 84%,14% 64%,0% 55%,10% 40%,2% 22%,20% 22%,22% 4%,39% 12%);
+    filter:drop-shadow(0 3px 0 #3f3a4a);
+    animation:ahh 1.5s cubic-bezier(.2,1.5,.4,1) forwards;
+  }
+  .ahh.bad{background:#ffe1dc;}
+  @keyframes ahh{0%{opacity:0; transform:translate(-50%,-100%) scale(.3) rotate(-8deg);} 15%{opacity:1; transform:translate(-50%,-100%) scale(1.1) rotate(3deg);} 25%{transform:translate(-50%,-100%) scale(1) rotate(-2deg);} 80%{opacity:1;} 100%{opacity:0; transform:translate(-50%,-130%) scale(1);}}
+  .banner.huge{top:22%; white-space:normal; text-align:center; width:86%; line-height:1.05; font-size:clamp(26px,7.4vw,46px); padding:14px 16px 16px; animation-duration:3.4s;}
   #bar{flex:1; height:16px; background:#fff; border-radius:999px; box-shadow:inset 0 1px 3px rgba(0,0,0,.12); overflow:hidden; position:relative;}
   #barFill{height:100%; width:0%; background:linear-gradient(90deg,#8ad46a,#4fae57); border-radius:999px; transition:width .5s ease, background .3s;}
   #barFill.down{background:linear-gradient(90deg,#ff9a8a,#e2483a);}
@@ -247,7 +268,7 @@
     <h1>Poppy Poops</h1>
     <p>Poppy is a puppy. She doesn't know yet <b>where</b> to go.</p>
     <p><b>Tap anywhere</b> in the picture and Poppy runs there. When she <b>sniffs the ground</b> or <b>turns in circles</b>, she needs to go: tap her spot (the sandy patch with her sign) to send her there.</p>
-    <p>The moment she's done in the right spot: <b>TREAT</b>! Not before she's finished, and not a second too late.</p>
+    <p>When she says <b>"Ahhh!"</b> in the right spot: <b>TREAT</b>! Each well-timed treat is a lesson. Collect the paws and she's learned it.</p>
 
     <div class="levels">
       <button class="lvl garden" data-level="garden">
@@ -282,11 +303,11 @@
       <li><b>Watch for the signs.</b> Sniffing the ground, walking in circles, sitting at the door.</li>
       <li><b>Treat right away, but not too early.</b> The moment she's finished, in the right spot. Too early and she jumps up halfway through; a few seconds late and the treat is for something else.</li>
       <li><b>Keep her spot boring.</b> Cats and butterflies ruin everything: shoo them away. And don't take her out for nothing too often, or her spot turns into a playground.</li>
-      <li><b>Never scold.</b> She won't learn "not on the rug". She'll learn "not where you can see me", and start hiding.</li>
+      <li><b>The old way: "No!"</b> She won't learn "not on the rug". She'll learn "not where you can see me", start hiding, and forget a lesson.</li>
       <li><b>Clean every accident.</b> If it still smells like a toilet, she'll use it as one.</li>
       <li><b>The crate</b> (in the house): puppies hate to soil their bed, so she'll hold on in there. Not forever, though.</li>
     </ul>
-    <p class="small">Fill the bar to 100% before bedtime and Poppy is house-trained. She'll start walking to her spot by herself as she learns.</p>
+    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, Poppy has learned where to go and does it by herself. A whole day takes two minutes.</p>
     <button class="btn" id="helpClose">Got it</button>
   </div>
 </div>
@@ -314,9 +335,9 @@
     <div class="chip" id="clockChip"><span id="clockIcon">☀️</span><span id="clock">7:00</span></div>
   </div>
   <div id="progressWrap">
-    <span class="lab">House-trained</span>
-    <div id="bar"><div id="barFill"></div></div>
-    <span id="pct">0%</span>
+    <span class="lab">Lessons</span>
+    <div id="paws"></div>
+    <span id="fastTag" style="display:none">⏩ watch her!</span>
   </div>
   <div id="sceneWrap">
     <svg id="scene" viewBox="0 0 800 420" aria-label="Poppy's world"></svg>
@@ -328,8 +349,8 @@
     <div class="text" id="say"></div>
   </div>
   <div id="controls">
-    <button class="ctl no" id="noBtn">No!<small>scold</small></button>
-    <button class="ctl" id="treatBtn"><span id="treatRing"><i id="treatLeft"></i></span><svg viewBox="10 0 80 72"><use href="#bone"/></svg>TREAT<small id="treatSub">for the right spot</small></button>
+    <button class="ctl no" id="noBtn">No!<small>old school</small></button>
+    <button class="ctl" id="treatBtn"><span id="treatRing"><i id="treatLeft"></i></span><svg viewBox="10 0 80 72"><use href="#bone"/></svg>TREAT<small id="treatSub">modern</small></button>
     <button class="ctl" id="crateBtn">Crate<small id="crateSub">put her in</small></button>
   </div>
   <div id="controls2">
@@ -349,7 +370,7 @@ const NAPS  = [[9*60+15, 10*60+30], [13*60+15, 14*60+30], [15*60+50, 16*60+40]];
 const ZOOMS = [8*60+30, 11*60+30, 18*60+10];
 const LEVELS = {
   garden: {
-    key:'garden', name:'Poppy in your garden', rate:60/14, dayStart:7*60, dayEnd:19*60,
+    key:'garden', name:'Poppy in your garden', rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
     sniff:60, circle:85, run:300, stay:4.5, silent:0.1, learn:1.15,
     crate:false, door:null, range:[30,600],
     potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142,
@@ -362,7 +383,7 @@ const LEVELS = {
     ]
   },
   house: {
-    key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:60/14, dayStart:7*60, dayEnd:19*60,
+    key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
     sniff:75, circle:92, run:230, stay:4.5, silent:0.35, learn:1.0,
     crate:true, crateX:292, door:612, range:[100,585],
     potty:[655,800], pottyX:728, outside:[672,785], hide:44, bed:205, bowl:452,
@@ -377,7 +398,7 @@ const LEVELS = {
   }
 };
 LEVELS.friend = {
-  key:'friend', name:"Poppy in your friend's house", rate:60/14, dayStart:7*60, dayEnd:19*60,
+  key:'friend', name:"Poppy in your friend's house", rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
   sniff:80, circle:93, run:230, stay:4.5, silent:0.4, learn:1.0, fill:1.15, carpetLoss:1.8,
   crate:false, door:178, doorLeft:true, inX:250, range:[215,680],
   potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612,
@@ -390,8 +411,8 @@ LEVELS.friend = {
   ]
 };
 function isOutside(L, x){ return L.door != null && (L.doorLeft ? x < L.door + 10 : x > L.door - 10); }
-const GAIN = {poop:{perfect:18, good:14, late:2}, pee:{perfect:11, good:9, late:1}};
-const LOSS = {poop:10, pee:6};
+// needs are set per game minute; the 2-minute day runs the clock faster, so scale them down
+const NS = 0.714;
 
 function mulberry32(a){
   return function(){
@@ -418,7 +439,7 @@ function makeGame(key, seed){
     key, L, rnd, t: L.dayStart, now: 0,
     x: L.bed, dir: 1, mode: 'sleep', timer: 0, tx: null, goal: null,
     bladder: 64, bowel: 0, bowelDueAt: L.dayStart + 40,
-    H: 0, shy: 0, piles: [], nextPile: 1,
+    lessons: 0, learned: false, fast: false, wasted: 0, shy: 0, piles: [], nextPile: 1,
     window: null, carry: null, interrupted: false, selfFlag: false, squatKind: null,
     scoldUntil: -1, treatCool: -1, intent: false, holdForHide: false,
     inCrate: false, crateWhined: false, silent: false, sniffT: 0, squatStart: 0,
@@ -430,9 +451,8 @@ function makeGame(key, seed){
     over: false, won: false, events: []
   };
 }
-function addH(g, d){
-  g.H = clamp(g.H + d, 0, 100);
-  if (g.H >= 100 && !g.over){ g.over = true; g.won = true; emit(g, 'win'); }
+function loseLesson(g, why){
+  if (g.lessons > 0 && !g.learned){ g.lessons--; emit(g, 'lostLesson', {why}); }
 }
 function moveTo(g, tx, spd, dt){
   const dx = tx - g.x;
@@ -443,13 +463,14 @@ function goTo(g, x, goal){ g.mode = 'walkTo'; g.tx = x; g.goal = goal; }
 
 function chooseIntent(g){
   const L = g.L;
+  if (g.learned){ g.fast = false; goTo(g, L.pottyX + g.rnd()*30 - 15, 'potty'); return; }
   if (g.shy > 0){ goTo(g, L.hide, 'hide'); g.holdForHide = false; return; }
   const stale = g.piles.filter(p => !p.potty && !p.inCrate);
   if (stale.length && g.rnd() < 0.55){
     const p = stale[Math.floor(g.rnd()*stale.length)];
     goTo(g, clamp(p.x + g.rnd()*20 - 10, -40, 840), 'pile'); return;
   }
-  if (g.rnd() < 0.95 * g.H / 100){
+  if (g.rnd() < 0.6 * g.lessons / L.lessons){
     if (L.door) goTo(g, L.door + (L.doorLeft ? 14 : -14), 'door');
     else goTo(g, L.pottyX + g.rnd()*40 - 20, 'potty');
   }
@@ -483,41 +504,58 @@ function produce(g){
   const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now};
   if (z.potty){
     pile.fadeAt = g.now + 3.6; g.piles.push(pile);
-    g.stats.ok++; if (self) g.stats.self++;
+    g.stats.ok++; if (self) g.stats.self++; g.wasted = 0;
     if (!g.distOn && g.stats.ok >= 2){ g.distOn = true; g.nextDistAt = g.now + 8; }
-    g.window = {start: g.now, kind, self};
+    g.window = {start: g.now, kind, self, demo: g.learned};
     g.mode = 'happy'; g.timer = 1.4; g.tx = clamp(px + (px > 400 ? -150 : 150), 20, 780);
     emit(g, 'success', {kind, self});
   } else {
-    const repeat = g.piles.some(p => !p.potty && Math.abs(p.x - px) < 60);
-    g.piles.push(pile); g.stats.acc++;
+    // a new accident on an uncleaned one piles up on top of it
+    const old = g.piles.find(p => !p.potty && !p.inCrate && !inCrate && p.kind === kind && Math.abs(p.x - px) < 60);
+    const repeat = !!old;
+    if (old){ old.stack = (old.stack || 1) + 1; old.rev = (old.rev || 0) + 1; }
+    else { pile.stack = 1; g.piles.push(pile); }
+    g.stats.acc++; if (z.carpet) g.stats.carpet = (g.stats.carpet || 0) + 1;
     g.scoldUntil = g.now + 3;
     g.inCrate = false; g.mode = 'oops'; g.timer = 1.2;
     g.tx = inCrate ? g.x + 90 : clamp(px + (px > 400 ? -150 : 150), 20, 780);
-    emit(g, 'accident', {kind, place: z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet});
-    addH(g, -(LOSS[kind] + (repeat ? 3 : 0)) * (z.carpet ? (L.carpetLoss || 1) : 1));
+    emit(g, 'accident', {kind, place: z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet, stack: old ? old.stack : 1});
+    if (repeat) loseLesson(g, 'repeat');
+    else if (z.carpet) loseLesson(g, 'carpet');
   }
 }
 function applyReward(g, q){
   const w = g.window; if (!w) return; g.window = null;
-  const gain = Math.round((GAIN[w.kind][q] + (w.self && q !== 'late' ? 4 : 0)) * g.L.learn);
   if (q !== 'late'){ g.shy = Math.max(0, g.shy - 1); g.stats.treats++; }
   if (q === 'perfect') g.stats.perfect++;
-  emit(g, 'reward', {q, kind: w.kind, gain, self: w.self});
-  addH(g, gain);
+  emit(g, 'reward', {q, kind: w.kind, self: w.self, demo: w.demo});
+  if (w.demo){ g.over = true; g.won = true; emit(g, 'win'); return; }
+  if (q !== 'late' && !g.learned){
+    g.lessons++;
+    emit(g, 'lesson', {n: g.lessons, of: g.L.lessons});
+    if (g.lessons >= g.L.lessons){
+      // she's got it: now watch her do it by herself
+      g.learned = true; g.fast = true; g.shy = 0; g.distOn = false; g.distraction = null; g.intent = false;
+      // no more naps or meals: straight to the demonstration
+      g.napsDone = g.napsDone.map(() => true); g.mealsDone = g.mealsDone.map(() => true);
+      g.bladder = Math.max(g.bladder, g.L.sniff - 25);
+      g.stats.learnedAt = g.t;
+      emit(g, 'learned');
+    }
+  }
 }
 
 function step(g, dt){
   if (g.over) return;
   const L = g.L;
   g.now += dt;
-  const dm = dt * L.rate;
+  const dm = dt * L.rate * (g.fast ? 2.5 : 1);
   g.t += dm;
   const asleep = g.mode === 'sleep';
-  if (asleep) g.bladder = Math.min(92, g.bladder + 0.22*dm);
-  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * dm * (L.fill || 1);
-  if (g.t >= g.bowelDueAt) g.bowel = asleep ? Math.min(85, g.bowel + 0.4*dm) : g.bowel + 1.6*dm;
-  if (g.window && g.now - g.window.start > 3) applyReward(g, 'late');
+  if (asleep) g.bladder = Math.min(92, g.bladder + 0.22*NS*dm);
+  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * NS * dm * (L.fill || 1);
+  if (g.t >= g.bowelDueAt) g.bowel = asleep ? Math.min(85, g.bowel + 0.4*NS*dm) : g.bowel + 1.6*NS*dm;
+  if (g.window && g.now - g.window.start > L.window) applyReward(g, 'late');
   if (g.distraction){
     const d = g.distraction; d.t += dt;
     if (d.kind === 'butterfly') d.x = d.x0 + Math.sin(d.t*1.3)*55;
@@ -525,7 +563,7 @@ function step(g, dt){
   } else if (g.distOn && g.now >= g.nextDistAt && g.mode !== 'squat') spawnDistraction(g);
   g.piles = g.piles.filter(p => !(p.potty && g.now > p.fadeAt));
   if (g.over) return;
-  if (g.t >= L.dayEnd){ g.over = true; g.won = false; emit(g, 'bedtime'); return; }
+  if (g.t >= L.dayEnd){ g.over = true; g.won = g.learned; emit(g, g.learned ? 'win' : 'bedtime'); return; }
 
   // waking
   if (g.mode === 'sleep'){
@@ -561,7 +599,7 @@ function step(g, dt){
     if (z.done) continue;
     if (g.t > z.at + 60){ z.done = true; continue; }
     if (g.t >= z.at && g.mode === 'wander' && signLevel(g) < L.sniff){
-      z.done = true; g.mode = 'zoom'; g.zoomUntil = g.t + 12; emit(g, 'zoom');
+      z.done = true; g.mode = 'zoom'; g.zoomUntil = g.t + 17; emit(g, 'zoom');
     }
   }
 
@@ -570,7 +608,7 @@ function step(g, dt){
     g.intent = true;
     if (g.mode === 'zoom'){ g.mode = 'wander'; g.tx = null; }
     // sometimes she gives no warning at all (more often indoors)
-    g.silent = g.rnd() < L.silent;
+    g.silent = !g.learned && g.rnd() < L.silent;
     chooseIntent(g);
     if (g.mode === 'walkTo' && (g.goal === 'door' || g.goal === 'potty')) g.silent = false;
     if (signsVisible(g)) emit(g, 'signs');
@@ -603,7 +641,7 @@ function step(g, dt){
       g.timer -= dt;
       if (g.timer <= 0){
         g.bladder += 10;
-        if (!(g.t >= g.bowelDueAt)) g.bowelDueAt = Math.min(g.bowelDueAt, g.t + 15 + g.rnd()*12);
+        if (!(g.t >= g.bowelDueAt)) g.bowelDueAt = Math.min(g.bowelDueAt, g.t + 21 + g.rnd()*17);
         g.mode = 'wander'; g.tx = null; g.timer = 0.5; emit(g, 'ate');
       }
       break;
@@ -637,7 +675,8 @@ function step(g, dt){
         g.interrupted = false;
         if (potty){
           // a wasted trip: she played at her spot, and it feels a little less like a toilet
-          g.selfFlag = false; emit(g, 'notyet', {distracted: !!distracted}); addH(g, -1.5);
+          g.selfFlag = false; emit(g, 'notyet', {distracted: !!distracted});
+          if (++g.wasted >= 3){ g.wasted = 0; loseLesson(g, 'playground'); }
         }
         if (isOutside(L, g.x)) goTo(g, L.inX, 'in');
         else { g.mode = 'wander'; g.tx = null; g.timer = 0.2; }
@@ -684,7 +723,12 @@ function steer(g, x){
 }
 function treat(g){
   if (g.over) return;
-  if (g.window){ applyReward(g, (g.now - g.window.start) <= 1.5 ? 'perfect' : 'good'); return; }
+  if (g.window){ applyReward(g, (g.now - g.window.start) <= g.L.perfect ? 'perfect' : 'good'); return; }
+  if (g.mode === 'squat' && !g.inCrate && zoneAt(g.L, g.x).potty && g.timer <= 0.5){
+    // a hair early counts as perfect
+    produce(g); applyReward(g, 'perfect'); return;
+  }
+  if (g.mode === 'squat' && !g.inCrate && zoneAt(g.L, g.x).potty && g.L.forgiveEarly){ emit(g, 'wait'); return; }
   if (g.mode === 'squat' && !g.inCrate && zoneAt(g.L, g.x).potty){
     // she jumps up for the treat before she's finished: half done, and the treat taught her nothing
     const kind = g.squatKind;
@@ -699,15 +743,15 @@ function treat(g){
   if (g.now < g.treatCool) return;
   g.treatCool = g.now + 1.5;
   emit(g, 'confused');
-  addH(g, -2);
 }
 function scold(g){
   if (g.over) return;
-  if (g.now < g.scoldUntil){ g.shy = 2; g.scoldUntil = -1; emit(g, 'scoldAfter'); addH(g, -4); return; }
+  g.stats.scold = (g.stats.scold || 0) + 1;
+  if (g.now < g.scoldUntil){ g.shy = 2; g.scoldUntil = -1; emit(g, 'scoldAfter'); loseLesson(g, 'scold'); return; }
   if (g.mode === 'squat' && !g.inCrate && !zoneAt(g.L, g.x).potty){
-    g.shy = 2; goTo(g, g.L.hide, 'hide'); g.holdForHide = true; emit(g, 'scoldDuring'); addH(g, -4); return;
+    g.shy = 2; goTo(g, g.L.hide, 'hide'); g.holdForHide = true; emit(g, 'scoldDuring'); loseLesson(g, 'scold'); return;
   }
-  g.shy = Math.max(g.shy, 1); emit(g, 'scoldRandom'); addH(g, -2);
+  g.shy = Math.max(g.shy, 1); emit(g, 'scoldRandom'); loseLesson(g, 'scold');
 }
 function shoo(g){
   if (!g.distraction || g.over) return;
@@ -768,17 +812,40 @@ function clean(g, id){
     gn.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
     o.connect(gn); gn.connect(master); o.start(t0); o.stop(t0 + d + 0.05);
   }
+  let noiseBuf = null;
+  function noise(d, when, vol, f0, f1, q){
+    if (!sound) return; const a = actx(); if (!a) return;
+    if (!noiseBuf){ noiseBuf = a.createBuffer(1, a.sampleRate, a.sampleRate); const ch = noiseBuf.getChannelData(0); for (let i = 0; i < ch.length; i++) ch[i] = Math.random()*2 - 1; }
+    const src = a.createBufferSource(), f = a.createBiquadFilter(), gn = a.createGain(), t0 = a.currentTime + 0.01 + (when || 0);
+    src.buffer = noiseBuf; f.type = 'bandpass'; f.Q.value = q || 1.2;
+    f.frequency.setValueAtTime(f0, t0); if (f1) f.frequency.exponentialRampToValueAtTime(f1, t0 + d);
+    const v = Math.min(1, (vol || 0.3) * 2.2);
+    gn.gain.setValueAtTime(0.0001, t0); gn.gain.exponentialRampToValueAtTime(v, t0 + 0.01); gn.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+    src.connect(f); f.connect(gn); gn.connect(master); src.start(t0); src.stop(t0 + d + 0.05);
+  }
   const SFX = {
-    win(){ [523,659,784,1047].forEach((f,i) => tone(f, .22, 'triangle', i*.09, .2)); },
-    perfect(){ [784,988,1175,1568].forEach((f,i) => tone(f, .16, 'triangle', i*.06, .18)); tone(2093,.3,'sine',.3,.08); },
-    good(){ [659,784].forEach((f,i) => tone(f, .18, 'triangle', i*.08, .18)); },
-    bad(){ tone(392,.32,'sawtooth',0,.12,330); tone(330,.32,'sawtooth',.3,.12,262); tone(262,.6,'sawtooth',.6,.12,196); },
-    plop(){ tone(220,.18,'sine',0,.25,90); },
-    tinkle(){ [1200,1400,1300,1500].forEach((f,i) => tone(f,.07,'sine',i*.07,.06)); },
-    whoosh(){ tone(300,.25,'triangle',0,.08,700); },
-    meh(){ tone(330,.18,'square',0,.06,300); },
-    wipe(){ tone(900,.12,'sine',0,.05,1400); tone(1100,.12,'sine',.1,.05,1600); }
+    win(){ [523,659,784,1047,784,1047,1319].forEach((f,i) => tone(f, i < 4 ? .2 : .3, 'triangle', i*.11, .22)); },
+    learned(){ [392,523,659,784,1047].forEach((f,i) => tone(f, .25, 'square', i*.12, .12)); [1047,1319,1568].forEach((f,i) => tone(f, .6, 'triangle', .65 + i*.04, .14)); },
+    lesson(){ [784,988,1319].forEach((f,i) => tone(f, .16, 'triangle', i*.07, .2)); },
+    lostLesson(){ tone(523,.2,'triangle',0,.18,392); tone(392,.3,'triangle',.18,.18,262); },
+    perfect(){ [784,988,1175,1568].forEach((f,i) => tone(f, .14, 'triangle', i*.06, .18)); },
+    good(){ [659,784].forEach((f,i) => tone(f, .16, 'triangle', i*.08, .18)); },
+    bad(){ tone(392,.3,'sawtooth',.25,.13,330); tone(330,.3,'sawtooth',.55,.13,262); tone(262,.6,'sawtooth',.85,.13,196); },
+    // she relieves herself
+    plop(){ noise(.12, 0, .35, 300, 120, 2); tone(260,.22,'sine',0.02,.4,70); tone(180,.25,'sine',.28,.35,60); noise(.1,.28,.25,250,100,2); },
+    trickle(){ for (let i = 0; i < 9; i++) tone(1400 + Math.random()*900, .06, 'sine', i*.08, .07); noise(.8, 0, .12, 3000, 2500, 1.5); },
+    squelch(){ noise(.35, 0, .45, 500, 120, 3); tone(140,.35,'sawtooth',0,.12,60); },
+    crunch(){ for (let i = 0; i < 4; i++) noise(.05, i*.07, .35, 1800, 900, .8); },
+    bark(){ tone(520,.09,'square',0,.13,380); tone(560,.09,'square',.13,.13,400); },
+    woof(){ tone(300,.12,'square',0,.14,220); tone(320,.12,'square',.18,.14,230); },
+    hiss(){ noise(.45, 0, .3, 5000, 3000, .6); },
+    whine(){ tone(900,.5,'sine',0,.12,1300); tone(1300,.4,'sine',.5,.1,800); },
+    yawn(){ tone(500,.6,'triangle',0,.12,220); },
+    whoosh(){ noise(.25, 0, .2, 600, 2400, .8); },
+    meh(){ tone(330,.18,'square',0,.07,300); },
+    wipe(){ noise(.2, 0, .2, 4000, 6000, .7); noise(.2, .18, .2, 4500, 7000, .7); }
   };
+
 
   // ---------- poppy, side view (built once, reused) ----------
   function poppySVG(){
@@ -1081,15 +1148,26 @@ function clean(g, id){
     if (p.potty && !p.small){
       inner += `<g class="rays" style="transform-origin:0px -40px"><g fill="#ffd43b" opacity=".55">${[0,45,90,135,180,225,270,315].map(a => `<path d="M0 -40 L -10 -130 L 10 -130 Z" transform="rotate(${a} 0 -40)"/>`).join('')}</g></g>`;
     }
-    inner += `<use href="#${p.kind === 'poop' ? 'poop' : 'puddle'}"/>`;
+    const n = p.stack || 1;
+    let top = 0;
+    if (p.kind === 'poop'){
+      // each new one lands on top of the last: a growing tower
+      for (let i = 0; i < n; i++){
+        const sc2 = Math.max(0.6, 1 - i*0.12), y = -i*62;
+        inner += `<g transform="translate(${(i % 2 ? 6 : -4)},${y}) scale(${sc2})"><use href="#poop"/></g>`;
+        top = y - 92*sc2;
+      }
+    } else {
+      inner += `<g transform="scale(${1 + (n-1)*0.55},1)"><use href="#puddle"/></g>`; top = -14;
+    }
     if (!p.potty){
-      inner += `<g class="stink" stroke="#7fb03a" stroke-width="5" fill="none" stroke-linecap="round">
-        <path d="M-22 -${p.kind==='poop'?96:26} q -8 -10 0 -20 q 8 -10 0 -20"/>
-        <path d="M0 -${p.kind==='poop'?104:30} q -8 -10 0 -20 q 8 -10 0 -20"/>
-        <path d="M22 -${p.kind==='poop'?96:26} q -8 -10 0 -20 q 8 -10 0 -20"/></g>`;
-      if (p.kind === 'poop') inner += `<g transform="translate(0,-70)"><g class="fly"><g transform="translate(40,0)"><ellipse rx="4" ry="3" fill="#222"/><ellipse cx="-2" cy="-4" rx="4" ry="2.5" fill="#cfe9ff" opacity=".8"/></g></g></g>
-        <g transform="translate(-6,-58)"><g class="fly f2"><g transform="translate(30,0)"><ellipse rx="3.5" ry="2.6" fill="#222"/><ellipse cx="-2" cy="-4" rx="3.5" ry="2.2" fill="#cfe9ff" opacity=".8"/></g></g></g>`;
-      inner += `<rect x="-60" y="-130" width="120" height="140" fill="transparent"/>`;
+      const st = Math.min(5, 2 + n);
+      inner += `<g class="stink" stroke="#7fb03a" stroke-width="${4 + n}" fill="none" stroke-linecap="round">`;
+      for (let i = 0; i < st; i++){ const sx = (i - (st-1)/2) * 22; inner += `<path d="M${sx} ${top - 6 - (i%2)*8} q -8 -10 0 -20 q 8 -10 0 -20"/>`; }
+      inner += `</g>`;
+      if (p.kind === 'poop') for (let k = 0; k < Math.min(3, n); k++) inner += `<g transform="translate(${k*14 - 14},${top + 20 - k*24})"><g class="fly"><g transform="translate(40,0)"><ellipse rx="4" ry="3" fill="#222"/><ellipse cx="-2" cy="-4" rx="4" ry="2.5" fill="#cfe9ff" opacity=".8"/></g></g></g>
+        <g transform="translate(-6,${top + 34 - k*20})"><g class="fly f2"><g transform="translate(30,0)"><ellipse rx="3.5" ry="2.6" fill="#222"/><ellipse cx="-2" cy="-4" rx="3.5" ry="2.2" fill="#cfe9ff" opacity=".8"/></g></g></g>`;
+      inner += `<rect x="-70" y="${top - 50}" width="140" height="${-top + 60}" fill="transparent"/>`;
     }
     el.innerHTML = inner;
     if (!p.potty){
@@ -1111,8 +1189,10 @@ function clean(g, id){
       }
     }
     for (const p of g.piles){
+      const el0 = pileEls.get(p.id);
+      if (el0 && el0.dataset.rev !== String(p.rev || 0)){ el0.remove(); pileEls.delete(p.id); }
       if (!pileEls.has(p.id)){
-        const el = pileSVG(p);
+        const el = pileSVG(p); el.dataset.rev = String(p.rev || 0);
         if (p.inCrate) P.piles.parentNode.insertBefore(el, P.crateFront);
         else P.piles.appendChild(el);
         pileEls.set(p.id, el);
@@ -1223,21 +1303,25 @@ function clean(g, id){
   // ---------- HUD ----------
   function fmt(t){ const h = Math.floor(t/60), m = Math.floor(t%60); return h + ':' + String(m).padStart(2,'0'); }
   let lastH = 0;
+  const PAW = '<svg viewBox="-16 -16 32 32"><ellipse cx="0" cy="5" rx="8" ry="6.5"/><circle cx="-9" cy="-4" r="3.6"/><circle cx="-3" cy="-9" r="3.6"/><circle cx="4" cy="-9" r="3.6"/><circle cx="10" cy="-4" r="3.6"/></svg>';
+  function buildPaws(){ $('paws').innerHTML = Array.from({length: g.L.lessons}, () => `<span class="paw">${PAW}</span>`).join(''); }
   function renderHud(){
     $('clock').textContent = fmt(g.t);
     $('clockIcon').textContent = g.t > 18*60 ? '🌙' : '☀️';
-    const h = Math.round(g.H);
-    $('barFill').style.width = h + '%';
-    $('barFill').classList.toggle('down', g.H < lastH - 0.5);
-    if (Math.abs(g.H - lastH) > 0.5) lastH = g.H;
-    $('pct').textContent = h + '%';
+    const paws = $('paws').children;
+    for (let i = 0; i < paws.length; i++){
+      const on = i < g.lessons;
+      if (on && !paws[i].classList.contains('on')){ paws[i].classList.add('on','pop'); setTimeout(((p) => () => p.classList.remove('pop'))(paws[i]), 700); }
+      if (!on && paws[i].classList.contains('on')){ paws[i].classList.remove('on'); paws[i].classList.add('lost'); setTimeout(((p) => () => p.classList.remove('lost'))(paws[i]), 700); }
+    }
+    $('fastTag').style.display = g.fast ? '' : 'none';
     const tb = $('treatBtn');
     if (g.window){
-      const left = Math.max(0, 1 - (g.now - g.window.start)/3);
+      const left = Math.max(0, 1 - (g.now - g.window.start)/g.L.window);
       tb.classList.add('now');
       $('treatLeft').style.width = (left*100) + '%';
       $('treatSub').textContent = 'NOW!';
-    } else { tb.classList.remove('now'); $('treatSub').textContent = 'for the right spot'; }
+    } else { tb.classList.remove('now'); $('treatSub').textContent = 'modern'; }
     const cb = $('crateBtn');
     cb.classList.toggle('hidden', !g.L.crate);
     $('crateSub').textContent = g.inCrate ? 'let her out' : 'put her in';
@@ -1274,12 +1358,19 @@ function clean(g, id){
     }
   }
   const pick = a => a[Math.floor(Math.random()*a.length)];
+  // comic burst over her head when she's done
+  function ahh(text, x, bad){
+    const b = document.createElement('div'); b.className = 'ahh' + (bad ? ' bad' : ''); b.textContent = text;
+    b.style.left = clamp(x/800*100, 14, 86) + '%'; b.style.top = ((GY - 128)/420*100) + '%';
+    $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 1600);
+  }
 
   function handleEvents(){
     const evs = g.events.splice(0);
     for (const e of evs){
       switch (e.type){
         case 'wake':
+          SFX.yawn();
           say(e.morning ? '<b>Yawn!</b> Good morning! I really, really need to go…' + tip('wake', '(Puppies need to go right after waking up. Tap her spot!)')
                         : '<b>Yawn!</b> I\'m awake!' + tip('wake', '(Right after a nap: time to go out.)'));
           break;
@@ -1289,8 +1380,8 @@ function clean(g, id){
         case 'zoomEnd': say('Phew.' + tip('zoom', '(After playing, she often needs to pee.)')); break;
         case 'nap': say(e.crate ? 'Zzz… (in her crate)' : 'I\'m sleepy. Zzz…'); break;
         case 'signs': if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
-        case 'door': say('<b>Whine!</b> She\'s sitting at the door, asking to go out! Send her to her spot!'); break;
-        case 'selfSpot': say('She went to <b>her corner</b> all by herself!'); break;
+        case 'door': SFX.whine(); say('<b>Whine!</b> She\'s sitting at the door, asking to go out! Send her to her spot!'); break;
+        case 'selfSpot': say(g.learned ? '<b>Look!</b> Off to her spot, all by herself!' : 'She went to <b>her spot</b> all by herself!'); break;
         case 'led': {
           const toSpot = zoneAt(g.L, e.x).potty;
           if (toSpot && (signsVisible(g) || need(g) > 50)){ SFX.whoosh(); say(pick(['Off to your spot!','Run, Poppy, run!','Quick, quick!'])); }
@@ -1304,22 +1395,46 @@ function clean(g, id){
         case 'comeIn': say('Nothing. She trots back inside.'); break;
         case 'squat': break;
         case 'success':
+          ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!','Ahhhh!']) : pick(['Ahhh!','Aaah!']), g.x);
           if (e.kind === 'poop'){ SFX.plop(); banner(pick(['WHAT A POOP!','MAGNIFICENT!','RIGHT SPOT!']), 'good'); flash('good'); confetti(40); }
-          else { SFX.tinkle(); banner('RIGHT SPOT!', 'mid'); }
+          else { SFX.trickle(); banner('RIGHT SPOT!', 'mid'); }
           say(`${e.kind === 'poop' ? 'A <b>huge</b> one,' : 'A good pee,'} in exactly the right spot. <b>Treat! Now!</b>`);
           break;
         case 'reward':
-          if (e.q === 'perfect'){ SFX.perfect(); say(`<b>Perfect timing!</b> She'll remember that. ${e.self ? 'And she went there by herself!' : ''}`); if (e.kind === 'poop') banner('GOOD GIRL!', 'good'); }
-          else if (e.q === 'good'){ SFX.good(); say('<b>Good girl!</b>' + tip('good', '(Even faster next time: the treat must come the moment she finishes.)')); }
-          else { SFX.meh(); say('No treat in time… <i>She\'ll learn more slowly.</i>'); }
+          if (e.q !== 'late'){ SFX.crunch(); setTimeout(SFX.bark, 260); }
+          if (e.demo){ say(e.q === 'late' ? 'All by herself. <b>She\'s got it.</b>' : '<b>Good girl!</b> All by herself. <b>She\'s got it.</b>'); break; }
+          if (e.q === 'perfect'){ setTimeout(SFX.perfect, 450); say(`<b>Perfect timing!</b> ${e.self ? 'And she went there by herself!' : ''}`); if (e.kind === 'poop') banner('GOOD GIRL!', 'good'); }
+          else if (e.q === 'good'){ setTimeout(SFX.good, 450); say('<b>Good girl!</b>' + tip('good', '(Even faster next time: the treat should come the moment she says "Ahhh!".)')); }
+          else { SFX.meh(); say('No treat in time… <i>so no lesson. The treat has to come right away.</i>'); }
+          break;
+        case 'lesson':
+          if (e.n < e.of){ setTimeout(SFX.lesson, 700); sayEl.innerHTML += ` <b>Lesson ${e.n} of ${e.of}!</b>`; }
+          break;
+        case 'lostLesson':
+          SFX.lostLesson();
+          sayEl.innerHTML += ' <b>She forgot a lesson.</b> ' + ({
+            scold: '<i>(Scolding teaches fear, not where to go.)</i>',
+            repeat: '<i>(That spot smells like a toilet to her now. Clean it!)</i>',
+            carpet: '<i>(Now she thinks the carpet might be fine.)</i>',
+            playground: '<i>(Too many trips for nothing: her spot is turning into a playground.)</i>'
+          }[e.why] || '');
+          break;
+        case 'learned':
+          setTimeout(() => {
+            SFX.learned(); setTimeout(() => confetti(120), 1500);
+            banner('POPPY HAS LEARNED WHERE TO GO!', 'good huge');
+            say('<b>She\'s got it!</b> Now watch: next time, she\'ll go to her spot <b>all by herself</b>. Be ready with the treat!');
+          }, 900);
           break;
         case 'accident': {
-          SFX.bad();
+          ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!']) : 'Aaah!', g.x, true);
+          SFX.squelch(); SFX.bad();
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
           if (e.hidden){ say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
           banner(e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? 'OH NO!' : 'OOPS!', 'bad');
-          const what = e.kind === 'poop' ? 'A massive one' : 'A puddle';
+          const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one' : 'A massive one') : (e.stack > 1 ? 'Another puddle' : 'A puddle');
+          if (e.stack > 1) banner(e.kind === 'poop' ? `IT'S PILING UP! ×${e.stack}` : 'IT\'S SPREADING!', 'bad');
           say(`<b>${what} on ${e.place}.</b>${e.repeat ? ' Right where it smelled like toilet.' : ''}` + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
           break;
         }
@@ -1327,12 +1442,14 @@ function clean(g, id){
         case 'scoldDuring': say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
         case 'scoldRandom': say('Poppy flinches. She has no idea why you\'re cross.'); break;
         case 'confused': SFX.meh(); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
+        case 'wait': say('<b>Wait!</b> She\'s not done yet. <i>Treat when she says "Ahhh!".</i>'); break;
         case 'early': SFX.meh(); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
         case 'dist':
+          if (e.kind === 'cat') SFX.woof();
           say(e.kind === 'cat' ? 'A <b>cat</b> on the fence! Poppy won\'t be able to think of anything else. <i>Tap the cat to shoo it.</i>'
                                : 'A <b>butterfly</b>! Poppy will want to chase it. <i>Tap it to shoo it away.</i>');
           break;
-        case 'shoo': SFX.whoosh(); say(e.kind === 'cat' ? '<b>Shoo!</b> The cat is gone.' : '<b>Shoo!</b> The butterfly flutters off.'); break;
+        case 'shoo': if (e.kind === 'cat') SFX.hiss(); else SFX.whoosh(); say(e.kind === 'cat' ? '<b>Shoo!</b> The cat is gone.' : '<b>Shoo!</b> The butterfly flutters off.'); break;
         case 'distGone': break;
         case 'clean': say('All clean. <i>No smell left to call her back.</i>'); break;
         case 'asleep': say('Shh. She\'s asleep.'); break;
@@ -1341,7 +1458,7 @@ function clean(g, id){
         case 'crateOut': break;
         case 'crateNo': say('Not now.'); break;
         case 'crateMeal': say('Dinner time, so out of the crate she comes.'); break;
-        case 'crateWhine': say('<b>Whimper!</b> She needs to go! She won\'t hold on forever.'); break;
+        case 'crateWhine': SFX.whine(); say('<b>Whimper!</b> She needs to go! She won\'t hold on forever.'); break;
         case 'win': setTimeout(finish, 1300); break;
         case 'bedtime': setTimeout(finish, 300); break;
       }
@@ -1366,7 +1483,7 @@ function clean(g, id){
     $('levelName').textContent = g.L.name;
     landing.style.display = 'none'; ending.style.display = 'none';
     gameEl.style.display = 'flex';
-    buildScene(); buildTimeline();
+    buildScene(); buildTimeline(); buildPaws();
     say(key === 'garden'
       ? 'Poppy is still asleep in her basket. When she wakes up, <b>tap her spot</b> (the sandy corner) and she\'ll run there.'
       : key === 'house' ? 'Poppy is asleep on the rug. Her spot is outside, through the door on the right. <b>Tap anywhere</b> to send her somewhere.'
@@ -1377,18 +1494,20 @@ function clean(g, id){
   function finish(){
     const s = g.stats;
     let stars = 0;
-    if (g.won) stars = s.acc <= 1 ? 3 : s.acc <= 3 ? 2 : 1;
+    if (g.won) stars = s.acc === 0 ? 3 : s.acc <= 2 ? 2 : 1;
     if (g.won){
       $('endTitle').textContent = 'Poppy is house\u2011trained!';
-      $('endText').innerHTML = `By <b>${fmt(g.t)}</b> she knew where to go${g.key === 'house' ? ', even indoors' : g.key === 'friend' ? ', even at your friend\'s' : ''}.`
-        + (g.key === 'friend' && g.stats.acc === 0 ? ' And the carpet is spotless.' : '');
+      $('endText').innerHTML = `She learned where to go by <b>${fmt(s.learnedAt || g.t)}</b>${g.key === 'house' ? ', even indoors' : g.key === 'friend' ? ', even at your friend\'s' : ''}.`
+        + (g.key === 'friend' && !s.carpet ? ' And the carpet is spotless.' : '')
+        + (s.scold ? ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. She learned anyway, but not from that.</i>` : '');
       SFX.win(); confetti(90);
     } else {
       $('endTitle').textContent = 'Bedtime. Zzz…';
-      $('endText').innerHTML = `Poppy is <b>${Math.round(g.H)}%</b> house-trained. Tomorrow is another day.`;
+      $('endText').innerHTML = `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons today. Tomorrow is another day.`
+        + (s.scold ? ` <i>Try it without "No!": scolding only teaches her to hide.</i>` : '');
     }
     $('endStars').innerHTML = g.won ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
-    $('endStats').innerHTML = `<span>Right spot <b>${s.ok}</b></span><span>Accidents <b>${s.acc}</b></span><span>Perfect treats <b>${s.perfect}</b></span>${s.early ? `<span>Too-early treats <b>${s.early}</b></span>` : ''}`;
+    $('endStats').innerHTML = `<span>Right spot <b>${s.ok}</b></span><span>Accidents <b>${s.acc}</b></span><span>Perfect treats <b>${s.perfect}</b></span>${s.early ? `<span>Too-early treats <b>${s.early}</b></span>` : ''}${s.scold ? `<span>"No!" <b>${s.scold}</b></span>` : ''}`;
     const order = ['garden','house','friend'], i = order.indexOf(g.key);
     nextKey = g.won && i < 2 ? order[i+1] : null;
     $('otherBtn').textContent = 'Next level';
