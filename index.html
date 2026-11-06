@@ -88,27 +88,11 @@
   .stamp.no{color:#c8312a; border-color:#c8312a; background:rgba(255,107,90,.08);}
   .stamp.big{font-size:clamp(24px,7.5vw,36px);}
   @keyframes stampIn{0%{transform:scale(2.4) rotate(-12deg); opacity:0;} 100%{transform:scale(1) rotate(-5deg); opacity:1;}}
-  .bigscore{font-family:'Fredoka',sans-serif; font-weight:700; font-size:54px; line-height:1; margin:10px 0 0; color:var(--accent);}
-  .bigscore small{font-size:18px; color:var(--muted); font-weight:600; margin-left:4px;}
-  .best{font-family:'Fredoka',sans-serif; font-weight:600; font-size:15px; color:var(--muted); margin:4px 0 2px;}
-  .best.new{color:#2f8a3a;}
-  details{margin:6px auto 0; max-width:300px; font-size:13px; color:var(--muted);}
-  details summary{cursor:pointer; font-family:'Fredoka',sans-serif; font-weight:600;}
   .score{width:100%; max-width:300px; margin:8px auto 2px; border-collapse:collapse; font-size:14px;}
   .score td{padding:3px 4px;}
   .score td:last-child{text-align:right; font-family:'Fredoka',sans-serif; font-weight:600;}
   .score tr.neg td:last-child{color:#c8312a;}
   .score tr.total td{border-top:2px solid #eadfcf; font-size:17px; padding-top:6px;}
-  .mess{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin:6px 0 2px;}
-  .mess .col{display:flex; flex-direction:column; align-items:center; font-size:12px; color:var(--muted); min-width:84px;}
-  .mess{align-items:flex-end;}
-  .mess svg{width:84px; height:110px;}
-  .mess .n{font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; color:var(--ink);}
-  .places{display:flex; flex-direction:column; gap:6px; margin:8px auto 4px; max-width:290px;}
-  .place{display:flex; justify-content:space-between; align-items:center; padding:7px 12px; border-radius:12px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;}
-  .place.ok{background:rgba(105,219,124,.18); color:#2f8a3a;}
-  .place.no{background:rgba(255,107,90,.12); color:#c8312a;}
-  .sub{font-size:13px; color:var(--muted); margin:10px 0 0; font-family:'Fredoka',sans-serif; font-weight:600; letter-spacing:.04em; text-transform:uppercase;}
   .stamps{display:flex; flex-direction:column; align-items:center; gap:2px; margin:8px 0;}
   .stamps .stamp{font-size:18px; margin:2px 0; animation-duration:.4s;}
   .dedication{font-family:'Fredoka',sans-serif; font-weight:500; font-size:19px; margin:20px 0 0;}
@@ -140,7 +124,6 @@
   @keyframes pawpop{0%{transform:scale(.3);} 60%{transform:scale(1.35);} 100%{transform:scale(1);}}
   @keyframes pawlost{0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px); background:#ffb3a8;} 75%{transform:translateX(6px);}}
   #fastTag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:14px; color:var(--accent);}
-  #shyTag{font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; color:#fff; background:#c8312a; padding:4px 10px; border-radius:999px; white-space:nowrap; animation:throb .6s ease-in-out infinite alternate;}
   .ahh{
     position:absolute; z-index:6; pointer-events:none; transform:translate(-50%,-100%) scale(.3); opacity:0;
     font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(18px,5.4vw,28px); color:#3f3a4a;
@@ -151,8 +134,7 @@
   }
   .ahh.bad{background:#ffe1dc;}
   @keyframes ahh{0%{opacity:0; transform:translate(-50%,-100%) scale(.3) rotate(-8deg);} 15%{opacity:1; transform:translate(-50%,-100%) scale(1.1) rotate(3deg);} 25%{transform:translate(-50%,-100%) scale(1) rotate(-2deg);} 80%{opacity:1;} 100%{opacity:0; transform:translate(-50%,-130%) scale(1);}}
-  .banner.long{font-size:clamp(19px,5.6vw,34px);}
-  .banner.huge{top:20%; width:86%; font-size:clamp(24px,7vw,44px); padding:14px 16px 16px; animation-duration:3.4s;}
+  .banner.huge{top:22%; white-space:normal; text-align:center; width:86%; line-height:1.05; font-size:clamp(26px,7.4vw,46px); padding:14px 16px 16px; animation-duration:3.4s;}
   #bar{flex:1; height:16px; background:#fff; border-radius:999px; box-shadow:inset 0 1px 3px rgba(0,0,0,.12); overflow:hidden; position:relative;}
   #barFill{height:100%; width:0%; background:linear-gradient(90deg,#8ad46a,#4fae57); border-radius:999px; transition:width .5s ease, background .3s;}
   #barFill.down{background:linear-gradient(90deg,#ff9a8a,#e2483a);}
@@ -169,8 +151,7 @@
   @keyframes flashGood{0%{opacity:0;} 15%{opacity:1; background:radial-gradient(circle at 80% 70%, rgba(255,230,120,.7), rgba(255,230,120,0) 60%);} 100%{opacity:0;}}
   .banner{
     position:absolute; left:50%; top:16%; transform:translate(-50%,0) scale(.4); z-index:5; pointer-events:none;
-    font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(24px,7.5vw,42px); white-space:normal; text-align:center;
-    width:max-content; max-width:90%; line-height:1.08;
+    font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(26px,8vw,44px); white-space:nowrap;
     color:#fff; padding:6px 20px 8px; border-radius:18px; opacity:0;
     animation:pop 1.9s cubic-bezier(.2,1.4,.4,1) forwards;
   }
@@ -215,9 +196,7 @@
   #bubble .text i{color:var(--muted);}
 
   /* controls */
-  #controls{width:100%; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; align-items:stretch;}
-  #crateBtn{grid-column:1 / -1; flex-direction:row; justify-content:center; gap:8px; padding:9px;}
-  #crateBtn.hidden{display:none;}
+  #controls{width:100%; display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:10px; margin-top:12px; align-items:center;}
   .ctl{
     border:none; border-radius:20px; padding:10px 6px; cursor:pointer; font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;
     background:#fff; color:var(--ink); box-shadow:0 4px 12px rgba(100,80,60,.14); display:flex; flex-direction:column; align-items:center; gap:2px;
@@ -225,9 +204,7 @@
   }
   .ctl:active{transform:scale(.94);}
   .ctl small{font-family:'Nunito',sans-serif; font-weight:600; font-size:11px; color:var(--muted);}
-  .ctl.no{color:#fff; font-size:22px; padding:12px 6px 10px; border-radius:24px; background:linear-gradient(135deg,#8c8798,#5f5a6e); box-shadow:0 8px 0 #45414f, 0 12px 24px rgba(60,50,80,.3);}
-  .ctl.no small{color:rgba(255,255,255,.85);}
-  .ctl.no .ico{font-size:26px; line-height:28px; height:28px;}
+  .ctl.no{color:#c8312a;}
   .ctl.hidden{visibility:hidden;}
   #treatBtn{
     position:relative; padding:12px 6px 10px; font-size:22px; border-radius:24px;
@@ -280,9 +257,8 @@
       <path d="M-4 -61 Q 2 -65 8 -65" stroke="#a8703a" stroke-width="4" fill="none" stroke-linecap="round"/>
     </g>
     <g id="puddle">
-      <path d="M-66 2 C -72 -10, -44 -18, -20 -14 C 0 -22, 44 -20, 60 -10 C 74 -2, 56 10, 24 9 C 6 14, -30 14, -44 10 C -58 12, -64 8, -66 2 Z" fill="#f4c21e" stroke="#b8860b" stroke-width="3.5"/>
-      <ellipse cx="-18" cy="-6" rx="20" ry="3.5" fill="#fff3b0" opacity=".9"/><ellipse cx="26" cy="-2" rx="10" ry="2.2" fill="#fff3b0" opacity=".8"/>
-      <circle cx="-74" cy="-4" r="4" fill="#f4c21e" stroke="#b8860b" stroke-width="2"/><circle cx="72" cy="2" r="3" fill="#f4c21e" stroke="#b8860b" stroke-width="2"/>
+      <path d="M-58 0 C -60 -10, -30 -14, -10 -12 C 10 -16, 50 -14, 58 -6 C 64 2, 40 8, 10 7 C -20 10, -56 8, -58 0 Z" fill="#f2d14b" stroke="#d8ae2c" stroke-width="3" opacity=".92"/>
+      <ellipse cx="-14" cy="-5" rx="16" ry="3" fill="#fff6c4" opacity=".8"/>
     </g>
     <g id="bone">
       <path d="M22 36 a10 10 0 1 1 10 -14 l36 0 a10 10 0 1 1 10 14 a10 10 0 1 1 -10 14 l-36 0 a10 10 0 1 1 -10 -14 z" fill="#ffe4b3" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -315,8 +291,8 @@
     <p><b>Tap anywhere</b> in the picture and Poppy runs there. When she <b>sniffs the ground</b> or <b>turns in circles</b>, she needs to go: tap her spot (the sandy patch with her sign) to send her there.</p>
     <p>When she says <b>"Ahhh!"</b> in the right spot: <b>TREAT</b>! Each well-timed treat is a lesson. Collect the paws and she's learned it.</p>
 
-    <h2 style="font-size:22px;margin:16px 0 0">Poppy's training</h2>
-    <p class="small" style="margin-top:2px">Three stages, in order. What she learns, and what she doesn't, comes with her to the next stage.</p>
+    <h2 style="font-size:22px;margin:16px 0 0">Poppy's first week</h2>
+    <p class="small" style="margin-top:2px">Three days, in order. What she learns, and what she doesn't, comes with her to the next day.</p>
     <div class="levels" id="weekCards"></div>
     <div id="weekBtns"></div>
     <button class="btn secondary small" id="helpBtn1">How puppies learn</button>
@@ -341,8 +317,9 @@
       <li><b>The old way: "No!"</b> She won't learn "not on the rug". She'll learn "not where you can see me", start hiding, and forget a lesson.</li>
       <li><b>Clean every accident.</b> If it still smells like a toilet, she'll use it as one.</li>
       <li><b>Ask with a bell</b> (in the house): a bell on the door rings every time she goes out. Soon she rings it herself when she needs to go.</li>
+      <li><b>The crate</b> (in the house): puppies hate to soil their bed, so she'll hold on in there. Not forever, though.</li>
     </ul>
-    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, she's learned it. Each stage is one day on the clock and takes two minutes. There are three stages, in order, and what she learns, and what she doesn't, carries over to the next.</p>
+    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, she's learned it. A whole day takes two minutes, and the week has three days, in order. What she learns, and what she doesn't, carries over to the next day.</p>
     <button class="btn" id="helpClose">Got it</button>
   </div>
 </div>
@@ -356,11 +333,10 @@
     <div id="endStamp"></div>
     <div class="stars" id="endStars"></div>
     <p id="endText"></p>
-    <div id="endMess"></div>
     <div id="endScore"></div>
     <div class="stat" id="endStats"></div>
     <div><button class="btn" id="nextBtn">Next day</button></div>
-    <div><button class="btn secondary small" id="newWeekBtn2"> Start again from stage 1</button></div>
+    <div><button class="btn secondary small" id="newWeekBtn2">Start a new week</button></div>
   </div>
 </div>
 
@@ -374,7 +350,6 @@
     <span class="lab">Lessons</span>
     <div id="paws"></div>
     <span id="fastTag" style="display:none">⏩ watch her!</span>
-    <span id="shyTag" style="display:none">😟 scared: she'll hide</span>
   </div>
   <div id="sceneWrap">
     <svg id="scene" viewBox="0 0 800 420" aria-label="Poppy's world"></svg>
@@ -386,14 +361,14 @@
     <div class="text" id="say"></div>
   </div>
   <div id="controls">
-    <button class="ctl no" id="noBtn"><span class="ico">☝️</span>NO!<small>old school</small></button>
+    <button class="ctl no" id="noBtn">No!<small>old school</small></button>
     <button class="ctl" id="treatBtn"><span id="treatRing"><i id="treatLeft"></i></span><svg viewBox="10 0 80 72"><use href="#bone"/></svg>TREAT<small id="treatSub">modern</small></button>
     <button class="ctl" id="crateBtn">Crate<small id="crateSub">put her in</small></button>
   </div>
   <div id="controls2">
     <button class="btn secondary small" id="helpBtn2">How puppies learn</button>
     <button class="btn secondary small" id="soundBtn">Sound: on</button>
-    <button class="btn secondary small" id="newWeekBtn">Start again</button>
+    <button class="btn secondary small" id="newWeekBtn">New week</button>
   </div>
   <footer><a href="https://steffenhuck.github.io/">steffen huck</a></footer>
 </div>
@@ -406,7 +381,7 @@ const NAPS  = [[9*60+15, 10*60+30], [13*60+15, 14*60+30], [15*60+50, 16*60+40]];
 const ZOOMS = [8*60+30, 11*60+30, 18*60+10];
 const LEVELS = {
   garden: {
-    key:'garden', name:'Poppy in your garden', warn:5.5, rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
+    key:'garden', name:'Poppy in your garden', rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
     sniff:60, circle:85, run:300, stay:4.5, silent:0.1, learn:1.15,
     crate:false, door:null, range:[30,600],
     potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142, day:1, learnedLine:'POPPY HAS LEARNED WHERE TO GO!',
@@ -420,9 +395,9 @@ const LEVELS = {
     ]
   },
   house: {
-    key:'house', name:'Poppy in your house', warn:5, inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
+    key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
     sniff:75, circle:92, run:230, stay:4.5, silent:0.35, learn:1.0,
-    crate:false, crateX:292, door:612, range:[90,585],
+    crate:true, crateX:292, door:612, range:[90,585],
     potty:[655,800], pottyX:728, outside:[672,785], hide:30, bed:160, bowl:452, day:2, bell:true, learnedLine:'POPPY HAS LEARNED TO ASK!',
     bad:[{x:240, name:'your slippers', banner:'NOT THE SLIPPERS!'}, {x:30, name:'the sofa', banner:'NOT THE SOFA!'}],
     zones:[
@@ -436,8 +411,8 @@ const LEVELS = {
   }
 };
 LEVELS.friend = {
-  key:'friend', name:"Poppy in your friend's house", warn:4.5, rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
-  sniff:80, circle:93, run:230, stay:4.5, silent:0.28, learn:1.0, fill:1.15, carpetLoss:1.8,
+  key:'friend', name:"Poppy in your friend's house", rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
+  sniff:80, circle:93, run:230, stay:4.5, silent:0.4, learn:1.0, fill:1.15, carpetLoss:1.8,
   crate:false, door:178, doorLeft:true, inX:250, range:[215,680],
   potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612, day:3, learnedLine:'POPPY FOUND HER WAY!',
   bad:[{x:548, name:"your friend's shoes", banner:'NOT THE SHOES!'}, {x:660, name:"the cat's bed", banner:"NOT THE CAT'S BED!"}],
@@ -467,8 +442,8 @@ function need(g){ return Math.max(g.bladder, g.bowel); }
 // signs start earlier for a poop: it comes on faster
 function signLevel(g){ return Math.max(g.bladder, g.bowel + 20); }
 function signsVisible(g){
-  return g.shy === 0 && signLevel(g) >= g.L.sniff &&
-    ['wander','walkTo','linger','atDoor','zoom','stay','led','toBowl','toBed','crate'].includes(g.mode) && !(g.mode === 'stay' && zoneAt(g.L, g.x).potty);
+  return g.shy === 0 && !g.silent && signLevel(g) >= g.L.sniff &&
+    ['wander','walkTo','linger','atDoor','zoom','stay','led'].includes(g.mode) && !(g.mode === 'stay' && zoneAt(g.L, g.x).potty);
 }
 function emit(g, type, data){ g.events.push(Object.assign({type}, data || {})); }
 
@@ -491,7 +466,7 @@ function makeGame0(key, seed){
     lessons: 0, learned: false, fast: false, wasted: 0, shy: 0, piles: [], nextPile: 1, habit: 0, phantoms: [],
     window: null, carry: null, interrupted: false, selfFlag: false, squatKind: null,
     scoldUntil: -1, treatCool: -1, intent: false, holdForHide: false,
-    inCrate: false, crateWhined: false, silent: false, signAt: null, sniffT: 0, squatStart: 0,
+    inCrate: false, crateWhined: false, silent: false, sniffT: 0, squatStart: 0,
     wakeAt: L.dayStart + 12, napEnd: null, napsDone: NAPS.map(() => false), mealsDone: MEALS.map(() => false),
     zooms: ZOOMS.map(z => ({at: z + Math.round(rnd()*20 - 10), done: false})), zoomUntil: 0, zoomTo: 1,
     outsideUntil: 0,
@@ -564,7 +539,7 @@ function spawnDistraction(g){
   emit(g, 'dist', {kind});
 }
 function startSquat(g){
-  g.squatKind = 'poop';   // the game is about poops: every urge ends in one
+  g.squatKind = g.bowel >= g.bladder ? 'poop' : 'pee';
   g.mode = 'squat'; g.squatStart = g.now;
   g.timer = g.squatKind === 'poop' ? 1.3 + g.rnd()*1.5 : 0.9 + g.rnd()*1.1;
   emit(g, 'squat', {kind: g.squatKind});
@@ -573,17 +548,15 @@ function produce(g){
   const L = g.L, kind = g.squatKind, inCrate = g.inCrate;
   const z = inCrate ? {name:'her crate'} : zoneAt(L, g.x);
   if (g.window) applyReward(g, 'late');
-  g.bowel = 0; g.bladder = 0; g.bowelDueAt = Infinity;
-  g.intent = false; g.silent = false; g.signAt = null; g.crateWhined = false; g.interrupted = false; g.holdForHide = false;
+  if (kind === 'poop'){ g.bowel = 0; g.bladder = Math.min(g.bladder, 30); g.bowelDueAt = Infinity; }
+  else g.bladder = 0;
+  g.intent = false; g.silent = false; g.crateWhined = false; g.interrupted = false; g.holdForHide = false;
   const self = g.selfFlag; g.selfFlag = false;
   const px = inCrate ? g.x : clamp(g.x - g.dir*34, 20, 780);
-  // each accident is bigger than the last, and bad habits from earlier days make them bigger still
-  // first accident on a spot: clearly too big, but no monster; bad habits from earlier stages make it bigger
-  const big = z.potty ? 0.5 : Math.min(1.9, 1.15 + 0.3*g.habit);
-  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big};
+  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big: 1 + 0.3*g.habit};
   const badSpot = !z.potty && !inCrate && (L.bad || []).find(b => Math.abs(b.x - px) < 45);
   if (z.potty){
-    pile.fadeAt = g.now + 2.2; g.piles.push(pile);
+    pile.fadeAt = g.now + 3.6; g.piles.push(pile);
     g.stats.ok++; if (self) g.stats.self++; g.wasted = 0; g.phantoms = [];
     if (!g.distOn && g.stats.ok >= 2){ g.distOn = true; g.nextDistAt = g.now + 8; }
     g.window = {start: g.now, kind, self, demo: g.learned};
@@ -596,15 +569,13 @@ function produce(g){
     if (old){ old.stack = (old.stack || 1) + 1; old.rev = (old.rev || 0) + 1; }
     else { pile.stack = 1; g.piles.push(pile); }
     g.stats.acc++; if (z.carpet) g.stats.carpet++; if (badSpot) g.stats.bad++;
-    if (kind === 'poop') g.stats.accPoop = (g.stats.accPoop || 0) + 1; else g.stats.accPee = (g.stats.accPee || 0) + 1;
-    // going again on the same spot: the heap grows by a full layer (drawn in pileSVG)
     // mess points for the score: worse spots and pile-ups cost more
     g.stats.mess += (kind === 'poop' ? 60 : 40) * ((z.carpet || badSpot) ? 2 : 1) + (old ? 60*(old.stack - 1) : 0);
     g.scoldUntil = g.now + 3;
     g.inCrate = false; g.mode = 'oops'; g.timer = 1.2;
     g.tx = inCrate ? g.x + 90 : clamp(px + (px > 400 ? -150 : 150), 20, 780);
     emit(g, 'accident', {kind, place: badSpot ? badSpot.name : z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet,
-      bad: badSpot ? badSpot.banner : null, stack: old ? old.stack : 1, big: g.habit, size: big});
+      bad: badSpot ? badSpot.banner : null, stack: old ? old.stack : 1, big: g.habit});
     if (repeat) loseLesson(g, 'repeat');
     else if (z.carpet || badSpot) loseLesson(g, 'carpet');
   }
@@ -638,7 +609,7 @@ function step(g, dt){
   g.t += dm;
   const asleep = g.mode === 'sleep';
   if (asleep) g.bladder = Math.min(92, g.bladder + 0.22*NS*dm);
-  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * NS * 1.35 * dm * (L.fill || 1);   // poops only: urges come a bit more often
+  else g.bladder += (g.mode === 'zoom' ? 1.5 : 0.85) * NS * dm * (L.fill || 1);
   if (g.t >= g.bowelDueAt) g.bowel = asleep ? Math.min(85, g.bowel + 0.4*NS*dm) : g.bowel + 1.6*NS*dm;
   if (g.window && g.now - g.window.start > L.window) applyReward(g, 'late');
   if (g.distraction){
@@ -693,19 +664,17 @@ function step(g, dt){
     g.intent = true;
     if (g.mode === 'zoom'){ g.mode = 'wander'; g.tx = null; }
     // sometimes she gives no warning at all (more often indoors)
-    g.silent = !g.learned && g.rnd() < L.silent;   // 'silent' now means subtle: nose down, but no bubble and no hint
+    g.silent = !g.learned && g.rnd() < L.silent;
     chooseIntent(g);
     if (g.mode === 'walkTo' && (g.goal === 'door' || g.goal === 'potty')) g.silent = false;
     if (signsVisible(g)) emit(g, 'signs');
   }
-  // the signs always come first, and last a while
-  if (g.signAt == null && g.mode !== 'sleep' && signLevel(g) >= L.sniff) g.signAt = g.now;
   // she can't hold it any longer
   const N = need(g);
   const thr = g.mode === 'crate' ? 130 : (g.mode === 'led' ? (g.interrupted ? 150 : 108) : 100);
   const canSquat = ['wander','zoom','walkTo','atDoor','linger','stay','led','toBowl','toBed','crate','happy','oops'].includes(g.mode)
     && !(g.mode === 'walkTo' && g.holdForHide);
-  if (canSquat && N >= thr && g.signAt != null && g.now - g.signAt >= L.warn) startSquat(g);
+  if (canSquat && N >= thr) startSquat(g);
 
   switch (g.mode){
     case 'wander': {
@@ -822,8 +791,7 @@ function treat(g){
     // she jumps up for the treat before she's finished: half done, and the treat taught her nothing
     const kind = g.squatKind;
     g.piles.push({id: g.nextPile++, x: clamp(g.x - g.dir*34, 20, 780), kind, potty: true, small: true, born: g.now, fadeAt: g.now + 3});
-    g.bladder = 62;
-    g.signAt = null;
+    if (kind === 'poop') g.bowel = 62; else g.bladder = 62;
     g.intent = false; g.selfFlag = false; g.interrupted = false;
     g.mode = 'happy'; g.timer = 1.0; g.tx = clamp(g.x + (g.x > 400 ? -120 : 120), 20, 780);
     g.stats.early++;
@@ -931,7 +899,6 @@ function clean(g, id){
     hiss(){ noise(.45, 0, .3, 5000, 3000, .6); },
     whine(){ tone(900,.5,'sine',0,.12,1300); tone(1300,.4,'sine',.5,.1,800); },
     yawn(){ tone(500,.6,'triangle',0,.12,220); },
-    yelp(){ tone(1400,.18,'triangle',0,.2,700); tone(1100,.25,'triangle',.2,.16,500); },
     ding(){ [0, .32].forEach(w => { tone(1760,.5,'sine',w,.16); tone(2637,.35,'sine',w,.07); }); },
     whoosh(){ noise(.25, 0, .2, 600, 2400, .8); },
     meh(){ tone(330,.18,'square',0,.07,300); },
@@ -1003,7 +970,7 @@ function clean(g, id){
     <g fill="#d6bd85"><circle cx="668" cy="372" r="4"/><circle cx="742" cy="398" r="5"/><circle cx="772" cy="352" r="3"/><circle cx="700" cy="408" r="3"/></g>
     <rect x="766" y="250" width="8" height="76" fill="#a77b4c"/>
     <rect x="730" y="236" width="66" height="34" rx="6" fill="#fff6e0" stroke="#a77b4c" stroke-width="4"/>
-    <text x="763" y="259" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#8b5a2b">POOP!</text>`;
+    <text x="763" y="259" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#8b5a2b">POPPY</text>`;
     return s;
   }
   function gardenFG(){
@@ -1031,9 +998,8 @@ function clean(g, id){
     <ellipse cx="160" cy="352" rx="46" ry="11" fill="#8b5a2b"/><ellipse cx="160" cy="347" rx="38" ry="8" fill="#f4c7c3"/>
     <g fill="#ff9ab0" stroke="#e0708a" stroke-width="2"><ellipse cx="228" cy="364" rx="14" ry="6"/><ellipse cx="252" cy="368" rx="14" ry="6"/></g>
     <g fill="#fff" opacity=".7"><circle cx="222" cy="362" r="3"/><circle cx="246" cy="366" r="3"/></g>`;
-    // a big potted plant where the crate used to be
-    s += `<path d="M282 352 l6 -40 h36 l6 40 z" fill="#e07a4f"/><rect x="284" y="306" width="44" height="10" rx="3" fill="#c8643c"/>
-    <g fill="#4f9a3e"><ellipse cx="306" cy="270" rx="16" ry="38"/><ellipse cx="282" cy="282" rx="12" ry="30" transform="rotate(-25 282 282)"/><ellipse cx="330" cy="282" rx="12" ry="30" transform="rotate(25 330 282)"/></g>`;
+    // crate back
+    s += `<rect x="226" y="232" width="148" height="122" rx="8" fill="#efe7f6" stroke="#9a92a8" stroke-width="4"/>`;
     // kitchen
     s += `<rect x="360" y="190" width="140" height="132" fill="#ffffff" stroke="#e1d4bf" stroke-width="3"/>
     <rect x="360" y="182" width="140" height="12" fill="#c9a27a"/>
@@ -1052,7 +1018,7 @@ function clean(g, id){
     <g fill="#d6bd85"><circle cx="690" cy="378" r="4"/><circle cx="752" cy="400" r="5"/><circle cx="780" cy="356" r="3"/></g>
     <rect x="770" y="262" width="7" height="68" fill="#a77b4c"/>
     <rect x="738" y="248" width="60" height="30" rx="6" fill="#fff6e0" stroke="#a77b4c" stroke-width="4"/>
-    <text x="768" y="269" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="14" fill="#8b5a2b">POOP!</text>
+    <text x="768" y="269" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="14" fill="#8b5a2b">POPPY</text>
     <circle cx="745" cy="60" r="26" fill="#ffe27a"/>
     <rect x="644" y="0" width="16" height="330" fill="#e9d2ae"/>`;
     // door frame + door
@@ -1111,7 +1077,7 @@ function clean(g, id){
     <g fill="#d6bd85"><circle cx="30" cy="380" r="4"/><circle cx="96" cy="400" r="5"/><circle cx="118" cy="356" r="3"/></g>
     <rect x="26" y="262" width="7" height="68" fill="#a77b4c"/>
     <rect x="2" y="248" width="60" height="30" rx="6" fill="#fff6e0" stroke="#a77b4c" stroke-width="4"/>
-    <text x="32" y="269" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="14" fill="#8b5a2b">POOP!</text>
+    <text x="32" y="269" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="14" fill="#8b5a2b">POPPY</text>
     <circle cx="70" cy="60" r="24" fill="#ffe27a"/>
     <rect x="142" y="0" width="16" height="330" fill="#cfdccb"/>
     <rect x="150" y="150" width="56" height="178" fill="#bfe6ff"/>
@@ -1136,7 +1102,7 @@ function clean(g, id){
       <g id="bg">${friendL ? friendBG() : house ? houseBG() : gardenBG()}</g>
       <g id="piles"></g>
       ${poppySVG()}
-      ${g.L.crate ? `<g id="crateFront" stroke="#8a8298" stroke-width="5" fill="none">
+      ${house ? `<g id="crateFront" stroke="#8a8298" stroke-width="5" fill="none">
         <rect x="226" y="232" width="148" height="122" rx="8"/>
         ${[250,274,298,322,346].map(x => `<line x1="${x}" y1="234" x2="${x}" y2="352"/>`).join('')}
         <line x1="226" y1="292" x2="374" y2="292"/></g>` : ''}
@@ -1175,7 +1141,6 @@ function clean(g, id){
         <path d="M-8 9 L0 22 L8 9 Z" fill="#fff"/>
         <text id="pbText" x="0" y="0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#3f3a4a"></text>
       </g>
-      <text id="scared" x="0" y="0" text-anchor="middle" font-size="46" style="display:none">😟</text>
       <g id="zzz" style="display:none" font-family="Fredoka, sans-serif" font-weight="700" fill="#7d6fb5">
         <text class="zzz" x="0" y="0" font-size="18">z</text><text class="zzz" x="10" y="-8" font-size="22">Z</text><text class="zzz" x="20" y="-18" font-size="26">z</text>
       </g>`;
@@ -1185,7 +1150,7 @@ function clean(g, id){
       eye: $('ppEye'), eyeShut: $('ppEyeShut'), hit: $('ppHit'),
       piles: $('piles'), fx: $('fx'), pb: $('pbubble'), pbText: $('pbText'), pbRect: $('pbRect'), zzz: $('zzz'),
       door: $('door'), bell: $('bell'), crateFront: $('crateFront'), marker: $('marker'), hint: $('hint'),
-      scared: $('scared'), dist: $('dist'), distCat: $('distCat'), distFly: $('distFly'), catTail: $('catTail'), wingL: $('wingL'), wingR: $('wingR')
+      dist: $('dist'), distCat: $('distCat'), distFly: $('distFly'), catTail: $('catTail'), wingL: $('wingL'), wingR: $('wingR')
     };
     pileEls = new Map();
     P.dist.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); if (g) shoo(g); });
@@ -1247,7 +1212,7 @@ function clean(g, id){
     el.style.setProperty('--t', tr);
     el.setAttribute('class', 'pile');
     let inner = '';
-    if (false){
+    if (p.potty && !p.small){
       inner += `<g class="rays" style="transform-origin:0px -40px"><g fill="#ffd43b" opacity=".55">${[0,45,90,135,180,225,270,315].map(a => `<path d="M0 -40 L -10 -130 L 10 -130 Z" transform="rotate(${a} 0 -40)"/>`).join('')}</g></g>`;
     }
     const n = p.stack || 1;
@@ -1255,7 +1220,7 @@ function clean(g, id){
     if (p.kind === 'poop'){
       // each new one lands on top of the last: a growing tower
       for (let i = 0; i < n; i++){
-        const sc2 = 1 - i*0.03, y = -i*52;
+        const sc2 = Math.max(0.6, 1 - i*0.12), y = -i*62;
         inner += `<g transform="translate(${(i % 2 ? 6 : -4)},${y}) scale(${sc2})"><use href="#poop"/></g>`;
         top = y - 92*sc2;
       }
@@ -1271,7 +1236,6 @@ function clean(g, id){
         <g transform="translate(-6,${top + 34 - k*20})"><g class="fly f2"><g transform="translate(30,0)"><ellipse rx="3.5" ry="2.6" fill="#222"/><ellipse cx="-2" cy="-4" rx="3.5" ry="2.2" fill="#cfe9ff" opacity=".8"/></g></g></g>`;
       inner += `<rect x="-70" y="${top - 50}" width="140" height="${-top + 60}" fill="transparent"/>`;
     }
-    if (p.potty && !p.small) inner += `<g font-size="30" text-anchor="middle"><text x="-46" y="-30">✨</text><text x="48" y="-44">✨</text></g>`;
     el.innerHTML = inner;
     if (!p.potty){
       el.addEventListener('pointerdown', e => {
@@ -1324,11 +1288,9 @@ function clean(g, id){
     if (m === 'stay' && g.distraction && zoneAt(L, g.x).potty){ headRot = -22 + Math.sin(tt*12)*5; tailRot = Math.sin(tt*25)*25; lift = -Math.abs(Math.sin(tt*8))*8; }
     if (m === 'happy'){ tailRot = Math.sin(tt*34)*32; lift = -Math.abs(Math.sin(tt*9))*12; }
     if (m === 'oops'){ tailRot = 30; headRot = 14; }
-    if (tt < cowerUntil){ headRot = 30; tailRot = 55; lift = 10; bodyRot = 6; legA = 0; dir = g.dir; }
     if (m === 'atDoor' || (m === 'crate' && need(g) >= 100)){ headRot = -14 + Math.sin(tt*6)*4; tailRot = Math.sin(tt*8)*8; }
     if (m === 'zoom') tailRot = Math.sin(tt*30)*24;
-    const shiver = tt < cowerUntil ? Math.sin(tt*60)*2.5 : 0;
-    P.pp.setAttribute('transform', `translate(${(g.x + shiver).toFixed(1)},${GY}) scale(${dir*S},${S})`);
+    P.pp.setAttribute('transform', `translate(${g.x.toFixed(1)},${GY}) scale(${dir*S},${S})`);
     P.lift.setAttribute('transform', `translate(0,${lift.toFixed(1)}) rotate(${bodyRot} 34 -30)`);
     P.head.setAttribute('transform', `rotate(${headRot.toFixed(1)} 40 -70)`);
     P.tail.setAttribute('transform', `rotate(${tailRot.toFixed(1)} -46 -62)`);
@@ -1350,8 +1312,8 @@ function clean(g, id){
     else if (m === 'crate' && need(g) >= 100) txt = 'let me out!';
     else if (m === 'squat') txt = g.squatKind === 'poop' ? 'nngh…' : 'ahh…';
     else if (m === 'stay' && g.distraction && zoneAt(L, g.x).potty) txt = g.distraction.kind === 'cat' ? 'WOOF! WOOF!' : 'ooh, butterfly!';
-    else if (circling && !g.silent) txt = 'round & round!';
-    else if (signs && !g.silent) txt = 'sniff sniff';
+    else if (circling) txt = 'round & round!';
+    else if (signs) txt = 'sniff sniff';
     else if (m === 'zoom') txt = 'ZOOMIES!';
     if (txt){
       P.pbText.textContent = txt;
@@ -1361,9 +1323,6 @@ function clean(g, id){
       P.pb.setAttribute('transform', `translate(${bx.toFixed(1)},${by.toFixed(1)})`);
       P.pb.style.display = '';
     } else P.pb.style.display = 'none';
-    if (g.shy > 0 && m !== 'sleep' && P.pb.style.display === 'none'){
-      P.scared.style.display = ''; P.scared.setAttribute('transform', `translate(${(g.x + dir*30).toFixed(1)},${(GY - 150 + lift + Math.sin(tt*4)*3).toFixed(1)})`);
-    } else P.scared.style.display = 'none';
     if (m === 'sleep'){ P.zzz.style.display = ''; P.zzz.setAttribute('transform', `translate(${g.x + 60},${GY - 70})`); }
     else P.zzz.style.display = 'none';
     // cat on the fence / butterfly near her spot
@@ -1388,7 +1347,7 @@ function clean(g, id){
     else P.marker.style.display = 'none';
     // "Tap here!" over her spot when she needs to go and isn't on her way
     const heading = (m === 'led' && zoneAt(L, g.tx).potty) || (m === 'walkTo' && (g.goal === 'potty' || g.goal === 'door')) || zoneAt(L, g.x).potty;
-    const showHint = ((signs && !g.silent) || m === 'atDoor') && !heading && (L.key === 'garden' || hintCount < 4);
+    const showHint = (signs || m === 'atDoor') && !heading && (L.key === 'garden' || hintCount < 4);
     if (showHint && !hintOn){ hintCount++; }
     hintOn = showHint;
     P.hint.style.display = showHint ? '' : 'none';
@@ -1430,7 +1389,6 @@ function clean(g, id){
       if (!on && paws[i].classList.contains('on')){ paws[i].classList.remove('on'); paws[i].classList.add('lost'); setTimeout(((p) => () => p.classList.remove('lost'))(paws[i]), 700); }
     }
     $('fastTag').style.display = g.fast ? '' : 'none';
-    $('shyTag').style.display = g.shy > 0 ? '' : 'none';
     const tb = $('treatBtn');
     if (g.window){
       const left = Math.max(0, 1 - (g.now - g.window.start)/g.L.window);
@@ -1458,19 +1416,9 @@ function clean(g, id){
   // ---------- messages & effects ----------
   function say(html){ sayEl.innerHTML = html; }
   function tip(key, text, max){ tipCount[key] = (tipCount[key] || 0) + 1; return tipCount[key] <= (max || 2) ? ` <i>${text}</i>` : ''; }
-  let bannerFree = 0;
   function banner(text, cls){
-    const nowMs = performance.now(), at = Math.max(nowMs, bannerFree), wait = at - nowMs;
-    bannerFree = at + 1300;
-    setTimeout(() => {
-      const b = document.createElement('div'); b.className = 'banner ' + cls + (text.length > 13 && !/huge/.test(cls) ? ' long' : ''); b.textContent = text;
-      $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 2000);
-    }, wait);
-  }
-  // Poppy's fright: a red comic burst, a yelp, and she cowers
-  let cowerUntil = 0;
-  function fright(text){
-    ahh(text, g.x, true); SFX.yelp(); cowerUntil = tt + 2.6; flash('bad');
+    const b = document.createElement('div'); b.className = 'banner ' + cls; b.textContent = text;
+    $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 2000);
   }
   function flash(cls){ const f = $('flash'); f.className = ''; void f.offsetWidth; f.className = cls; }
   function shake(){ const w = $('sceneWrap'); w.classList.remove('shake'); void w.offsetWidth; w.classList.add('shake'); }
@@ -1486,15 +1434,9 @@ function clean(g, id){
   const pick = a => a[Math.floor(Math.random()*a.length)];
   // comic burst over her head when she's done
   function ahh(text, x, bad){
-    const wrap = $('sceneWrap'), W = wrap.clientWidth;
     const b = document.createElement('div'); b.className = 'ahh' + (bad ? ' bad' : ''); b.textContent = text;
-    b.style.top = ((GY - 128)/420*100) + '%'; b.style.left = '50%'; b.style.visibility = 'hidden';
-    wrap.appendChild(b);
-    // measure at full size (the animation starts scaled down), then keep it inside the picture
-    const w = b.scrollWidth + 6;
-    const px = clamp(x/800*W, w/2 + 6, W - w/2 - 6);
-    b.style.left = px + 'px'; b.style.visibility = '';
-    setTimeout(() => b.remove(), 1600);
+    b.style.left = clamp(x/800*100, 14, 86) + '%'; b.style.top = ((GY - 128)/420*100) + '%';
+    $('sceneWrap').appendChild(b); setTimeout(() => b.remove(), 1600);
   }
 
   function handleEvents(){
@@ -1511,7 +1453,7 @@ function clean(g, id){
         case 'zoom': say('<b>ZOOMIES!</b>'); break;
         case 'zoomEnd': say('Phew.' + tip('zoom', '(After playing, she often needs to pee.)')); break;
         case 'nap': say(e.crate ? 'Zzz… (in her crate)' : 'I\'m sleepy. Zzz…'); break;
-        case 'signs': if (g.silent) break; if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
+        case 'signs': if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
         case 'door':
           if (e.bell){ SFX.ding(); bellRing = 1.6; say(g.learned ? '<b>Ding-a-ling!</b> She rang the bell, all by herself! Open up: <b>tap her spot</b>.' : '<b>Ding-a-ling!</b> She rang the bell! She\'s asking to go out. <b>Tap her spot</b>, quick!'); }
           else { SFX.whine(); say('<b>Whine!</b> She\'s at the door, asking to go out! Send her to her spot!'); }
@@ -1546,7 +1488,7 @@ function clean(g, id){
           if (e.n < e.of){ setTimeout(SFX.lesson, 700); sayEl.innerHTML += ` <b>Lesson ${e.n} of ${e.of}!</b>`; }
           break;
         case 'lostLesson':
-          SFX.lostLesson(); banner('LESSON LOST!', 'bad');
+          SFX.lostLesson();
           sayEl.innerHTML += ' <b>She forgot a lesson.</b> ' + ({
             scold: '<i>(Scolding teaches fear, not where to go.)</i>',
             repeat: '<i>(That spot smells like a toilet to her now. Clean it!)</i>',
@@ -1567,21 +1509,21 @@ function clean(g, id){
           ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!']) : 'Aaah!', g.x, true);
           SFX.squelch(); SFX.bad();
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
-          if (e.hidden){ shake(); flash('bad'); banner('SHE HID IT!', 'bad'); say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
+          if (e.hidden){ say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
           banner(e.bad ? e.bad : e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? (e.big ? 'OH NO! A MONSTER!' : 'OH NO!') : 'OOPS!', 'bad');
-          const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one, on top' : e.big >= 2 ? 'An absolute monster' : e.big ? 'A giant one' : 'A big one') : (e.stack > 1 ? 'Another puddle' : e.big ? 'A lake' : 'A puddle');
+          const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one' : e.big >= 2 ? 'An absolute monster' : e.big ? 'A giant one' : 'A massive one') : (e.stack > 1 ? 'Another puddle' : e.big ? 'A lake' : 'A puddle');
           if (e.stack > 1 && !e.bad) banner(e.kind === 'poop' ? `IT'S PILING UP! ×${e.stack}` : 'IT\'S SPREADING!', 'bad');
-          say((e.stack > 1 ? `<b>Again on ${e.place}, right on top!</b> It smelled like a toilet there.` : `<b>${what} on ${e.place}.</b>`) + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
+          say(`<b>${what} on ${e.place}.</b>${e.repeat ? ' Right where it smelled like toilet.' : ''}` + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
           break;
         }
-        case 'scoldAfter': fright(pick(['Eek!','Yikes!'])); banner('SHE\'S SCARED OF YOU NOW', 'bad'); say('Poppy cowers. She hasn\'t learned "not here". She\'s learned "<b>not in front of you</b>".'); break;
-        case 'scoldDuring': fright('Eek!'); banner('SHE\'LL HIDE IT NEXT TIME', 'bad'); say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
-        case 'scoldRandom': fright('What did I do?'); banner('SHE DOESN\'T KNOW WHY', 'bad'); say('Poppy flinches. She has no idea why you\'re cross.'); break;
-        case 'confused': SFX.meh(); ahh('??', g.x, true); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
+        case 'scoldAfter': say('Poppy cowers. She hasn\'t learned "not here". She\'s learned "<b>not in front of you</b>".'); break;
+        case 'scoldDuring': say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
+        case 'scoldRandom': say('Poppy flinches. She has no idea why you\'re cross.'); break;
+        case 'confused': SFX.meh(); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
         case 'watch': say('Let her do it <b>by herself</b>. Just watch!'); break;
         case 'wait': say('<b>Wait!</b> She\'s not done yet. <i>Treat when she says "Ahhh!".</i>'); break;
-        case 'early': SFX.meh(); banner('TOO EARLY!', 'bad'); ahh('Huh?', g.x, true); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
+        case 'early': SFX.meh(); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
         case 'dist':
           if (e.kind === 'cat') SFX.woof();
           say(e.kind === 'cat' ? 'A <b>cat</b> on the fence! Poppy won\'t be able to think of anything else. <i>Tap the cat to shoo it.</i>'
@@ -1616,14 +1558,14 @@ function clean(g, id){
 
   // ---------- the week ----------
   const ORDER = ['garden','house','friend'];
-  const DAYNAMES = ['Stage 1','Stage 2','Stage 3'];
+  const DAYNAMES = ['Day 1','Day 2','Day 3'];
   const WHAT = {
     garden: "Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.",
     house: 'The garden is through the door. Teach her to ask: there is a bell on the door. She has a crate.',
     friend: "A strange house, the door on the other side, a cream carpet, and the cat Minka lives here."
   };
-  const STAMP_OK = {garden: 'GARDEN\u2011TRAINED!', house: 'HOUSE\u2011TRAINED!', friend: 'FULLY TOILET\u2011TRAINED!'};
-  const STAMP_NO = {garden: 'NOT GARDEN\u2011TRAINED', house: 'NOT HOUSE\u2011TRAINED', friend: 'NOT TOILET\u2011TRAINED'};
+  const STAMP_OK = {garden: 'GARDEN-TRAINED!', house: 'HOUSE-TRAINED!', friend: 'FULLY TOILET-TRAINED!'};
+  const STAMP_NO = {garden: 'NOT GARDEN-TRAINED', house: 'NOT HOUSE-TRAINED', friend: 'NOT TOILET-TRAINED'};
   let week = {results: []};
   try { const w = JSON.parse(localStorage.getItem('pp-week-v1') || 'null'); if (w && Array.isArray(w.results)) week = w; } catch(e){}
   function saveWeek(){ try { localStorage.setItem('pp-week-v1', JSON.stringify(week)); } catch(e){} }
@@ -1642,8 +1584,8 @@ function clean(g, id){
     }).join('');
     $('weekCards').querySelectorAll('.lvl.next').forEach(b => b.addEventListener('click', () => { unlockAudio(); startDay(+b.dataset.i); }));
     let btns = '';
-    if (n === 3) btns += `<button class="btn" id="seeWeek">See how she did</button>`;
-    if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start again from stage 1</button></div>`;
+    if (n === 3) btns += `<button class="btn" id="seeWeek">See the week</button>`;
+    if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start a new week</button></div>`;
     $('weekBtns').innerHTML = btns;
     if ($('seeWeek')) $('seeWeek').addEventListener('click', showWeek);
     if ($('newWeek0')) $('newWeek0').addEventListener('click', () => { week = {results: []}; saveWeek(); renderWeek(); });
@@ -1667,16 +1609,16 @@ function clean(g, id){
     else if (key === 'house'){
       t = c.prevLearned
         ? '<b>Poppy is garden-trained:</b> she knows outside is for that. But now the garden is through the door. Teach her to <b>ask</b>: there\'s a bell on the door.'
-        : '<b>The garden didn\'t work out,</b> so Poppy has concluded that anywhere will do. Expect bigger ones in worse places.';
+        : '<b>Yesterday didn\'t work out,</b> so Poppy has concluded that anywhere will do. Expect bigger ones in worse places.';
     } else {
       t = c.prevLearned
         ? (c.habit ? '<b>She got the house in the end.</b> But your friend\'s place is new: the door is on the <b>left</b>, and Minka the cat lives here.'
                    : '<b>Garden-trained, house-trained.</b> One test left: your friend\'s house. The door is on the <b>left</b>. Mind the cream carpet.')
-        : (c.habit >= 2 ? '<b>Two stages, no luck.</b> Poppy now treats the whole world as her toilet. Your friend has a cream carpet. Good luck.'
-                        : '<b>Your house went badly,</b> and now it\'s your friend\'s house. The door is on the <b>left</b>. The carpet is cream.');
+        : (c.habit >= 2 ? '<b>Two days, no luck.</b> Poppy now treats the whole world as her toilet. Your friend has a cream carpet. Good luck.'
+                        : '<b>Yesterday went badly,</b> and today it\'s your friend\'s house. The door is on the <b>left</b>. The carpet is cream.');
     }
     if (c.shy) t += ' <i>And she remembers being shouted at: she\'ll try to hide.</i>';
-    if (c.linger) t += ' <i>The last mess wasn\'t all cleaned up. The smell lingers.</i>';
+    if (c.linger) t += ' <i>Yesterday\'s mess wasn\'t all cleaned up. The smell lingers.</i>';
     return t;
   }
   let dayIndex = 0;
@@ -1697,7 +1639,7 @@ function clean(g, id){
   function finish(){
     const s = g.stats, key = g.key, sc = dayScore(g);
     const learned = g.learned;
-    const r = {key, learned, score: sc.total, acc: s.acc, scold: s.scold, uncleaned: sc.uncleaned, poops: s.accPoop || 0, pees: s.accPee || 0};
+    const r = {key, learned, score: sc.total, acc: s.acc, scold: s.scold, uncleaned: sc.uncleaned};
     week.results[dayIndex] = r; week.results.length = dayIndex + 1; saveWeek();
     $('endDay').textContent = DAYNAMES[dayIndex] + ' · ' + g.L.name;
     $('endTitle').textContent = learned ? (key === 'garden' ? 'She knows where to go!' : key === 'house' ? 'She asks to go out!' : 'She found her way!') : 'Bedtime. Zzz…';
@@ -1706,37 +1648,15 @@ function clean(g, id){
     $('endStars').innerHTML = learned ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
     let txt = learned
       ? `She learned it by <b>${fmt(s.learnedAt || g.t)}</b>.` + (key === 'friend' && !s.carpet ? ' And the carpet is spotless.' : '')
-      : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to the next stage.' : 'That was the last stage.');
+      : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to tomorrow.' : 'The week is over.');
     if (s.scold) txt += ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. ${learned ? 'She learned anyway, but not from that.' : 'Scolding only teaches her to hide.'}</i>`;
     $('endText').innerHTML = txt;
-    $('endMess').innerHTML = `<p class="sub">The mess</p><div class="mess"><div class="col">${heapSVG(r.poops, r.pees)}<span class="n">${messText(r.poops, r.pees)}</span></div></div>`;
-    let bestS = 0; try { bestS = +localStorage.getItem('pp-best-' + key) || 0; } catch(e){}
-    const isBest = sc.total > bestS;
-    if (isBest) try { localStorage.setItem('pp-best-' + key, String(sc.total)); } catch(e){}
-    $('endScore').innerHTML = `<div class="bigscore">${sc.total}<small>points</small></div>`
-      + `<div class="best ${isBest && bestS ? 'new' : ''}">${isBest ? (bestS ? 'New best for this stage!' : 'Your first score for this stage') : `Best for this stage: ${bestS}`}</div>`
-      + `<details><summary>How the score was made</summary><table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}</table></details>`;
+    $('endScore').innerHTML = `<table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}<tr class="total"><td>Today</td><td>${sc.total}</td></tr></table>`;
     $('endStats').innerHTML = '';
     $('newWeekBtn2').style.display = '';
-    $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See how she did';
+    $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See the week';
     if (learned){ SFX.win(); confetti(key === 'friend' ? 160 : 80); }
     ending.style.display = 'flex';
-  }
-  // a little heap of the day's accidents: a tower of poops on a spreading puddle
-  function heapSVG(poops, pees){
-    if (!poops) return `<svg viewBox="-60 -150 120 160"><text x="0" y="-50" text-anchor="middle" font-size="40">✨</text><text x="0" y="-10" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="16" fill="#2f8a3a">spotless</text></svg>`;
-    let h = '';
-    const k = Math.min(poops, 9), sc = 0.55;
-    if (pees) h += `<g transform="translate(0,4) scale(${Math.min(1.15, 0.45 + 0.15*pees)},0.7)"><use href="#puddle"/></g>`;
-    for (let i = 0; i < k; i++) h += `<g transform="translate(${i % 2 ? 4 : -3},${-i*58*sc}) scale(${sc*(1 - i*0.04)})"><use href="#poop"/></g>`;
-    const top = -k*58*sc - 40;
-    // the more there is, the taller the heap is drawn
-    const vh = Math.max(160, -top + 20);
-    return `<svg viewBox="-60 ${-vh + 10} 120 ${vh}" style="height:${(110 * vh / 160).toFixed(0)}px">${h}</svg>`;
-  }
-  function messText(poops, pees){
-    if (!poops) return 'not a single accident';
-    return `${poops} poop${poops > 1 ? 's' : ''} in the wrong place`;
   }
   function closingLine(){
     const l = week.results.map(r => r.learned ? 1 : 0).join('');
@@ -1754,23 +1674,16 @@ function clean(g, id){
   function showWeek(){
     const total = weekTotal(), best = Math.max(bestWeek(), total);
     try { localStorage.setItem('pp-best-week', String(best)); } catch(e){}
-    const res = week.results, nOk = res.filter(r => r.learned).length;
-    const PLACE = {garden: 'In the garden', house: 'In your house', friend: "At your friend's"};
-    $('endDay').textContent = "Poppy's training";
-    $('endTitle').textContent = '';
-    $('endStamp').innerHTML = `<span class="stamp ${nOk === 3 ? 'ok big' : 'no'}">${nOk === 3 ? 'FULLY TOILET\u2011TRAINED!' : nOk ? 'PARTLY TOILET\u2011TRAINED' : 'NOT TOILET\u2011TRAINED'}</span>`
-      + `<div class="places">${res.map(r => `<div class="place ${r.learned ? 'ok' : 'no'}"><span>${PLACE[r.key]}</span><span>${r.learned ? '✓ trained' : '✗ not yet'}</span></div>`).join('')}</div>`;
+    $('endDay').textContent = "Poppy's first week";
+    $('endTitle').textContent = closingLine();
+    $('endStamp').innerHTML = '<div class="stamps">' + week.results.map((r, i) => `<span class="stamp ${r.learned ? 'ok' : 'no'}" style="animation-delay:${i*.35}s; animation-fill-mode:backwards">${r.learned ? STAMP_OK[r.key] : STAMP_NO[r.key]}</span>`).join('') + '</div>';
     $('endStars').innerHTML = '';
-    $('endText').innerHTML = `<b>${closingLine()}</b>`;
-    const tp = res.reduce((a, r) => a + (r.poops || 0), 0), tq = res.reduce((a, r) => a + (r.pees || 0), 0);
-    $('endMess').innerHTML = `<p class="sub">All the mess: ${messText(tp, tq)}</p><div class="mess">${res.map((r, i) => `<div class="col">${heapSVG(r.poops || 0, r.pees || 0)}<span class="n">${DAYNAMES[i]}</span><span>${PLACE[r.key].replace('In ', '').replace('At ', '')}</span></div>`).join('')}</div>`;
-    $('endScore').innerHTML = `<div class="bigscore">${total}<small>points</small></div>`
-      + `<div class="best ${total >= best && total > 0 ? 'new' : ''}">${total >= best && total > 0 ? 'Your best training so far!' : `Best so far: ${best}`}</div>`
-      + `<details><summary>Points per stage</summary><table class="score">${res.map((r, i) => `<tr><td>${DAYNAMES[i]} · ${LEVELS[r.key].name.replace('Poppy in ', '')}</td><td>${r.score}</td></tr>`).join('')}</table></details>`;
-    $('nextBtn').textContent = 'Start again from stage 1';
+    $('endText').innerHTML = '';
+    $('endScore').innerHTML = `<table class="score">${week.results.map((r, i) => `<tr><td>${DAYNAMES[i]} · ${LEVELS[r.key].name.replace('Poppy in ', '')}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>The week</td><td>${total}</td></tr><tr><td>Best week so far</td><td>${best}</td></tr></table>`;
+    $('nextBtn').textContent = 'Start a new week';
     $('newWeekBtn2').style.display = 'none';
     ending.style.display = 'flex'; gameEl.style.display = 'none'; landing.style.display = 'none';
-    if (nOk === 3){ SFX.win(); confetti(160); }
+    if (week.results.every(r => r.learned)){ SFX.win(); confetti(160); }
   }
 
   // ---------- buttons ----------
@@ -1779,15 +1692,15 @@ function clean(g, id){
   $('crateBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) toggleCrate(g); });
   function newWeek(){ week = {results: []}; saveWeek(); g = null; ending.style.display = 'none'; gameEl.style.display = 'none'; renderWeek(); landing.style.display = 'flex'; }
   $('nextBtn').addEventListener('click', () => {
-    if ($('nextBtn').textContent === 'Start again from stage 1') return newWeek();
-    if ($('nextBtn').textContent === 'See how she did') return showWeek();
+    if ($('nextBtn').textContent === 'Start a new week') return newWeek();
+    if ($('nextBtn').textContent === 'See the week') return showWeek();
     startDay(dayIndex + 1);
   });
   $('newWeekBtn2').addEventListener('click', newWeek);
   let sure = false;
   $('newWeekBtn').addEventListener('click', () => {
-    if (!sure){ sure = true; $('newWeekBtn').textContent = 'Sure? Tap again'; setTimeout(() => { sure = false; $('newWeekBtn').textContent = 'Start again'; }, 2500); return; }
-    sure = false; $('newWeekBtn').textContent = 'Start again'; newWeek();
+    if (!sure){ sure = true; $('newWeekBtn').textContent = 'Sure? Tap again'; setTimeout(() => { sure = false; $('newWeekBtn').textContent = 'New week'; }, 2500); return; }
+    sure = false; $('newWeekBtn').textContent = 'New week'; newWeek();
   });
   const openHelp = () => helpPanel.style.display = 'flex';
   $('helpBtn1').addEventListener('click', openHelp);
@@ -1801,7 +1714,6 @@ function clean(g, id){
   });
   document.addEventListener('visibilitychange', () => { last = 0; });
   window.__pp = () => g; // for testing
-  window.__ui = {banner, ahh};
   window.__audio = () => ac ? ac.state : 'none';
 })();
 </script>
