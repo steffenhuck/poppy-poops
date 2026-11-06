@@ -886,7 +886,13 @@ function clean(g, id){
     if (!ac){
       try {
         ac = new (window.AudioContext || window.webkitAudioContext)();
-        master = ac.createGain(); master.gain.value = 0.9; master.connect(ac.destination);
+        master = ac.createGain(); master.gain.value = 0.9;
+        // a little room: dry signal plus a short, soft reverb made from decaying noise
+        const rev = ac.createConvolver(), len = Math.floor(ac.sampleRate * 1.6), ir = ac.createBuffer(2, len, ac.sampleRate);
+        for (let c = 0; c < 2; c++){ const d = ir.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/len, 3); }
+        rev.buffer = ir;
+        const wet = ac.createGain(); wet.gain.value = 0.28;
+        master.connect(ac.destination); master.connect(rev); rev.connect(wet); wet.connect(ac.destination);
       } catch(e){ ac = null; }
     }
     return ac;
@@ -902,6 +908,27 @@ function clean(g, id){
     gn.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
     o.connect(gn); gn.connect(master); o.start(t0); o.stop(t0 + d + 0.05);
   }
+  // a chord: each note is two slightly detuned triangles and a sine, through a gentle low-pass filter
+  function chord(freqs, opts){
+    if (!sound) return; const a = actx(); if (!a) return;
+    if (a.state === 'suspended') a.resume();
+    const o = Object.assign({when: 0, dur: 1.6, vol: 0.12, attack: 0.03, strum: 0, cutoff: 2600, bend: 0}, opts || {});
+    const t0 = a.currentTime + 0.02 + o.when;
+    const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = o.cutoff; f.Q.value = 0.7; f.connect(master);
+    freqs.forEach((fr, i) => {
+      const ts = t0 + i*o.strum;
+      [[-6,'triangle',1], [6,'triangle',1], [0,'sine',0.8]].forEach(([det, type, w]) => {
+        const osc = a.createOscillator(), gn = a.createGain();
+        osc.type = type; osc.frequency.setValueAtTime(fr, ts); osc.detune.value = det;
+        if (o.bend) osc.frequency.exponentialRampToValueAtTime(fr * Math.pow(2, o.bend/12), ts + o.dur*0.8);
+        const v = o.vol * w / Math.sqrt(freqs.length);
+        gn.gain.setValueAtTime(0.0001, ts); gn.gain.exponentialRampToValueAtTime(v, ts + o.attack);
+        gn.gain.exponentialRampToValueAtTime(v*0.6, ts + o.dur*0.35); gn.gain.exponentialRampToValueAtTime(0.0001, ts + o.dur);
+        osc.connect(gn); gn.connect(f); osc.start(ts); osc.stop(ts + o.dur + 0.05);
+      });
+    });
+  }
+  const N = n => 440 * Math.pow(2, (n - 69)/12);   // MIDI note number to frequency
   let noiseBuf = null;
   function noise(d, when, vol, f0, f1, q){
     if (!sound) return; const a = actx(); if (!a) return;
@@ -914,7 +941,13 @@ function clean(g, id){
     src.connect(f); f.connect(gn); gn.connect(master); src.start(t0); src.stop(t0 + d + 0.05);
   }
   const SFX = {
-    win(){ [523,659,784,1047,784,1047,1319].forEach((f,i) => tone(f, i < 4 ? .2 : .3, 'triangle', i*.11, .22)); },
+    win(){ chord([N(53),N(57),N(60),N(64)], {dur: .9, vol: .16, strum: .03}); chord([N(55),N(59),N(62),N(65)], {when: .45, dur: .9, vol: .16, strum: .03}); chord([N(48),N(60),N(64),N(67),N(71),N(76)], {when: .9, dur: 2.6, vol: .2, strum: .05}); },
+    // right spot: a warm, open major chord (C major 9), gently strummed upwards, with a sparkle on top
+    goodChord(){ chord([N(48),N(55),N(64),N(67),N(71),N(74)], {dur: 2.2, vol: .2, strum: .045, cutoff: 3200}); [N(88),N(91),N(95)].forEach((f,i) => tone(f, .35, 'sine', .35 + i*.08, .05)); },
+    // wrong spot: a sour cluster that sags downwards
+    badChord(){ chord([N(42),N(48),N(49),N(54),N(55),N(61)], {dur: 1.8, vol: .2, attack: .01, cutoff: 1500, bend: -2}); },
+    // the same spot again: lower, darker, sagging further
+    worseChord(){ chord([N(30),N(36),N(37),N(42),N(43),N(48)], {dur: 2.2, vol: .24, attack: .01, cutoff: 1100, bend: -4}); },
     learned(){ [392,523,659,784,1047].forEach((f,i) => tone(f, .25, 'square', i*.12, .12)); [1047,1319,1568].forEach((f,i) => tone(f, .6, 'triangle', .65 + i*.04, .14)); },
     lesson(){ [784,988,1319].forEach((f,i) => tone(f, .16, 'triangle', i*.07, .2)); },
     lostLesson(){ tone(523,.2,'triangle',0,.18,392); tone(392,.3,'triangle',.18,.18,262); },
@@ -1531,7 +1564,7 @@ function clean(g, id){
         case 'squat': break;
         case 'success':
           ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!','Ahhhh!']) : pick(['Ahhh!','Aaah!']), g.x);
-          if (e.kind === 'poop'){ SFX.plop(); banner(pick(['WHAT A POOP!','MAGNIFICENT!','RIGHT SPOT!']), 'good'); flash('good'); confetti(40); }
+          if (e.kind === 'poop'){ SFX.plop(); setTimeout(SFX.goodChord, 250); banner(pick(['WHAT A POOP!','MAGNIFICENT!','RIGHT SPOT!']), 'good'); flash('good'); confetti(40); }
           else { SFX.trickle(); banner('RIGHT SPOT!', 'mid'); }
           say(`${e.kind === 'poop' ? 'A <b>huge</b> one,' : 'A good pee,'} in exactly the right spot. <b>Treat! Now!</b>`);
           break;
@@ -1556,7 +1589,7 @@ function clean(g, id){
           break;
         case 'learned':
           setTimeout(() => {
-            SFX.learned(); setTimeout(() => confetti(120), 1500);
+            SFX.win(); setTimeout(() => confetti(120), 1500);
             banner(g.L.learnedLine, 'good huge');
             say(g.L.bell ? '<b>She\'s got it!</b> Now watch: next time she needs to go, she\'ll <b>ring the bell</b>. Then open the door for her, and be ready with the treat!'
               : g.L.key === 'friend' ? '<b>She\'s got it!</b> Even here. Watch: she\'ll find the door <b>by herself</b>. Be ready with the treat!'
@@ -1565,7 +1598,7 @@ function clean(g, id){
           break;
         case 'accident': {
           ahh(e.kind === 'poop' ? pick(['Ahhh!','Phew!']) : 'Aaah!', g.x, true);
-          SFX.squelch(); SFX.bad();
+          SFX.squelch(); setTimeout(e.stack > 1 ? SFX.worseChord : SFX.badChord, 200);
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
           if (e.hidden){ shake(); flash('bad'); banner('SHE HID IT!', 'bad'); say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
