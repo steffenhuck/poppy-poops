@@ -93,6 +93,16 @@
   .score td:last-child{text-align:right; font-family:'Fredoka',sans-serif; font-weight:600;}
   .score tr.neg td:last-child{color:#c8312a;}
   .score tr.total td{border-top:2px solid #eadfcf; font-size:17px; padding-top:6px;}
+  .mess{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin:6px 0 2px;}
+  .mess .col{display:flex; flex-direction:column; align-items:center; font-size:12px; color:var(--muted); min-width:84px;}
+  .mess{align-items:flex-end;}
+  .mess svg{width:84px; height:110px;}
+  .mess .n{font-family:'Fredoka',sans-serif; font-weight:600; font-size:13px; color:var(--ink);}
+  .places{display:flex; flex-direction:column; gap:6px; margin:8px auto 4px; max-width:290px;}
+  .place{display:flex; justify-content:space-between; align-items:center; padding:7px 12px; border-radius:12px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;}
+  .place.ok{background:rgba(105,219,124,.18); color:#2f8a3a;}
+  .place.no{background:rgba(255,107,90,.12); color:#c8312a;}
+  .sub{font-size:13px; color:var(--muted); margin:10px 0 0; font-family:'Fredoka',sans-serif; font-weight:600; letter-spacing:.04em; text-transform:uppercase;}
   .stamps{display:flex; flex-direction:column; align-items:center; gap:2px; margin:8px 0;}
   .stamps .stamp{font-size:18px; margin:2px 0; animation-duration:.4s;}
   .dedication{font-family:'Fredoka',sans-serif; font-weight:500; font-size:19px; margin:20px 0 0;}
@@ -196,7 +206,9 @@
   #bubble .text i{color:var(--muted);}
 
   /* controls */
-  #controls{width:100%; display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:10px; margin-top:12px; align-items:center;}
+  #controls{width:100%; display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; align-items:stretch;}
+  #crateBtn{grid-column:1 / -1; flex-direction:row; justify-content:center; gap:8px; padding:9px;}
+  #crateBtn.hidden{display:none;}
   .ctl{
     border:none; border-radius:20px; padding:10px 6px; cursor:pointer; font-family:'Fredoka',sans-serif; font-weight:600; font-size:16px;
     background:#fff; color:var(--ink); box-shadow:0 4px 12px rgba(100,80,60,.14); display:flex; flex-direction:column; align-items:center; gap:2px;
@@ -204,7 +216,9 @@
   }
   .ctl:active{transform:scale(.94);}
   .ctl small{font-family:'Nunito',sans-serif; font-weight:600; font-size:11px; color:var(--muted);}
-  .ctl.no{color:#c8312a;}
+  .ctl.no{color:#fff; font-size:22px; padding:12px 6px 10px; border-radius:24px; background:linear-gradient(135deg,#8c8798,#5f5a6e); box-shadow:0 8px 0 #45414f, 0 12px 24px rgba(60,50,80,.3);}
+  .ctl.no small{color:rgba(255,255,255,.85);}
+  .ctl.no .ico{font-size:26px; line-height:28px; height:28px;}
   .ctl.hidden{visibility:hidden;}
   #treatBtn{
     position:relative; padding:12px 6px 10px; font-size:22px; border-radius:24px;
@@ -257,8 +271,9 @@
       <path d="M-4 -61 Q 2 -65 8 -65" stroke="#a8703a" stroke-width="4" fill="none" stroke-linecap="round"/>
     </g>
     <g id="puddle">
-      <path d="M-58 0 C -60 -10, -30 -14, -10 -12 C 10 -16, 50 -14, 58 -6 C 64 2, 40 8, 10 7 C -20 10, -56 8, -58 0 Z" fill="#f2d14b" stroke="#d8ae2c" stroke-width="3" opacity=".92"/>
-      <ellipse cx="-14" cy="-5" rx="16" ry="3" fill="#fff6c4" opacity=".8"/>
+      <path d="M-66 2 C -72 -10, -44 -18, -20 -14 C 0 -22, 44 -20, 60 -10 C 74 -2, 56 10, 24 9 C 6 14, -30 14, -44 10 C -58 12, -64 8, -66 2 Z" fill="#f4c21e" stroke="#b8860b" stroke-width="3.5"/>
+      <ellipse cx="-18" cy="-6" rx="20" ry="3.5" fill="#fff3b0" opacity=".9"/><ellipse cx="26" cy="-2" rx="10" ry="2.2" fill="#fff3b0" opacity=".8"/>
+      <circle cx="-74" cy="-4" r="4" fill="#f4c21e" stroke="#b8860b" stroke-width="2"/><circle cx="72" cy="2" r="3" fill="#f4c21e" stroke="#b8860b" stroke-width="2"/>
     </g>
     <g id="bone">
       <path d="M22 36 a10 10 0 1 1 10 -14 l36 0 a10 10 0 1 1 10 14 a10 10 0 1 1 -10 14 l-36 0 a10 10 0 1 1 -10 -14 z" fill="#ffe4b3" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -333,6 +348,7 @@
     <div id="endStamp"></div>
     <div class="stars" id="endStars"></div>
     <p id="endText"></p>
+    <div id="endMess"></div>
     <div id="endScore"></div>
     <div class="stat" id="endStats"></div>
     <div><button class="btn" id="nextBtn">Next day</button></div>
@@ -361,7 +377,7 @@
     <div class="text" id="say"></div>
   </div>
   <div id="controls">
-    <button class="ctl no" id="noBtn">No!<small>old school</small></button>
+    <button class="ctl no" id="noBtn"><span class="ico">☝️</span>NO!<small>old school</small></button>
     <button class="ctl" id="treatBtn"><span id="treatRing"><i id="treatLeft"></i></span><svg viewBox="10 0 80 72"><use href="#bone"/></svg>TREAT<small id="treatSub">modern</small></button>
     <button class="ctl" id="crateBtn">Crate<small id="crateSub">put her in</small></button>
   </div>
@@ -381,7 +397,7 @@ const NAPS  = [[9*60+15, 10*60+30], [13*60+15, 14*60+30], [15*60+50, 16*60+40]];
 const ZOOMS = [8*60+30, 11*60+30, 18*60+10];
 const LEVELS = {
   garden: {
-    key:'garden', name:'Poppy in your garden', rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
+    key:'garden', name:'Poppy in your garden', warn:5.5, rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
     sniff:60, circle:85, run:300, stay:4.5, silent:0.1, learn:1.15,
     crate:false, door:null, range:[30,600],
     potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142, day:1, learnedLine:'POPPY HAS LEARNED WHERE TO GO!',
@@ -395,7 +411,7 @@ const LEVELS = {
     ]
   },
   house: {
-    key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
+    key:'house', name:'Poppy in your house', warn:5, inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
     sniff:75, circle:92, run:230, stay:4.5, silent:0.35, learn:1.0,
     crate:true, crateX:292, door:612, range:[90,585],
     potty:[655,800], pottyX:728, outside:[672,785], hide:30, bed:160, bowl:452, day:2, bell:true, learnedLine:'POPPY HAS LEARNED TO ASK!',
@@ -411,7 +427,7 @@ const LEVELS = {
   }
 };
 LEVELS.friend = {
-  key:'friend', name:"Poppy in your friend's house", rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
+  key:'friend', name:"Poppy in your friend's house", warn:4.5, rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
   sniff:80, circle:93, run:230, stay:4.5, silent:0.4, learn:1.0, fill:1.15, carpetLoss:1.8,
   crate:false, door:178, doorLeft:true, inX:250, range:[215,680],
   potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612, day:3, learnedLine:'POPPY FOUND HER WAY!',
@@ -442,8 +458,8 @@ function need(g){ return Math.max(g.bladder, g.bowel); }
 // signs start earlier for a poop: it comes on faster
 function signLevel(g){ return Math.max(g.bladder, g.bowel + 20); }
 function signsVisible(g){
-  return g.shy === 0 && !g.silent && signLevel(g) >= g.L.sniff &&
-    ['wander','walkTo','linger','atDoor','zoom','stay','led'].includes(g.mode) && !(g.mode === 'stay' && zoneAt(g.L, g.x).potty);
+  return g.shy === 0 && signLevel(g) >= g.L.sniff &&
+    ['wander','walkTo','linger','atDoor','zoom','stay','led','toBowl','toBed','crate'].includes(g.mode) && !(g.mode === 'stay' && zoneAt(g.L, g.x).potty);
 }
 function emit(g, type, data){ g.events.push(Object.assign({type}, data || {})); }
 
@@ -466,7 +482,7 @@ function makeGame0(key, seed){
     lessons: 0, learned: false, fast: false, wasted: 0, shy: 0, piles: [], nextPile: 1, habit: 0, phantoms: [],
     window: null, carry: null, interrupted: false, selfFlag: false, squatKind: null,
     scoldUntil: -1, treatCool: -1, intent: false, holdForHide: false,
-    inCrate: false, crateWhined: false, silent: false, sniffT: 0, squatStart: 0,
+    inCrate: false, crateWhined: false, silent: false, signAt: null, sniffT: 0, squatStart: 0,
     wakeAt: L.dayStart + 12, napEnd: null, napsDone: NAPS.map(() => false), mealsDone: MEALS.map(() => false),
     zooms: ZOOMS.map(z => ({at: z + Math.round(rnd()*20 - 10), done: false})), zoomUntil: 0, zoomTo: 1,
     outsideUntil: 0,
@@ -550,10 +566,12 @@ function produce(g){
   if (g.window) applyReward(g, 'late');
   if (kind === 'poop'){ g.bowel = 0; g.bladder = Math.min(g.bladder, 30); g.bowelDueAt = Infinity; }
   else g.bladder = 0;
-  g.intent = false; g.silent = false; g.crateWhined = false; g.interrupted = false; g.holdForHide = false;
+  g.intent = false; g.silent = false; g.signAt = null; g.crateWhined = false; g.interrupted = false; g.holdForHide = false;
   const self = g.selfFlag; g.selfFlag = false;
   const px = inCrate ? g.x : clamp(g.x - g.dir*34, 20, 780);
-  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big: 1 + 0.3*g.habit};
+  // each accident is bigger than the last, and bad habits from earlier days make them bigger still
+  const big = z.potty ? 0.85 : Math.min(2.3, 0.85 + 0.22*g.stats.acc + 0.3*g.habit);
+  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big};
   const badSpot = !z.potty && !inCrate && (L.bad || []).find(b => Math.abs(b.x - px) < 45);
   if (z.potty){
     pile.fadeAt = g.now + 3.6; g.piles.push(pile);
@@ -569,13 +587,15 @@ function produce(g){
     if (old){ old.stack = (old.stack || 1) + 1; old.rev = (old.rev || 0) + 1; }
     else { pile.stack = 1; g.piles.push(pile); }
     g.stats.acc++; if (z.carpet) g.stats.carpet++; if (badSpot) g.stats.bad++;
+    if (kind === 'poop') g.stats.accPoop = (g.stats.accPoop || 0) + 1; else g.stats.accPee = (g.stats.accPee || 0) + 1;
+    if (old) old.big = Math.max(old.big || 1, big);
     // mess points for the score: worse spots and pile-ups cost more
     g.stats.mess += (kind === 'poop' ? 60 : 40) * ((z.carpet || badSpot) ? 2 : 1) + (old ? 60*(old.stack - 1) : 0);
     g.scoldUntil = g.now + 3;
     g.inCrate = false; g.mode = 'oops'; g.timer = 1.2;
     g.tx = inCrate ? g.x + 90 : clamp(px + (px > 400 ? -150 : 150), 20, 780);
     emit(g, 'accident', {kind, place: badSpot ? badSpot.name : z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet,
-      bad: badSpot ? badSpot.banner : null, stack: old ? old.stack : 1, big: g.habit});
+      bad: badSpot ? badSpot.banner : null, stack: old ? old.stack : 1, big: g.habit, size: big});
     if (repeat) loseLesson(g, 'repeat');
     else if (z.carpet || badSpot) loseLesson(g, 'carpet');
   }
@@ -664,17 +684,19 @@ function step(g, dt){
     g.intent = true;
     if (g.mode === 'zoom'){ g.mode = 'wander'; g.tx = null; }
     // sometimes she gives no warning at all (more often indoors)
-    g.silent = !g.learned && g.rnd() < L.silent;
+    g.silent = !g.learned && g.rnd() < L.silent;   // 'silent' now means subtle: nose down, but no bubble and no hint
     chooseIntent(g);
     if (g.mode === 'walkTo' && (g.goal === 'door' || g.goal === 'potty')) g.silent = false;
     if (signsVisible(g)) emit(g, 'signs');
   }
+  // the signs always come first, and last a while
+  if (g.signAt == null && g.mode !== 'sleep' && signLevel(g) >= L.sniff) g.signAt = g.now;
   // she can't hold it any longer
   const N = need(g);
   const thr = g.mode === 'crate' ? 130 : (g.mode === 'led' ? (g.interrupted ? 150 : 108) : 100);
   const canSquat = ['wander','zoom','walkTo','atDoor','linger','stay','led','toBowl','toBed','crate','happy','oops'].includes(g.mode)
     && !(g.mode === 'walkTo' && g.holdForHide);
-  if (canSquat && N >= thr) startSquat(g);
+  if (canSquat && N >= thr && g.signAt != null && g.now - g.signAt >= L.warn) startSquat(g);
 
   switch (g.mode){
     case 'wander': {
@@ -792,6 +814,7 @@ function treat(g){
     const kind = g.squatKind;
     g.piles.push({id: g.nextPile++, x: clamp(g.x - g.dir*34, 20, 780), kind, potty: true, small: true, born: g.now, fadeAt: g.now + 3});
     if (kind === 'poop') g.bowel = 62; else g.bladder = 62;
+    g.signAt = null;
     g.intent = false; g.selfFlag = false; g.interrupted = false;
     g.mode = 'happy'; g.timer = 1.0; g.tx = clamp(g.x + (g.x > 400 ? -120 : 120), 20, 780);
     g.stats.early++;
@@ -1312,8 +1335,8 @@ function clean(g, id){
     else if (m === 'crate' && need(g) >= 100) txt = 'let me out!';
     else if (m === 'squat') txt = g.squatKind === 'poop' ? 'nngh…' : 'ahh…';
     else if (m === 'stay' && g.distraction && zoneAt(L, g.x).potty) txt = g.distraction.kind === 'cat' ? 'WOOF! WOOF!' : 'ooh, butterfly!';
-    else if (circling) txt = 'round & round!';
-    else if (signs) txt = 'sniff sniff';
+    else if (circling && !g.silent) txt = 'round & round!';
+    else if (signs && !g.silent) txt = 'sniff sniff';
     else if (m === 'zoom') txt = 'ZOOMIES!';
     if (txt){
       P.pbText.textContent = txt;
@@ -1347,7 +1370,7 @@ function clean(g, id){
     else P.marker.style.display = 'none';
     // "Tap here!" over her spot when she needs to go and isn't on her way
     const heading = (m === 'led' && zoneAt(L, g.tx).potty) || (m === 'walkTo' && (g.goal === 'potty' || g.goal === 'door')) || zoneAt(L, g.x).potty;
-    const showHint = (signs || m === 'atDoor') && !heading && (L.key === 'garden' || hintCount < 4);
+    const showHint = ((signs && !g.silent) || m === 'atDoor') && !heading && (L.key === 'garden' || hintCount < 4);
     if (showHint && !hintOn){ hintCount++; }
     hintOn = showHint;
     P.hint.style.display = showHint ? '' : 'none';
@@ -1453,7 +1476,7 @@ function clean(g, id){
         case 'zoom': say('<b>ZOOMIES!</b>'); break;
         case 'zoomEnd': say('Phew.' + tip('zoom', '(After playing, she often needs to pee.)')); break;
         case 'nap': say(e.crate ? 'Zzz… (in her crate)' : 'I\'m sleepy. Zzz…'); break;
-        case 'signs': if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
+        case 'signs': if (g.silent) break; if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
         case 'door':
           if (e.bell){ SFX.ding(); bellRing = 1.6; say(g.learned ? '<b>Ding-a-ling!</b> She rang the bell, all by herself! Open up: <b>tap her spot</b>.' : '<b>Ding-a-ling!</b> She rang the bell! She\'s asking to go out. <b>Tap her spot</b>, quick!'); }
           else { SFX.whine(); say('<b>Whine!</b> She\'s at the door, asking to go out! Send her to her spot!'); }
@@ -1564,8 +1587,8 @@ function clean(g, id){
     house: 'The garden is through the door. Teach her to ask: there is a bell on the door. She has a crate.',
     friend: "A strange house, the door on the other side, a cream carpet, and the cat Minka lives here."
   };
-  const STAMP_OK = {garden: 'GARDEN-TRAINED!', house: 'HOUSE-TRAINED!', friend: 'FULLY TOILET-TRAINED!'};
-  const STAMP_NO = {garden: 'NOT GARDEN-TRAINED', house: 'NOT HOUSE-TRAINED', friend: 'NOT TOILET-TRAINED'};
+  const STAMP_OK = {garden: 'GARDEN\u2011TRAINED!', house: 'HOUSE\u2011TRAINED!', friend: 'FULLY TOILET\u2011TRAINED!'};
+  const STAMP_NO = {garden: 'NOT GARDEN\u2011TRAINED', house: 'NOT HOUSE\u2011TRAINED', friend: 'NOT TOILET\u2011TRAINED'};
   let week = {results: []};
   try { const w = JSON.parse(localStorage.getItem('pp-week-v1') || 'null'); if (w && Array.isArray(w.results)) week = w; } catch(e){}
   function saveWeek(){ try { localStorage.setItem('pp-week-v1', JSON.stringify(week)); } catch(e){} }
@@ -1639,7 +1662,7 @@ function clean(g, id){
   function finish(){
     const s = g.stats, key = g.key, sc = dayScore(g);
     const learned = g.learned;
-    const r = {key, learned, score: sc.total, acc: s.acc, scold: s.scold, uncleaned: sc.uncleaned};
+    const r = {key, learned, score: sc.total, acc: s.acc, scold: s.scold, uncleaned: sc.uncleaned, poops: s.accPoop || 0, pees: s.accPee || 0};
     week.results[dayIndex] = r; week.results.length = dayIndex + 1; saveWeek();
     $('endDay').textContent = DAYNAMES[dayIndex] + ' · ' + g.L.name;
     $('endTitle').textContent = learned ? (key === 'garden' ? 'She knows where to go!' : key === 'house' ? 'She asks to go out!' : 'She found her way!') : 'Bedtime. Zzz…';
@@ -1651,12 +1674,29 @@ function clean(g, id){
       : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to tomorrow.' : 'The week is over.');
     if (s.scold) txt += ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. ${learned ? 'She learned anyway, but not from that.' : 'Scolding only teaches her to hide.'}</i>`;
     $('endText').innerHTML = txt;
+    $('endMess').innerHTML = `<p class="sub">Today's mess</p><div class="mess"><div class="col">${heapSVG(r.poops, r.pees)}<span class="n">${messText(r.poops, r.pees)}</span></div></div>`;
     $('endScore').innerHTML = `<table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}<tr class="total"><td>Today</td><td>${sc.total}</td></tr></table>`;
     $('endStats').innerHTML = '';
     $('newWeekBtn2').style.display = '';
     $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See the week';
     if (learned){ SFX.win(); confetti(key === 'friend' ? 160 : 80); }
     ending.style.display = 'flex';
+  }
+  // a little heap of the day's accidents: a tower of poops on a spreading puddle
+  function heapSVG(poops, pees){
+    if (!poops && !pees) return `<svg viewBox="-60 -150 120 160"><text x="0" y="-50" text-anchor="middle" font-size="40">✨</text><text x="0" y="-10" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="16" fill="#2f8a3a">spotless</text></svg>`;
+    let h = '';
+    const k = Math.min(poops, 9), sc = 0.55;
+    if (pees) h += `<g transform="translate(0,4) scale(${Math.min(1.15, 0.45 + 0.15*pees)},0.7)"><use href="#puddle"/></g>`;
+    for (let i = 0; i < k; i++) h += `<g transform="translate(${i % 2 ? 4 : -3},${-i*58*sc}) scale(${sc*(1 - i*0.04)})"><use href="#poop"/></g>`;
+    const top = -k*58*sc - 40;
+    // the more there is, the taller the heap is drawn
+    const vh = Math.max(160, -top + 20);
+    return `<svg viewBox="-60 ${-vh + 10} 120 ${vh}" style="height:${(110 * vh / 160).toFixed(0)}px">${h}</svg>`;
+  }
+  function messText(poops, pees){
+    if (!poops && !pees) return 'not a single accident';
+    return [poops ? `${poops} poop${poops > 1 ? 's' : ''}` : '', pees ? `${pees} puddle${pees > 1 ? 's' : ''}` : ''].filter(Boolean).join(', ');
   }
   function closingLine(){
     const l = week.results.map(r => r.learned ? 1 : 0).join('');
@@ -1674,16 +1714,21 @@ function clean(g, id){
   function showWeek(){
     const total = weekTotal(), best = Math.max(bestWeek(), total);
     try { localStorage.setItem('pp-best-week', String(best)); } catch(e){}
+    const res = week.results, nOk = res.filter(r => r.learned).length;
+    const PLACE = {garden: 'In the garden', house: 'In your house', friend: "At your friend's"};
     $('endDay').textContent = "Poppy's first week";
-    $('endTitle').textContent = closingLine();
-    $('endStamp').innerHTML = '<div class="stamps">' + week.results.map((r, i) => `<span class="stamp ${r.learned ? 'ok' : 'no'}" style="animation-delay:${i*.35}s; animation-fill-mode:backwards">${r.learned ? STAMP_OK[r.key] : STAMP_NO[r.key]}</span>`).join('') + '</div>';
+    $('endTitle').textContent = '';
+    $('endStamp').innerHTML = `<span class="stamp ${nOk === 3 ? 'ok big' : 'no'}">${nOk === 3 ? 'FULLY TOILET\u2011TRAINED!' : nOk ? 'PARTLY TOILET\u2011TRAINED' : 'NOT TOILET\u2011TRAINED'}</span>`
+      + `<div class="places">${res.map(r => `<div class="place ${r.learned ? 'ok' : 'no'}"><span>${PLACE[r.key]}</span><span>${r.learned ? '✓ trained' : '✗ not yet'}</span></div>`).join('')}</div>`;
     $('endStars').innerHTML = '';
-    $('endText').innerHTML = '';
-    $('endScore').innerHTML = `<table class="score">${week.results.map((r, i) => `<tr><td>${DAYNAMES[i]} · ${LEVELS[r.key].name.replace('Poppy in ', '')}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>The week</td><td>${total}</td></tr><tr><td>Best week so far</td><td>${best}</td></tr></table>`;
+    $('endText').innerHTML = `<b>${closingLine()}</b>`;
+    const tp = res.reduce((a, r) => a + (r.poops || 0), 0), tq = res.reduce((a, r) => a + (r.pees || 0), 0);
+    $('endMess').innerHTML = `<p class="sub">The week's mess: ${messText(tp, tq)}</p><div class="mess">${res.map((r, i) => `<div class="col">${heapSVG(r.poops || 0, r.pees || 0)}<span class="n">${DAYNAMES[i]}</span><span>${PLACE[r.key].replace('In ', '').replace('At ', '')}</span></div>`).join('')}</div>`;
+    $('endScore').innerHTML = `<table class="score">${res.map((r, i) => `<tr><td>${DAYNAMES[i]}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>The week</td><td>${total}</td></tr><tr><td>Best week so far</td><td>${best}</td></tr></table>`;
     $('nextBtn').textContent = 'Start a new week';
     $('newWeekBtn2').style.display = 'none';
     ending.style.display = 'flex'; gameEl.style.display = 'none'; landing.style.display = 'none';
-    if (week.results.every(r => r.learned)){ SFX.win(); confetti(160); }
+    if (nOk === 3){ SFX.win(); confetti(160); }
   }
 
   // ---------- buttons ----------
