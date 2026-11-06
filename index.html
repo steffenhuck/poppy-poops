@@ -307,8 +307,8 @@
     <p><b>Tap anywhere</b> in the picture and Poppy runs there. When she <b>sniffs the ground</b> or <b>turns in circles</b>, she needs to go: tap her spot (the sandy patch with her sign) to send her there.</p>
     <p>When she says <b>"Ahhh!"</b> in the right spot: <b>TREAT</b>! Each well-timed treat is a lesson. Collect the paws and she's learned it.</p>
 
-    <h2 style="font-size:22px;margin:16px 0 0">Poppy's first week</h2>
-    <p class="small" style="margin-top:2px">Three days, in order. What she learns, and what she doesn't, comes with her to the next day.</p>
+    <h2 style="font-size:22px;margin:16px 0 0">Poppy's training</h2>
+    <p class="small" style="margin-top:2px">Three stages, in order. What she learns, and what she doesn't, comes with her to the next stage.</p>
     <div class="levels" id="weekCards"></div>
     <div id="weekBtns"></div>
     <button class="btn secondary small" id="helpBtn1">How puppies learn</button>
@@ -335,7 +335,7 @@
       <li><b>Ask with a bell</b> (in the house): a bell on the door rings every time she goes out. Soon she rings it herself when she needs to go.</li>
       <li><b>The crate</b> (in the house): puppies hate to soil their bed, so she'll hold on in there. Not forever, though.</li>
     </ul>
-    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, she's learned it. A whole day takes two minutes, and the week has three days, in order. What she learns, and what she doesn't, carries over to the next day.</p>
+    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, she's learned it. Each stage is one day on the clock and takes two minutes. There are three stages, in order, and what she learns, and what she doesn't, carries over to the next.</p>
     <button class="btn" id="helpClose">Got it</button>
   </div>
 </div>
@@ -353,7 +353,7 @@
     <div id="endScore"></div>
     <div class="stat" id="endStats"></div>
     <div><button class="btn" id="nextBtn">Next day</button></div>
-    <div><button class="btn secondary small" id="newWeekBtn2">Start a new week</button></div>
+    <div><button class="btn secondary small" id="newWeekBtn2"> Start again from stage 1</button></div>
   </div>
 </div>
 
@@ -386,7 +386,7 @@
   <div id="controls2">
     <button class="btn secondary small" id="helpBtn2">How puppies learn</button>
     <button class="btn secondary small" id="soundBtn">Sound: on</button>
-    <button class="btn secondary small" id="newWeekBtn">New week</button>
+    <button class="btn secondary small" id="newWeekBtn">Start again</button>
   </div>
   <footer><a href="https://steffenhuck.github.io/">steffen huck</a></footer>
 </div>
@@ -1602,7 +1602,7 @@ function clean(g, id){
 
   // ---------- the week ----------
   const ORDER = ['garden','house','friend'];
-  const DAYNAMES = ['Day 1','Day 2','Day 3'];
+  const DAYNAMES = ['Stage 1','Stage 2','Stage 3'];
   const WHAT = {
     garden: "Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.",
     house: 'The garden is through the door. Teach her to ask: there is a bell on the door. She has a crate.',
@@ -1628,8 +1628,8 @@ function clean(g, id){
     }).join('');
     $('weekCards').querySelectorAll('.lvl.next').forEach(b => b.addEventListener('click', () => { unlockAudio(); startDay(+b.dataset.i); }));
     let btns = '';
-    if (n === 3) btns += `<button class="btn" id="seeWeek">See the week</button>`;
-    if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start a new week</button></div>`;
+    if (n === 3) btns += `<button class="btn" id="seeWeek">See how she did</button>`;
+    if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start again from stage 1</button></div>`;
     $('weekBtns').innerHTML = btns;
     if ($('seeWeek')) $('seeWeek').addEventListener('click', showWeek);
     if ($('newWeek0')) $('newWeek0').addEventListener('click', () => { week = {results: []}; saveWeek(); renderWeek(); });
@@ -1653,16 +1653,16 @@ function clean(g, id){
     else if (key === 'house'){
       t = c.prevLearned
         ? '<b>Poppy is garden-trained:</b> she knows outside is for that. But now the garden is through the door. Teach her to <b>ask</b>: there\'s a bell on the door.'
-        : '<b>Yesterday didn\'t work out,</b> so Poppy has concluded that anywhere will do. Expect bigger ones in worse places.';
+        : '<b>The garden didn\'t work out,</b> so Poppy has concluded that anywhere will do. Expect bigger ones in worse places.';
     } else {
       t = c.prevLearned
         ? (c.habit ? '<b>She got the house in the end.</b> But your friend\'s place is new: the door is on the <b>left</b>, and Minka the cat lives here.'
                    : '<b>Garden-trained, house-trained.</b> One test left: your friend\'s house. The door is on the <b>left</b>. Mind the cream carpet.')
-        : (c.habit >= 2 ? '<b>Two days, no luck.</b> Poppy now treats the whole world as her toilet. Your friend has a cream carpet. Good luck.'
-                        : '<b>Yesterday went badly,</b> and today it\'s your friend\'s house. The door is on the <b>left</b>. The carpet is cream.');
+        : (c.habit >= 2 ? '<b>Two stages, no luck.</b> Poppy now treats the whole world as her toilet. Your friend has a cream carpet. Good luck.'
+                        : '<b>Your house went badly,</b> and now it\'s your friend\'s house. The door is on the <b>left</b>. The carpet is cream.');
     }
     if (c.shy) t += ' <i>And she remembers being shouted at: she\'ll try to hide.</i>';
-    if (c.linger) t += ' <i>Yesterday\'s mess wasn\'t all cleaned up. The smell lingers.</i>';
+    if (c.linger) t += ' <i>The last mess wasn\'t all cleaned up. The smell lingers.</i>';
     return t;
   }
   let dayIndex = 0;
@@ -1692,14 +1692,14 @@ function clean(g, id){
     $('endStars').innerHTML = learned ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
     let txt = learned
       ? `She learned it by <b>${fmt(s.learnedAt || g.t)}</b>.` + (key === 'friend' && !s.carpet ? ' And the carpet is spotless.' : '')
-      : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to tomorrow.' : 'The week is over.');
+      : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to the next stage.' : 'That was the last stage.');
     if (s.scold) txt += ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. ${learned ? 'She learned anyway, but not from that.' : 'Scolding only teaches her to hide.'}</i>`;
     $('endText').innerHTML = txt;
-    $('endMess').innerHTML = `<p class="sub">Today's mess</p><div class="mess"><div class="col">${heapSVG(r.poops, r.pees)}<span class="n">${messText(r.poops, r.pees)}</span></div></div>`;
-    $('endScore').innerHTML = `<table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}<tr class="total"><td>Today</td><td>${sc.total}</td></tr></table>`;
+    $('endMess').innerHTML = `<p class="sub">The mess</p><div class="mess"><div class="col">${heapSVG(r.poops, r.pees)}<span class="n">${messText(r.poops, r.pees)}</span></div></div>`;
+    $('endScore').innerHTML = `<table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}<tr class="total"><td>This stage</td><td>${sc.total}</td></tr></table>`;
     $('endStats').innerHTML = '';
     $('newWeekBtn2').style.display = '';
-    $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See the week';
+    $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See how she did';
     if (learned){ SFX.win(); confetti(key === 'friend' ? 160 : 80); }
     ending.style.display = 'flex';
   }
@@ -1737,16 +1737,16 @@ function clean(g, id){
     try { localStorage.setItem('pp-best-week', String(best)); } catch(e){}
     const res = week.results, nOk = res.filter(r => r.learned).length;
     const PLACE = {garden: 'In the garden', house: 'In your house', friend: "At your friend's"};
-    $('endDay').textContent = "Poppy's first week";
+    $('endDay').textContent = "Poppy's training";
     $('endTitle').textContent = '';
     $('endStamp').innerHTML = `<span class="stamp ${nOk === 3 ? 'ok big' : 'no'}">${nOk === 3 ? 'FULLY TOILET\u2011TRAINED!' : nOk ? 'PARTLY TOILET\u2011TRAINED' : 'NOT TOILET\u2011TRAINED'}</span>`
       + `<div class="places">${res.map(r => `<div class="place ${r.learned ? 'ok' : 'no'}"><span>${PLACE[r.key]}</span><span>${r.learned ? '✓ trained' : '✗ not yet'}</span></div>`).join('')}</div>`;
     $('endStars').innerHTML = '';
     $('endText').innerHTML = `<b>${closingLine()}</b>`;
     const tp = res.reduce((a, r) => a + (r.poops || 0), 0), tq = res.reduce((a, r) => a + (r.pees || 0), 0);
-    $('endMess').innerHTML = `<p class="sub">The week's mess: ${messText(tp, tq)}</p><div class="mess">${res.map((r, i) => `<div class="col">${heapSVG(r.poops || 0, r.pees || 0)}<span class="n">${DAYNAMES[i]}</span><span>${PLACE[r.key].replace('In ', '').replace('At ', '')}</span></div>`).join('')}</div>`;
-    $('endScore').innerHTML = `<table class="score">${res.map((r, i) => `<tr><td>${DAYNAMES[i]}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>The week</td><td>${total}</td></tr><tr><td>Best week so far</td><td>${best}</td></tr></table>`;
-    $('nextBtn').textContent = 'Start a new week';
+    $('endMess').innerHTML = `<p class="sub">All the mess: ${messText(tp, tq)}</p><div class="mess">${res.map((r, i) => `<div class="col">${heapSVG(r.poops || 0, r.pees || 0)}<span class="n">${DAYNAMES[i]}</span><span>${PLACE[r.key].replace('In ', '').replace('At ', '')}</span></div>`).join('')}</div>`;
+    $('endScore').innerHTML = `<table class="score">${res.map((r, i) => `<tr><td>${DAYNAMES[i]}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>All three stages</td><td>${total}</td></tr><tr><td>Best so far</td><td>${best}</td></tr></table>`;
+    $('nextBtn').textContent = 'Start again from stage 1';
     $('newWeekBtn2').style.display = 'none';
     ending.style.display = 'flex'; gameEl.style.display = 'none'; landing.style.display = 'none';
     if (nOk === 3){ SFX.win(); confetti(160); }
@@ -1758,15 +1758,15 @@ function clean(g, id){
   $('crateBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) toggleCrate(g); });
   function newWeek(){ week = {results: []}; saveWeek(); g = null; ending.style.display = 'none'; gameEl.style.display = 'none'; renderWeek(); landing.style.display = 'flex'; }
   $('nextBtn').addEventListener('click', () => {
-    if ($('nextBtn').textContent === 'Start a new week') return newWeek();
-    if ($('nextBtn').textContent === 'See the week') return showWeek();
+    if ($('nextBtn').textContent === 'Start again from stage 1') return newWeek();
+    if ($('nextBtn').textContent === 'See how she did') return showWeek();
     startDay(dayIndex + 1);
   });
   $('newWeekBtn2').addEventListener('click', newWeek);
   let sure = false;
   $('newWeekBtn').addEventListener('click', () => {
-    if (!sure){ sure = true; $('newWeekBtn').textContent = 'Sure? Tap again'; setTimeout(() => { sure = false; $('newWeekBtn').textContent = 'New week'; }, 2500); return; }
-    sure = false; $('newWeekBtn').textContent = 'New week'; newWeek();
+    if (!sure){ sure = true; $('newWeekBtn').textContent = 'Sure? Tap again'; setTimeout(() => { sure = false; $('newWeekBtn').textContent = 'Start again'; }, 2500); return; }
+    sure = false; $('newWeekBtn').textContent = 'Start again'; newWeek();
   });
   const openHelp = () => helpPanel.style.display = 'flex';
   $('helpBtn1').addEventListener('click', openHelp);
