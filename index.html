@@ -74,6 +74,27 @@
   .lvl.friend .badge{background:linear-gradient(135deg,#ff6f6f,#c23a6a);}
   .lvl .name{font-family:'Fredoka',sans-serif; font-size:20px; font-weight:600; display:block; line-height:1.1;}
   .lvl .what{font-size:13.5px; color:var(--muted); display:block; margin-top:3px; line-height:1.35;}
+  .lvl.locked{opacity:.55; cursor:default; filter:grayscale(.8);}
+  .lvl.locked:hover{border-color:#efe6d6; background:#fff;}
+  .lvl.played{cursor:default;}
+  .lvl.played:hover{border-color:#efe6d6; background:#fff;}
+  .lvl .day{font-family:'Nunito',sans-serif; font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:block;}
+  .lvl .mini{display:inline-block; margin-top:5px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:12.5px; padding:2px 8px; border-radius:8px; border:2px solid;}
+  .lvl .mini.ok{color:#2f8a3a; border-color:#2f8a3a; transform:rotate(-2deg);}
+  .lvl .mini.no{color:#c8312a; border-color:#c8312a; transform:rotate(-2deg);}
+  .lvl.next{border-color:var(--accent); box-shadow:0 0 0 4px rgba(255,122,89,.15);}
+  .stamp{display:inline-block; margin:6px 0 4px; padding:6px 14px 7px; border:5px solid; border-radius:12px; font-family:'Fredoka',sans-serif; font-weight:700; font-size:clamp(20px,6vw,28px); letter-spacing:.03em; transform:rotate(-5deg); animation:stampIn .5s cubic-bezier(.2,1.6,.4,1);}
+  .stamp.ok{color:#2f8a3a; border-color:#2f8a3a; background:rgba(105,219,124,.12);}
+  .stamp.no{color:#c8312a; border-color:#c8312a; background:rgba(255,107,90,.08);}
+  .stamp.big{font-size:clamp(24px,7.5vw,36px);}
+  @keyframes stampIn{0%{transform:scale(2.4) rotate(-12deg); opacity:0;} 100%{transform:scale(1) rotate(-5deg); opacity:1;}}
+  .score{width:100%; max-width:300px; margin:8px auto 2px; border-collapse:collapse; font-size:14px;}
+  .score td{padding:3px 4px;}
+  .score td:last-child{text-align:right; font-family:'Fredoka',sans-serif; font-weight:600;}
+  .score tr.neg td:last-child{color:#c8312a;}
+  .score tr.total td{border-top:2px solid #eadfcf; font-size:17px; padding-top:6px;}
+  .stamps{display:flex; flex-direction:column; align-items:center; gap:2px; margin:8px 0;}
+  .stamps .stamp{font-size:18px; margin:2px 0; animation-duration:.4s;}
   .dedication{font-family:'Fredoka',sans-serif; font-weight:500; font-size:19px; margin:20px 0 0;}
   .dedication b{color:var(--accent); font-weight:600;}
   .rules{text-align:left; font-size:15px; line-height:1.5; margin:12px 0 0; padding-left:0; list-style:none;}
@@ -270,20 +291,10 @@
     <p><b>Tap anywhere</b> in the picture and Poppy runs there. When she <b>sniffs the ground</b> or <b>turns in circles</b>, she needs to go: tap her spot (the sandy patch with her sign) to send her there.</p>
     <p>When she says <b>"Ahhh!"</b> in the right spot: <b>TREAT</b>! Each well-timed treat is a lesson. Collect the paws and she's learned it.</p>
 
-    <div class="levels">
-      <button class="lvl garden" data-level="garden">
-        <span class="badge">1</span>
-        <span><span class="name">Poppy in your garden</span><span class="what">Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.</span></span>
-      </button>
-      <button class="lvl house" data-level="house">
-        <span class="badge">2</span>
-        <span><span class="name">Poppy in your house</span><span class="what">The garden is through the door. She gives fewer signs, and the door is far. She has a crate.</span></span>
-      </button>
-      <button class="lvl friend" data-level="friend">
-        <span class="badge">3</span>
-        <span><span class="name">Poppy in your friend's house</span><span class="what">A strange house, the door on the other side, no crate, and a cream carpet. She's excited, so she needs to go more often.</span></span>
-      </button>
-    </div>
+    <h2 style="font-size:22px;margin:16px 0 0">Poppy's first week</h2>
+    <p class="small" style="margin-top:2px">Three days, in order. What she learns, and what she doesn't, comes with her to the next day.</p>
+    <div class="levels" id="weekCards"></div>
+    <div id="weekBtns"></div>
     <button class="btn secondary small" id="helpBtn1">How puppies learn</button>
 
     <p class="dedication">For <b>Poppy</b>, who arrives in December</p>
@@ -305,9 +316,10 @@
       <li><b>Keep her spot boring.</b> Cats and butterflies ruin everything: shoo them away. And don't take her out for nothing too often, or her spot turns into a playground.</li>
       <li><b>The old way: "No!"</b> She won't learn "not on the rug". She'll learn "not where you can see me", start hiding, and forget a lesson.</li>
       <li><b>Clean every accident.</b> If it still smells like a toilet, she'll use it as one.</li>
+      <li><b>Ask with a bell</b> (in the house): a bell on the door rings every time she goes out. Soon she rings it herself when she needs to go.</li>
       <li><b>The crate</b> (in the house): puppies hate to soil their bed, so she'll hold on in there. Not forever, though.</li>
     </ul>
-    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, Poppy has learned where to go and does it by herself. A whole day takes two minutes.</p>
+    <p class="small">Every well-timed treat in the right spot is a lesson (a paw print at the top). Once all paws are filled, she's learned it. A whole day takes two minutes, and the week has three days, in order. What she learns, and what she doesn't, carries over to the next day.</p>
     <button class="btn" id="helpClose">Got it</button>
   </div>
 </div>
@@ -316,15 +328,15 @@
 <div class="overlay" id="ending" style="display:none;">
   <div class="card">
     <div class="hero"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><use href="#poppyFace"/></svg></div>
+    <p class="small" id="endDay" style="margin:0"></p>
     <h2 id="endTitle"></h2>
+    <div id="endStamp"></div>
     <div class="stars" id="endStars"></div>
     <p id="endText"></p>
+    <div id="endScore"></div>
     <div class="stat" id="endStats"></div>
-    <div>
-      <button class="btn" id="againBtn">Play again</button>
-      <button class="btn secondary" id="otherBtn">In the House</button>
-    </div>
-    <div><button class="btn secondary small" id="menuBtn">All levels</button></div>
+    <div><button class="btn" id="nextBtn">Next day</button></div>
+    <div><button class="btn secondary small" id="newWeekBtn2">Start a new week</button></div>
   </div>
 </div>
 
@@ -356,8 +368,7 @@
   <div id="controls2">
     <button class="btn secondary small" id="helpBtn2">How puppies learn</button>
     <button class="btn secondary small" id="soundBtn">Sound: on</button>
-    <button class="btn secondary small" id="restartBtn">Start over</button>
-    <button class="btn secondary small" id="quitBtn">Levels</button>
+    <button class="btn secondary small" id="newWeekBtn">New week</button>
   </div>
   <footer><a href="https://steffenhuck.github.io/">steffen huck</a></footer>
 </div>
@@ -373,7 +384,8 @@ const LEVELS = {
     key:'garden', name:'Poppy in your garden', rate:6, lessons:3, perfect:2.0, window:3.5, forgiveEarly:true, dayStart:7*60, dayEnd:19*60,
     sniff:60, circle:85, run:300, stay:4.5, silent:0.1, learn:1.15,
     crate:false, door:null, range:[30,600],
-    potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142,
+    potty:[640,800], pottyX:716, outside:[655,785], hide:598, bed:70, bowl:142, day:1, learnedLine:'POPPY HAS LEARNED WHERE TO GO!',
+    bad:[{x:500, name:'the tulips', banner:'NOT THE TULIPS!'}],
     zones:[
       {x0:-99, x1:175, name:'the terrace'},
       {x0:175, x1:440, name:'the lawn'},
@@ -385,11 +397,12 @@ const LEVELS = {
   house: {
     key:'house', name:'Poppy in your house', inX:560, doorLeft:false, rate:6, lessons:4, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
     sniff:75, circle:92, run:230, stay:4.5, silent:0.35, learn:1.0,
-    crate:true, crateX:292, door:612, range:[100,585],
-    potty:[655,800], pottyX:728, outside:[672,785], hide:44, bed:205, bowl:452,
+    crate:true, crateX:292, door:612, range:[90,585],
+    potty:[655,800], pottyX:728, outside:[672,785], hide:30, bed:160, bowl:452, day:2, bell:true, learnedLine:'POPPY HAS LEARNED TO ASK!',
+    bad:[{x:240, name:'your slippers', banner:'NOT THE SLIPPERS!'}, {x:30, name:'the sofa', banner:'NOT THE SOFA!'}],
     zones:[
-      {x0:-99, x1:92, name:'behind the sofa', hidden:true},
-      {x0:92, x1:265, name:'the rug'},
+      {x0:-99, x1:72, name:'behind the sofa', hidden:true},
+      {x0:72, x1:265, name:'the rug'},
       {x0:265, x1:505, name:'the kitchen floor'},
       {x0:505, x1:592, name:'the hall'},
       {x0:592, x1:652, name:'the doormat'},
@@ -401,7 +414,8 @@ LEVELS.friend = {
   key:'friend', name:"Poppy in your friend's house", rate:6, lessons:5, perfect:1.5, window:3, dayStart:7*60, dayEnd:19*60,
   sniff:80, circle:93, run:230, stay:4.5, silent:0.4, learn:1.0, fill:1.15, carpetLoss:1.8,
   crate:false, door:178, doorLeft:true, inX:250, range:[215,680],
-  potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612,
+  potty:[0,148], pottyX:72, outside:[14,134], hide:748, bed:420, bowl:612, day:3, learnedLine:'POPPY FOUND HER WAY!',
+  bad:[{x:548, name:"your friend's shoes", banner:'NOT THE SHOES!'}, {x:660, name:"the cat's bed", banner:"NOT THE CAT'S BED!"}],
   zones:[
     {x0:-99, x1:150, name:'her spot in the garden', potty:true},
     {x0:150, x1:208, name:'the doormat'},
@@ -433,26 +447,53 @@ function signsVisible(g){
 }
 function emit(g, type, data){ g.events.push(Object.assign({type}, data || {})); }
 
-function makeGame(key, seed){
+function makeGame(key, seed, carry){
+  const g = makeGame0(key, seed);
+  carry = carry || {};
+  g.carry = carry;
+  if (carry.prevLearned) g.lessons = 1;                 // she already knows: outside is for that
+  g.habit = carry.habit || 0;                            // failed days so far: bigger ones, worse places
+  if (carry.shy) g.shy = 1;                              // she remembers being shouted at
+  if (carry.linger) g.phantoms = [g.L.range[0] + 60, (g.L.range[0] + g.L.range[1]) / 2];   // the smell lingers
+  return g;
+}
+function makeGame0(key, seed){
   const L = LEVELS[key], rnd = mulberry32(seed >>> 0);
   return {
     key, L, rnd, t: L.dayStart, now: 0,
     x: L.bed, dir: 1, mode: 'sleep', timer: 0, tx: null, goal: null,
     bladder: 64, bowel: 0, bowelDueAt: L.dayStart + 40,
-    lessons: 0, learned: false, fast: false, wasted: 0, shy: 0, piles: [], nextPile: 1,
+    lessons: 0, learned: false, fast: false, wasted: 0, shy: 0, piles: [], nextPile: 1, habit: 0, phantoms: [],
     window: null, carry: null, interrupted: false, selfFlag: false, squatKind: null,
     scoldUntil: -1, treatCool: -1, intent: false, holdForHide: false,
     inCrate: false, crateWhined: false, silent: false, sniffT: 0, squatStart: 0,
-    wakeAt: L.dayStart + 3, napEnd: null, napsDone: NAPS.map(() => false), mealsDone: MEALS.map(() => false),
+    wakeAt: L.dayStart + 12, napEnd: null, napsDone: NAPS.map(() => false), mealsDone: MEALS.map(() => false),
     zooms: ZOOMS.map(z => ({at: z + Math.round(rnd()*20 - 10), done: false})), zoomUntil: 0, zoomTo: 1,
     outsideUntil: 0,
-    stats: {ok:0, acc:0, perfect:0, self:0, treats:0, early:0, shoo:0},
+    stats: {ok:0, acc:0, perfect:0, self:0, treats:0, early:0, shoo:0, scold:0, mess:0, bad:0, carpet:0, asked:0},
     distraction: null, distOn: key === 'house', nextDistAt: 25 + rnd()*20,
     over: false, won: false, events: []
   };
 }
 function loseLesson(g, why){
   if (g.lessons > 0 && !g.learned){ g.lessons--; emit(g, 'lostLesson', {why}); }
+}
+// the day's training score
+function dayScore(g){
+  const s = g.stats, L = g.L;
+  const uncleaned = g.piles.filter(p => !p.potty).length;
+  const lines = [
+    ['Lessons', g.lessons * 100],
+    ['Perfect treats', s.perfect * 50],
+    [L.bell ? 'Asked at the door / went by herself' : 'Went by herself', (s.self + (L.bell ? s.asked : 0)) * 50],
+    ['Learned it', g.learned ? 300 : 0],
+    ['Time bonus', g.learned ? Math.max(0, Math.round((120 - (s.learnedNow || 120)) * 5)) : 0],
+    ['Mess', -s.mess],
+    ['Left uncleaned', -uncleaned * 30],
+    ['"No!"', -s.scold * 100]
+  ];
+  const total = Math.max(0, lines.reduce((a, l) => a + l[1], 0));
+  return {lines: lines.filter(l => l[1] !== 0), total, uncleaned};
 }
 function moveTo(g, tx, spd, dt){
   const dx = tx - g.x;
@@ -463,15 +504,26 @@ function goTo(g, x, goal){ g.mode = 'walkTo'; g.tx = x; g.goal = goal; }
 
 function chooseIntent(g){
   const L = g.L;
-  if (g.learned){ g.fast = false; goTo(g, L.pottyX + g.rnd()*30 - 15, 'potty'); return; }
+  if (g.learned){
+    g.fast = false;
+    if (L.bell) goTo(g, L.door - 14, 'door');            // day 2: she asks, with the bell
+    else goTo(g, L.pottyX + g.rnd()*30 - 15, 'potty');    // day 1: her corner; day 3: she finds the door herself
+    return;
+  }
   if (g.shy > 0){ goTo(g, L.hide, 'hide'); g.holdForHide = false; return; }
+  if (g.phantoms.length && g.rnd() < 0.6){ goTo(g, g.phantoms[Math.floor(g.rnd()*g.phantoms.length)], 'pile'); return; }
+  if (g.habit > 0 && L.bad && g.rnd() < 0.3*g.habit){
+    const b = L.bad[Math.floor(g.rnd()*L.bad.length)];
+    goTo(g, clamp(b.x + 10*g.dir, 10, 790), 'pile'); return;
+  }
   const stale = g.piles.filter(p => !p.potty && !p.inCrate);
   if (stale.length && g.rnd() < 0.55){
     const p = stale[Math.floor(g.rnd()*stale.length)];
     goTo(g, clamp(p.x + g.rnd()*20 - 10, -40, 840), 'pile'); return;
   }
   if (g.rnd() < 0.6 * g.lessons / L.lessons){
-    if (L.door) goTo(g, L.door + (L.doorLeft ? 14 : -14), 'door');
+    if (L.bell) goTo(g, L.door - 14, 'door');
+    else if (L.door) goTo(g, L.pottyX + g.rnd()*30 - 15, 'potty');
     else goTo(g, L.pottyX + g.rnd()*40 - 20, 'potty');
   }
   // otherwise: she keeps wandering, nose down
@@ -501,10 +553,11 @@ function produce(g){
   g.intent = false; g.silent = false; g.crateWhined = false; g.interrupted = false; g.holdForHide = false;
   const self = g.selfFlag; g.selfFlag = false;
   const px = inCrate ? g.x : clamp(g.x - g.dir*34, 20, 780);
-  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now};
+  const pile = {id: g.nextPile++, x: px, kind, potty: !!z.potty, hidden: !!z.hidden, inCrate, born: g.now, big: 1 + 0.3*g.habit};
+  const badSpot = !z.potty && !inCrate && (L.bad || []).find(b => Math.abs(b.x - px) < 45);
   if (z.potty){
     pile.fadeAt = g.now + 3.6; g.piles.push(pile);
-    g.stats.ok++; if (self) g.stats.self++; g.wasted = 0;
+    g.stats.ok++; if (self) g.stats.self++; g.wasted = 0; g.phantoms = [];
     if (!g.distOn && g.stats.ok >= 2){ g.distOn = true; g.nextDistAt = g.now + 8; }
     g.window = {start: g.now, kind, self, demo: g.learned};
     g.mode = 'happy'; g.timer = 1.4; g.tx = clamp(px + (px > 400 ? -150 : 150), 20, 780);
@@ -515,13 +568,16 @@ function produce(g){
     const repeat = !!old;
     if (old){ old.stack = (old.stack || 1) + 1; old.rev = (old.rev || 0) + 1; }
     else { pile.stack = 1; g.piles.push(pile); }
-    g.stats.acc++; if (z.carpet) g.stats.carpet = (g.stats.carpet || 0) + 1;
+    g.stats.acc++; if (z.carpet) g.stats.carpet++; if (badSpot) g.stats.bad++;
+    // mess points for the score: worse spots and pile-ups cost more
+    g.stats.mess += (kind === 'poop' ? 60 : 40) * ((z.carpet || badSpot) ? 2 : 1) + (old ? 60*(old.stack - 1) : 0);
     g.scoldUntil = g.now + 3;
     g.inCrate = false; g.mode = 'oops'; g.timer = 1.2;
     g.tx = inCrate ? g.x + 90 : clamp(px + (px > 400 ? -150 : 150), 20, 780);
-    emit(g, 'accident', {kind, place: z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet, stack: old ? old.stack : 1});
+    emit(g, 'accident', {kind, place: badSpot ? badSpot.name : z.name, hidden: !!z.hidden, repeat, crate: inCrate, carpet: !!z.carpet,
+      bad: badSpot ? badSpot.banner : null, stack: old ? old.stack : 1, big: g.habit});
     if (repeat) loseLesson(g, 'repeat');
-    else if (z.carpet) loseLesson(g, 'carpet');
+    else if (z.carpet || badSpot) loseLesson(g, 'carpet');
   }
 }
 function applyReward(g, q){
@@ -539,7 +595,7 @@ function applyReward(g, q){
       // no more naps or meals: straight to the demonstration
       g.napsDone = g.napsDone.map(() => true); g.mealsDone = g.mealsDone.map(() => true);
       g.bladder = Math.max(g.bladder, g.L.sniff - 25);
-      g.stats.learnedAt = g.t;
+      g.stats.learnedAt = g.t; g.stats.learnedNow = g.now;
       emit(g, 'learned');
     }
   }
@@ -651,7 +707,7 @@ function step(g, dt){
     case 'walkTo':
       if (moveTo(g, g.tx, 110, dt)){
         if (g.goal === 'potty'){ g.selfFlag = true; g.mode = 'stay'; g.timer = L.stay; g.sniffT = 0; g.spotChecked = false; emit(g, 'selfSpot'); }
-        else if (g.goal === 'door'){ g.selfFlag = true; g.mode = 'atDoor'; g.dir = L.doorLeft ? -1 : 1; emit(g, 'door'); }
+        else if (g.goal === 'door'){ g.selfFlag = true; g.mode = 'atDoor'; g.dir = L.doorLeft ? -1 : 1; g.stats.asked++; emit(g, 'door', {bell: !!L.bell}); }
         else if (g.goal === 'in'){ g.mode = 'wander'; g.tx = null; }
         else { g.mode = 'linger'; g.holdForHide = false; }
       }
@@ -710,6 +766,8 @@ function steer(g, x){
   if (m === 'sleep'){ emit(g, 'asleep'); return; }
   if (m === 'eat' || m === 'toBowl'){ emit(g, 'eating'); return; }
   if (m === 'happy' || m === 'oops') return;
+  // once she's learned it, let her show you (on day 2 she still needs you to open the door)
+  if (g.learned && !(L.bell && m === 'atDoor')){ emit(g, 'watch'); return; }
   if (m === 'squat'){
     if (!g.inCrate && zoneAt(L, g.x).potty) return;
     // you can whisk her away only in the first moment; after that it's too late
@@ -746,7 +804,7 @@ function treat(g){
 }
 function scold(g){
   if (g.over) return;
-  g.stats.scold = (g.stats.scold || 0) + 1;
+  g.stats.scold++;
   if (g.now < g.scoldUntil){ g.shy = 2; g.scoldUntil = -1; emit(g, 'scoldAfter'); loseLesson(g, 'scold'); return; }
   if (g.mode === 'squat' && !g.inCrate && !zoneAt(g.L, g.x).potty){
     g.shy = 2; goTo(g, g.L.hide, 'hide'); g.holdForHide = true; emit(g, 'scoldDuring'); loseLesson(g, 'scold'); return;
@@ -785,7 +843,7 @@ function clean(g, id){
   const GY = 352, S = 1.08;
   const landing = $('landing'), ending = $('ending'), helpPanel = $('helpPanel'), gameEl = $('game');
   const scene = $('scene'), sayEl = $('say');
-  let nextKey = null, g = null, levelKey = 'garden', raf = 0, last = 0, tt = 0, walkPhase = 0;
+  let g = null, levelKey = 'garden', raf = 0, last = 0, tt = 0, walkPhase = 0;
   let pileEls = new Map(), tipCount = {}, P = {};
   let sound = true;
   try { sound = localStorage.getItem('pp-sound') !== 'off'; } catch(e){}
@@ -841,6 +899,7 @@ function clean(g, id){
     hiss(){ noise(.45, 0, .3, 5000, 3000, .6); },
     whine(){ tone(900,.5,'sine',0,.12,1300); tone(1300,.4,'sine',.5,.1,800); },
     yawn(){ tone(500,.6,'triangle',0,.12,220); },
+    ding(){ [0, .32].forEach(w => { tone(1760,.5,'sine',w,.16); tone(2637,.35,'sine',w,.07); }); },
     whoosh(){ noise(.25, 0, .2, 600, 2400, .8); },
     meh(){ tone(330,.18,'square',0,.07,300); },
     wipe(){ noise(.2, 0, .2, 4000, 6000, .7); noise(.2, .18, .2, 4500, 7000, .7); }
@@ -936,7 +995,9 @@ function clean(g, id){
     <rect x="232" y="96" width="56" height="70" rx="4" fill="#ffd9a8" stroke="#a77b4c" stroke-width="5"/><circle cx="260" cy="126" r="14" fill="#c98a45"/>`;
     // rug
     s += `<ellipse cx="180" cy="372" rx="96" ry="26" fill="#e6735f"/><ellipse cx="180" cy="372" rx="78" ry="19" fill="none" stroke="#ffd2a8" stroke-width="4" stroke-dasharray="10 7"/>
-    <ellipse cx="205" cy="352" rx="46" ry="11" fill="#8b5a2b"/><ellipse cx="205" cy="347" rx="38" ry="8" fill="#f4c7c3"/>`;
+    <ellipse cx="160" cy="352" rx="46" ry="11" fill="#8b5a2b"/><ellipse cx="160" cy="347" rx="38" ry="8" fill="#f4c7c3"/>
+    <g fill="#ff9ab0" stroke="#e0708a" stroke-width="2"><ellipse cx="228" cy="364" rx="14" ry="6"/><ellipse cx="252" cy="368" rx="14" ry="6"/></g>
+    <g fill="#fff" opacity=".7"><circle cx="222" cy="362" r="3"/><circle cx="246" cy="366" r="3"/></g>`;
     // crate back
     s += `<rect x="226" y="232" width="148" height="122" rx="8" fill="#efe7f6" stroke="#9a92a8" stroke-width="4"/>`;
     // kitchen
@@ -963,16 +1024,18 @@ function clean(g, id){
     // door frame + door
     s += `<rect x="598" y="150" width="54" height="178" fill="#bfe6ff"/>
     <g id="door"><rect x="600" y="152" width="50" height="176" rx="3" fill="#a5713f" stroke="#7d5229" stroke-width="3"/><circle cx="640" cy="248" r="4" fill="#ffd43b"/></g>
-    <rect x="594" y="144" width="62" height="10" rx="3" fill="#e9d2ae"/>`;
+    <rect x="594" y="144" width="62" height="10" rx="3" fill="#e9d2ae"/>
+    <g id="bell"><line x1="588" y1="170" x2="588" y2="226" stroke="#c0392b" stroke-width="3"/>
+      <path d="M576 244 Q 576 226 588 224 Q 600 226 600 244 Z" fill="#ffd43b" stroke="#c9a227" stroke-width="2"/><circle cx="588" cy="246" r="3.5" fill="#c9a227"/></g>`;
     return s;
   }
   function houseFG(){
     return `<g>
-      <rect x="0" y="246" width="180" height="70" rx="16" fill="#6c8ebf"/>
-      <rect x="-10" y="290" width="196" height="54" rx="14" fill="#5a7cad"/>
-      <rect x="150" y="266" width="38" height="80" rx="14" fill="#6c8ebf"/>
-      <rect x="10" y="340" width="12" height="16" fill="#5a3b1e"/><rect x="160" y="340" width="12" height="16" fill="#5a3b1e"/>
-      <rect x="22" y="262" width="58" height="34" rx="10" fill="#ffd9a8"/><rect x="88" y="262" width="58" height="34" rx="10" fill="#a8d8b8"/>
+      <rect x="-20" y="246" width="100" height="70" rx="16" fill="#6c8ebf"/>
+      <rect x="-30" y="290" width="112" height="54" rx="14" fill="#5a7cad"/>
+      <rect x="54" y="266" width="34" height="80" rx="14" fill="#6c8ebf"/>
+      <rect x="66" y="340" width="12" height="16" fill="#5a3b1e"/>
+      <rect x="-4" y="262" width="54" height="34" rx="10" fill="#ffd9a8"/>
     </g>`;
   }
 
@@ -1001,7 +1064,11 @@ function clean(g, id){
     <rect x="226" y="350" width="322" height="44" rx="6" fill="none" stroke="#eadfc6" stroke-width="3" stroke-dasharray="12 8"/>
     ${Array.from({length: 18}, (_, i) => `<line x1="${222 + i*19}" y1="404" x2="${222 + i*19}" y2="412" stroke="#e7dcc4" stroke-width="3"/>`).join('')}
     <rect x="378" y="346" width="86" height="14" rx="5" fill="#7da7d9"/><path d="M378 353 h86 M400 346 v14 M430 346 v14" stroke="#5c88bf" stroke-width="3"/>
-    <path d="M598 352 h30 l-4 10 h-22 z" fill="#4dabf7"/><ellipse cx="613" cy="352" rx="15" ry="3.5" fill="#2f86cf"/>`;
+    <path d="M598 352 h30 l-4 10 h-22 z" fill="#4dabf7"/><ellipse cx="613" cy="352" rx="15" ry="3.5" fill="#2f86cf"/>
+    <g fill="#2b2b33"><path d="M528 360 q 4 -12 18 -10 l 8 6 q 2 6 -6 6 h-20 z"/><path d="M552 366 q 4 -12 18 -10 l 8 6 q 2 6 -6 6 h-20 z"/></g>
+    <g fill="#fff" opacity=".5"><ellipse cx="540" cy="353" rx="5" ry="1.5"/><ellipse cx="564" cy="359" rx="5" ry="1.5"/></g>
+    <ellipse cx="660" cy="356" rx="34" ry="12" fill="#b07ab8"/><ellipse cx="660" cy="350" rx="26" ry="7" fill="#e8c7ec"/>
+    <text x="660" y="378" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="11" fill="#8a5a92">MINKA</text>`;
     // outside on the left
     s += `<rect x="0" y="0" width="150" height="420" fill="url(#sky3)"/>
     <path d="M0 286 Q 40 266 80 280 Q 120 264 150 278 L150 330 L0 330 Z" fill="#5fae4a"/>
@@ -1082,7 +1149,7 @@ function clean(g, id){
       lb1: $('legB1'), lb2: $('legB2'), lf1: $('legF1'), lf2: $('legF2'),
       eye: $('ppEye'), eyeShut: $('ppEyeShut'), hit: $('ppHit'),
       piles: $('piles'), fx: $('fx'), pb: $('pbubble'), pbText: $('pbText'), pbRect: $('pbRect'), zzz: $('zzz'),
-      door: $('door'), crateFront: $('crateFront'), marker: $('marker'), hint: $('hint'),
+      door: $('door'), bell: $('bell'), crateFront: $('crateFront'), marker: $('marker'), hint: $('hint'),
       dist: $('dist'), distCat: $('distCat'), distFly: $('distFly'), catTail: $('catTail'), wingL: $('wingL'), wingR: $('wingR')
     };
     pileEls = new Map();
@@ -1139,7 +1206,7 @@ function clean(g, id){
   // ---------- piles ----------
   function pileSVG(p){
     const el = document.createElementNS(NS, 'g');
-    const sc = (p.kind === 'poop' ? 1.2 : 1.15) * (p.small ? 0.55 : 1);
+    const sc = (p.kind === 'poop' ? 1.2 : 1.15) * (p.small ? 0.55 : 1) * (p.big || 1);
     const tr = `translate(${p.x.toFixed(1)},${GY + (p.kind === 'pee' ? 4 : 2)}) scale(${sc})`;
     el.setAttribute('transform', tr);
     el.style.setProperty('--t', tr);
@@ -1201,7 +1268,7 @@ function clean(g, id){
   }
 
   // ---------- poppy pose ----------
-  let lift0 = 0, hintCount = 0, hintOn = false;
+  let lift0 = 0, hintCount = 0, hintOn = false, bellRing = 0, bellT = 1.8, prevX = 0;
   function renderPoppy(dt){
     lift0 = 0;
     const m = g.mode, L = g.L;
@@ -1241,7 +1308,7 @@ function clean(g, id){
 
     // bubble over her head
     let txt = null;
-    if (m === 'atDoor') txt = 'whine!';
+    if (m === 'atDoor') txt = L.bell ? 'ding-a-ling!' : 'whine!';
     else if (m === 'crate' && need(g) >= 100) txt = 'let me out!';
     else if (m === 'squat') txt = g.squatKind === 'poop' ? 'nngh…' : 'ahh…';
     else if (m === 'stay' && g.distraction && zoneAt(L, g.x).potty) txt = g.distraction.kind === 'cat' ? 'WOOF! WOOF!' : 'ooh, butterfly!';
@@ -1285,10 +1352,17 @@ function clean(g, id){
     hintOn = showHint;
     P.hint.style.display = showHint ? '' : 'none';
     if (showHint) P.hint.setAttribute('transform', `translate(${clamp(L.pottyX, 90, 710)},${GY - 60}) scale(1.45)`);
+    if (P.bell){
+      if (bellRing > 0 || m === 'atDoor'){ bellRing = Math.max(0, bellRing - dt); P.bell.setAttribute('transform', `rotate(${(Math.sin(tt*18)*18).toFixed(1)} 588 170)`); }
+      else P.bell.setAttribute('transform', '');
+      if (m === 'atDoor' && (bellT -= dt) <= 0){ bellT = 1.8; SFX.ding(); }
+      if (L.bell && prevX < L.door && g.x >= L.door){ bellRing = 1.0; SFX.ding(); }
+    }
+    prevX = g.x;
     // crate bars in front of her only when she's inside
     if (P.crateFront){
       const inFront = g.inCrate || (g.mode === 'sleep' && g.inCrate);
-      const after = P.pp.nextSibling === P.crateFront;
+      const after = P.pp.nextElementSibling === P.crateFront;
       if (inFront && !after) P.pp.after(P.crateFront);
       if (!inFront && after) P.pp.before(P.crateFront);
     }
@@ -1371,8 +1445,8 @@ function clean(g, id){
       switch (e.type){
         case 'wake':
           SFX.yawn();
-          say(e.morning ? '<b>Yawn!</b> Good morning! I really, really need to go…' + tip('wake', '(Puppies need to go right after waking up. Tap her spot!)')
-                        : '<b>Yawn!</b> I\'m awake!' + tip('wake', '(Right after a nap: time to go out.)'));
+          if (e.morning){ sayEl.innerHTML += '<br><b>Yawn!</b> Good morning! I really, really need to go…' + tip('wake', '(Puppies need to go right after waking up. Tap her spot!)'); break; }
+          say('<b>Yawn!</b> I\'m awake!' + tip('wake', '(Right after a nap: time to go out.)'));
           break;
         case 'meal': say('<b>Food!</b> Food food food!'); break;
         case 'ate': say('Nom nom. All gone.' + tip('ate', '(A poop will follow soon after a meal.)')); break;
@@ -1380,8 +1454,11 @@ function clean(g, id){
         case 'zoomEnd': say('Phew.' + tip('zoom', '(After playing, she often needs to pee.)')); break;
         case 'nap': say(e.crate ? 'Zzz… (in her crate)' : 'I\'m sleepy. Zzz…'); break;
         case 'signs': if (g.L.door) say('<i>She\'s sniffing the floor…</i>'); else say('<i>She\'s sniffing the grass…</i>'); break;
-        case 'door': SFX.whine(); say('<b>Whine!</b> She\'s sitting at the door, asking to go out! Send her to her spot!'); break;
-        case 'selfSpot': say(g.learned ? '<b>Look!</b> Off to her spot, all by herself!' : 'She went to <b>her spot</b> all by herself!'); break;
+        case 'door':
+          if (e.bell){ SFX.ding(); bellRing = 1.6; say(g.learned ? '<b>Ding-a-ling!</b> She rang the bell, all by herself! Open up: <b>tap her spot</b>.' : '<b>Ding-a-ling!</b> She rang the bell! She\'s asking to go out. <b>Tap her spot</b>, quick!'); }
+          else { SFX.whine(); say('<b>Whine!</b> She\'s at the door, asking to go out! Send her to her spot!'); }
+          break;
+        case 'selfSpot': say(g.learned ? (g.L.key === 'friend' ? '<b>Look!</b> She found the door and went out, all by herself!' : '<b>Look!</b> Off to her spot, all by herself!') : 'She went to <b>her spot</b> all by herself!'); break;
         case 'led': {
           const toSpot = zoneAt(g.L, e.x).potty;
           if (toSpot && (signsVisible(g) || need(g) > 50)){ SFX.whoosh(); say(pick(['Off to your spot!','Run, Poppy, run!','Quick, quick!'])); }
@@ -1422,8 +1499,10 @@ function clean(g, id){
         case 'learned':
           setTimeout(() => {
             SFX.learned(); setTimeout(() => confetti(120), 1500);
-            banner('POPPY HAS LEARNED WHERE TO GO!', 'good huge');
-            say('<b>She\'s got it!</b> Now watch: next time, she\'ll go to her spot <b>all by herself</b>. Be ready with the treat!');
+            banner(g.L.learnedLine, 'good huge');
+            say(g.L.bell ? '<b>She\'s got it!</b> Now watch: next time she needs to go, she\'ll <b>ring the bell</b>. Then open the door for her, and be ready with the treat!'
+              : g.L.key === 'friend' ? '<b>She\'s got it!</b> Even here. Watch: she\'ll find the door <b>by herself</b>. Be ready with the treat!'
+              : '<b>She\'s got it!</b> Now watch: next time, she\'ll go to her spot <b>all by herself</b>. Be ready with the treat!');
           }, 900);
           break;
         case 'accident': {
@@ -1432,9 +1511,9 @@ function clean(g, id){
           if (e.crate){ shake(); flash('bad'); banner('IN THE CRATE!', 'bad'); say('Oh no, <b>in her crate</b>. She held on as long as she could.' + tip('crate', '(Don\'t leave her in there too long.)')); break; }
           if (e.hidden){ say(`Hmm. Something smells… <b>${e.place}</b>.` + tip('hide', '(She\'s hiding now: she\'s learned that going in front of you is trouble.)', 3)); break; }
           shake(); flash('bad');
-          banner(e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? 'OH NO!' : 'OOPS!', 'bad');
-          const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one' : 'A massive one') : (e.stack > 1 ? 'Another puddle' : 'A puddle');
-          if (e.stack > 1) banner(e.kind === 'poop' ? `IT'S PILING UP! ×${e.stack}` : 'IT\'S SPREADING!', 'bad');
+          banner(e.bad ? e.bad : e.carpet ? 'NOT THE CARPET!' : e.kind === 'poop' ? (e.big ? 'OH NO! A MONSTER!' : 'OH NO!') : 'OOPS!', 'bad');
+          const what = e.kind === 'poop' ? (e.stack > 1 ? 'Another one' : e.big >= 2 ? 'An absolute monster' : e.big ? 'A giant one' : 'A massive one') : (e.stack > 1 ? 'Another puddle' : e.big ? 'A lake' : 'A puddle');
+          if (e.stack > 1 && !e.bad) banner(e.kind === 'poop' ? `IT'S PILING UP! ×${e.stack}` : 'IT\'S SPREADING!', 'bad');
           say(`<b>${what} on ${e.place}.</b>${e.repeat ? ' Right where it smelled like toilet.' : ''}` + tip('acc', '(Don\'t scold. Tap the mess to clean it, or the smell will call her back.)', 3));
           break;
         }
@@ -1442,6 +1521,7 @@ function clean(g, id){
         case 'scoldDuring': say('She stops, scared, and slinks off… <i>to finish somewhere you can\'t see.</i>'); break;
         case 'scoldRandom': say('Poppy flinches. She has no idea why you\'re cross.'); break;
         case 'confused': SFX.meh(); say('A treat? For <b>what</b>? <i>(Treats are for going in the right spot.)</i>'); break;
+        case 'watch': say('Let her do it <b>by herself</b>. Just watch!'); break;
         case 'wait': say('<b>Wait!</b> She\'s not done yet. <i>Treat when she says "Ahhh!".</i>'); break;
         case 'early': SFX.meh(); say('<b>Too early!</b> She jumped up for the treat halfway through. Now she\'ll need to go again soon. <i>Wait until she\'s finished.</i>'); break;
         case 'dist':
@@ -1476,55 +1556,152 @@ function clean(g, id){
     handleEvents(); syncPiles(); renderPoppy(dt); renderHud();
   }
 
-  function start(key){
-    levelKey = key;
-    g = makeGame(key, (Math.random()*4294967295) >>> 0);
+  // ---------- the week ----------
+  const ORDER = ['garden','house','friend'];
+  const DAYNAMES = ['Day 1','Day 2','Day 3'];
+  const WHAT = {
+    garden: "Poppy plays outside. Her corner is right there, if only the neighbours' cat would stay away.",
+    house: 'The garden is through the door. Teach her to ask: there is a bell on the door. She has a crate.',
+    friend: "A strange house, the door on the other side, a cream carpet, and the cat Minka lives here."
+  };
+  const STAMP_OK = {garden: 'GARDEN-TRAINED!', house: 'HOUSE-TRAINED!', friend: 'FULLY TOILET-TRAINED!'};
+  const STAMP_NO = {garden: 'NOT GARDEN-TRAINED', house: 'NOT HOUSE-TRAINED', friend: 'NOT TOILET-TRAINED'};
+  let week = {results: []};
+  try { const w = JSON.parse(localStorage.getItem('pp-week-v1') || 'null'); if (w && Array.isArray(w.results)) week = w; } catch(e){}
+  function saveWeek(){ try { localStorage.setItem('pp-week-v1', JSON.stringify(week)); } catch(e){} }
+  function bestWeek(){ try { return +localStorage.getItem('pp-best-week') || 0; } catch(e){ return 0; } }
+  function weekTotal(){ return week.results.reduce((a, r) => a + r.score, 0); }
+
+  function renderWeek(){
+    const n = week.results.length;
+    $('weekCards').innerHTML = ORDER.map((key, i) => {
+      const r = week.results[i], L = LEVELS[key];
+      const cls = r ? 'played' : i === n ? 'next' : 'locked';
+      const sub = r ? `<span class="mini ${r.learned ? 'ok' : 'no'}">${r.learned ? STAMP_OK[key] : STAMP_NO[key]}</span> <span class="what" style="display:inline">${r.score} points</span>`
+                : i === n ? `<span class="what">${WHAT[key]}</span>`
+                : `<span class="what">🔒 Play ${DAYNAMES[i-1].toLowerCase()} first.</span>`;
+      return `<button class="lvl ${key} ${cls}" data-i="${i}"><span class="badge">${i+1}</span><span><span class="day">${DAYNAMES[i]}</span><span class="name">${L.name}</span>${sub}</span></button>`;
+    }).join('');
+    $('weekCards').querySelectorAll('.lvl.next').forEach(b => b.addEventListener('click', () => { unlockAudio(); startDay(+b.dataset.i); }));
+    let btns = '';
+    if (n === 3) btns += `<button class="btn" id="seeWeek">See the week</button>`;
+    if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start a new week</button></div>`;
+    $('weekBtns').innerHTML = btns;
+    if ($('seeWeek')) $('seeWeek').addEventListener('click', showWeek);
+    if ($('newWeek0')) $('newWeek0').addEventListener('click', () => { week = {results: []}; saveWeek(); renderWeek(); });
+  }
+  renderWeek();
+
+  function carryFor(i){
+    if (i === 0) return {};
+    const prev = week.results[i-1];
+    return {
+      prevLearned: prev.learned,
+      habit: week.results.slice(0, i).filter(r => !r.learned).length,
+      shy: prev.scold > 0,
+      linger: prev.uncleaned > 0
+    };
+  }
+  function introFor(i, c){
+    const key = ORDER[i];
+    let t = '';
+    if (key === 'garden') t = 'Poppy is still asleep in her basket. When she wakes up, <b>tap her spot</b> (the sandy corner) and she\'ll run there.';
+    else if (key === 'house'){
+      t = c.prevLearned
+        ? '<b>Poppy is garden-trained:</b> she knows outside is for that. But now the garden is through the door. Teach her to <b>ask</b>: there\'s a bell on the door.'
+        : '<b>Yesterday didn\'t work out,</b> so Poppy has concluded that anywhere will do. Expect bigger ones in worse places.';
+    } else {
+      t = c.prevLearned
+        ? (c.habit ? '<b>She got the house in the end.</b> But your friend\'s place is new: the door is on the <b>left</b>, and Minka the cat lives here.'
+                   : '<b>Garden-trained, house-trained.</b> One test left: your friend\'s house. The door is on the <b>left</b>. Mind the cream carpet.')
+        : (c.habit >= 2 ? '<b>Two days, no luck.</b> Poppy now treats the whole world as her toilet. Your friend has a cream carpet. Good luck.'
+                        : '<b>Yesterday went badly,</b> and today it\'s your friend\'s house. The door is on the <b>left</b>. The carpet is cream.');
+    }
+    if (c.shy) t += ' <i>And she remembers being shouted at: she\'ll try to hide.</i>';
+    if (c.linger) t += ' <i>Yesterday\'s mess wasn\'t all cleaned up. The smell lingers.</i>';
+    return t;
+  }
+  let dayIndex = 0;
+  function startDay(i){
+    dayIndex = i;
+    const key = ORDER[i]; levelKey = key;
+    const c = carryFor(i);
+    g = makeGame(key, (Math.random()*4294967295) >>> 0, c);
     tipCount = {}; lastH = 0; hintCount = 0; hintOn = false;
-    $('levelName').textContent = g.L.name;
+    $('levelName').textContent = DAYNAMES[i] + ' · ' + g.L.name;
     landing.style.display = 'none'; ending.style.display = 'none';
     gameEl.style.display = 'flex';
     buildScene(); buildTimeline(); buildPaws();
-    say(key === 'garden'
-      ? 'Poppy is still asleep in her basket. When she wakes up, <b>tap her spot</b> (the sandy corner) and she\'ll run there.'
-      : key === 'house' ? 'Poppy is asleep on the rug. Her spot is outside, through the door on the right. <b>Tap anywhere</b> to send her somewhere.'
-      : 'Poppy is asleep on a borrowed blanket at your friend\'s. Her spot is outside, through the door on the <b>left</b>. Mind the cream carpet.');
+    say(introFor(i, c));
     last = 0;
     if (!raf) raf = requestAnimationFrame(frame);
   }
   function finish(){
-    const s = g.stats;
-    let stars = 0;
-    if (g.won) stars = s.acc === 0 ? 3 : s.acc <= 2 ? 2 : 1;
-    if (g.won){
-      $('endTitle').textContent = 'Poppy is house\u2011trained!';
-      $('endText').innerHTML = `She learned where to go by <b>${fmt(s.learnedAt || g.t)}</b>${g.key === 'house' ? ', even indoors' : g.key === 'friend' ? ', even at your friend\'s' : ''}.`
-        + (g.key === 'friend' && !s.carpet ? ' And the carpet is spotless.' : '')
-        + (s.scold ? ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. She learned anyway, but not from that.</i>` : '');
-      SFX.win(); confetti(90);
-    } else {
-      $('endTitle').textContent = 'Bedtime. Zzz…';
-      $('endText').innerHTML = `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons today. Tomorrow is another day.`
-        + (s.scold ? ` <i>Try it without "No!": scolding only teaches her to hide.</i>` : '');
-    }
-    $('endStars').innerHTML = g.won ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
-    $('endStats').innerHTML = `<span>Right spot <b>${s.ok}</b></span><span>Accidents <b>${s.acc}</b></span><span>Perfect treats <b>${s.perfect}</b></span>${s.early ? `<span>Too-early treats <b>${s.early}</b></span>` : ''}${s.scold ? `<span>"No!" <b>${s.scold}</b></span>` : ''}`;
-    const order = ['garden','house','friend'], i = order.indexOf(g.key);
-    nextKey = g.won && i < 2 ? order[i+1] : null;
-    $('otherBtn').textContent = 'Next level';
-    $('otherBtn').style.display = nextKey ? '' : 'none';
+    const s = g.stats, key = g.key, sc = dayScore(g);
+    const learned = g.learned;
+    const r = {key, learned, score: sc.total, acc: s.acc, scold: s.scold, uncleaned: sc.uncleaned};
+    week.results[dayIndex] = r; week.results.length = dayIndex + 1; saveWeek();
+    $('endDay').textContent = DAYNAMES[dayIndex] + ' · ' + g.L.name;
+    $('endTitle').textContent = learned ? (key === 'garden' ? 'She knows where to go!' : key === 'house' ? 'She asks to go out!' : 'She found her way!') : 'Bedtime. Zzz…';
+    $('endStamp').innerHTML = `<span class="stamp ${learned ? 'ok' : 'no'} ${key === 'friend' && learned ? 'big' : ''}">${learned ? STAMP_OK[key] : STAMP_NO[key]}</span>`;
+    const stars = learned ? (s.acc === 0 ? 3 : s.acc <= 2 ? 2 : 1) : 0;
+    $('endStars').innerHTML = learned ? [1,2,3].map(i => `<span class="${i <= stars ? '' : 'off'}">⭐</span>`).join('') : '';
+    let txt = learned
+      ? `She learned it by <b>${fmt(s.learnedAt || g.t)}</b>.` + (key === 'friend' && !s.carpet ? ' And the carpet is spotless.' : '')
+      : `Poppy learned <b>${g.lessons} of ${g.L.lessons}</b> lessons. ` + (dayIndex < 2 ? 'She\'ll bring her bad habits to tomorrow.' : 'The week is over.');
+    if (s.scold) txt += ` <i>You said "No!" ${s.scold} time${s.scold > 1 ? 's' : ''}. ${learned ? 'She learned anyway, but not from that.' : 'Scolding only teaches her to hide.'}</i>`;
+    $('endText').innerHTML = txt;
+    $('endScore').innerHTML = `<table class="score">${sc.lines.map(([k, v]) => `<tr class="${v < 0 ? 'neg' : ''}"><td>${k}</td><td>${v > 0 ? '+' : ''}${v}</td></tr>`).join('')}<tr class="total"><td>Today</td><td>${sc.total}</td></tr></table>`;
+    $('endStats').innerHTML = '';
+    $('newWeekBtn2').style.display = '';
+    $('nextBtn').textContent = dayIndex < 2 ? `On to ${DAYNAMES[dayIndex+1].toLowerCase()}: ${LEVELS[ORDER[dayIndex+1]].name.replace('Poppy in ', '')}` : 'See the week';
+    if (learned){ SFX.win(); confetti(key === 'friend' ? 160 : 80); }
     ending.style.display = 'flex';
+  }
+  function closingLine(){
+    const l = week.results.map(r => r.learned ? 1 : 0).join('');
+    return ({
+      '111': 'Poppy is fully toilet-trained, and your friend is still your friend.',
+      '011': 'A slow start, but she got there.',
+      '001': 'A late bloomer. But a bloomer.',
+      '110': 'Garden and house: yes. Other people\'s carpets: not yet.',
+      '100': 'She knows the garden. Indoors is still a war zone.',
+      '101': 'She lost the plot indoors, then pulled herself together at your friend\'s.',
+      '010': 'She learned the house, then forgot herself at your friend\'s.',
+      '000': 'Poppy has trained you.'
+    })[l] || '';
+  }
+  function showWeek(){
+    const total = weekTotal(), best = Math.max(bestWeek(), total);
+    try { localStorage.setItem('pp-best-week', String(best)); } catch(e){}
+    $('endDay').textContent = "Poppy's first week";
+    $('endTitle').textContent = closingLine();
+    $('endStamp').innerHTML = '<div class="stamps">' + week.results.map((r, i) => `<span class="stamp ${r.learned ? 'ok' : 'no'}" style="animation-delay:${i*.35}s; animation-fill-mode:backwards">${r.learned ? STAMP_OK[r.key] : STAMP_NO[r.key]}</span>`).join('') + '</div>';
+    $('endStars').innerHTML = '';
+    $('endText').innerHTML = '';
+    $('endScore').innerHTML = `<table class="score">${week.results.map((r, i) => `<tr><td>${DAYNAMES[i]} · ${LEVELS[r.key].name.replace('Poppy in ', '')}</td><td>${r.score}</td></tr>`).join('')}<tr class="total"><td>The week</td><td>${total}</td></tr><tr><td>Best week so far</td><td>${best}</td></tr></table>`;
+    $('nextBtn').textContent = 'Start a new week';
+    $('newWeekBtn2').style.display = 'none';
+    ending.style.display = 'flex'; gameEl.style.display = 'none'; landing.style.display = 'none';
+    if (week.results.every(r => r.learned)){ SFX.win(); confetti(160); }
   }
 
   // ---------- buttons ----------
-  document.querySelectorAll('.lvl').forEach(b => b.addEventListener('click', () => { unlockAudio(); start(b.dataset.level); }));
   $('treatBtn').addEventListener('pointerdown', e => { e.preventDefault(); unlockAudio(); if (g) treat(g); });
   $('noBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) scold(g); });
   $('crateBtn').addEventListener('pointerdown', e => { e.preventDefault(); if (g) toggleCrate(g); });
-  $('againBtn').addEventListener('click', () => start(levelKey));
-  $('otherBtn').addEventListener('click', () => { if (nextKey) start(nextKey); });
-  $('menuBtn').addEventListener('click', () => { ending.style.display = 'none'; gameEl.style.display = 'none'; landing.style.display = 'flex'; });
-  $('quitBtn').addEventListener('click', () => { gameEl.style.display = 'none'; landing.style.display = 'flex'; g = null; });
-  $('restartBtn').addEventListener('click', () => start(levelKey));
+  function newWeek(){ week = {results: []}; saveWeek(); g = null; ending.style.display = 'none'; gameEl.style.display = 'none'; renderWeek(); landing.style.display = 'flex'; }
+  $('nextBtn').addEventListener('click', () => {
+    if ($('nextBtn').textContent === 'Start a new week') return newWeek();
+    if ($('nextBtn').textContent === 'See the week') return showWeek();
+    startDay(dayIndex + 1);
+  });
+  $('newWeekBtn2').addEventListener('click', newWeek);
+  let sure = false;
+  $('newWeekBtn').addEventListener('click', () => {
+    if (!sure){ sure = true; $('newWeekBtn').textContent = 'Sure? Tap again'; setTimeout(() => { sure = false; $('newWeekBtn').textContent = 'New week'; }, 2500); return; }
+    sure = false; $('newWeekBtn').textContent = 'New week'; newWeek();
+  });
   const openHelp = () => helpPanel.style.display = 'flex';
   $('helpBtn1').addEventListener('click', openHelp);
   $('helpBtn2').addEventListener('click', openHelp);
