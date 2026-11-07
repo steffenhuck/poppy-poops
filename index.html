@@ -1658,8 +1658,10 @@ function clean(g, id){
   const STAMP_OK = {garden: 'GARDEN\u2011TRAINED!', house: 'HOUSE\u2011TRAINED!', friend: 'FULLY TOILET\u2011TRAINED!'};
   const STAMP_NO = {garden: 'NOT GARDEN\u2011TRAINED', house: 'NOT HOUSE\u2011TRAINED', friend: 'NOT TOILET\u2011TRAINED'};
   let week = {results: []};
-  try { const w = JSON.parse(localStorage.getItem('pp-week-v1') || 'null'); if (w && Array.isArray(w.results)) week = w; } catch(e){}
-  function saveWeek(){ try { localStorage.setItem('pp-week-v1', JSON.stringify(week)); } catch(e){} }
+  // progress lives only for this visit: a reload starts fresh. Only best scores are kept.
+  try { localStorage.removeItem('pp-week-v1'); } catch(e){}
+  function saveWeek(){}
+  function bestTraining(){ try { return JSON.parse(localStorage.getItem('pp-best-training') || 'null'); } catch(e){ return null; } }
   function bestWeek(){ try { return +localStorage.getItem('pp-best-week') || 0; } catch(e){ return 0; } }
   function weekTotal(){ return week.results.reduce((a, r) => a + r.score, 0); }
 
@@ -1677,6 +1679,8 @@ function clean(g, id){
     let btns = '';
     if (n === 3) btns += `<button class="btn" id="seeWeek">See how she did</button>`;
     if (n > 0) btns += `<div><button class="btn secondary small" id="newWeek0">Start again from stage 1</button></div>`;
+    const bt = bestTraining();
+    if (bt) btns = `<p class="best">Your best training: ${bt.score} points, ${bt.n} of 3 stages</p>` + btns;
     $('weekBtns').innerHTML = btns;
     if ($('seeWeek')) $('seeWeek').addEventListener('click', showWeek);
     if ($('newWeek0')) $('newWeek0').addEventListener('click', () => { week = {results: []}; saveWeek(); renderWeek(); });
@@ -1787,6 +1791,8 @@ function clean(g, id){
   function showWeek(){
     const total = weekTotal(), best = Math.max(bestWeek(), total);
     try { localStorage.setItem('pp-best-week', String(best)); } catch(e){}
+    const nOk0 = week.results.filter(r => r.learned).length, bt0 = bestTraining();
+    if (!bt0 || total > bt0.score) try { localStorage.setItem('pp-best-training', JSON.stringify({score: total, n: nOk0})); } catch(e){}
     const res = week.results, nOk = res.filter(r => r.learned).length;
     const PLACE = {garden: 'In the garden', house: 'In your house', friend: "At your friend's"};
     $('endDay').textContent = "Poppy's training";
